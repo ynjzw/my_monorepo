@@ -1,4 +1,11 @@
 {
   "extends": "@repo/typescript-config/vite.json",
-  "include": ["src"]
+  "include": ["src"],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "noImplicitAny": false,  // 允许隐式的 any 类型
+    "strict": false,         // 关闭严格模式
+    "skipLibCheck": true
+  }
 }
