@@ -1,10 +1,12 @@
 <template>
   <div id="main" ></div>
+  
 </template>
 
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
+
 
 // 将初始化逻辑包装在 onMounted 中
 onMounted(() => {
@@ -12,11 +14,6 @@ onMounted(() => {
   var myChart = echarts.init(chartDom);
   var option;
   option = {
-    title: {
-      text: 'Funnel',
-      left: 'left',
-      top: 'bottom'
-    },
     tooltip: {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c}%'
@@ -39,6 +36,7 @@ onMounted(() => {
       {
         name: 'Funnel',
         type: 'funnel',
+        sort: 'ascending',
         data: [
           { value: 1, name: '亿万富翁' },
           { value: 2, name: '千万富翁' },
@@ -55,8 +53,8 @@ onMounted(() => {
 
 <style>
 #main{
-  width: 800px; 
-  height: 800px;
+  width: 400px; 
+  height: 400px;
 
 }
 </style>

@@ -8,7 +8,7 @@ const links=ref([])
 onMounted(async ()=>{
     const node = await getFamily();
     const links = await getLinks();
-    const chartDom = document.getElementById('main');
+    const chartDom = document.getElementById('main1');
   
     // 增加逻辑判断防止报错
     if (!chartDom) return;
@@ -42,5 +42,5 @@ onMounted(async ()=>{
 </script>
 
 <template>
-    <div id="main" ></div>
+    <div id="main1" ></div>
 </template>

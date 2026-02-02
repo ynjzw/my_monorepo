@@ -52,8 +52,8 @@ onMounted(async() => {
 
 <style>
 #main{
-  width: 800px; 
-  height: 800px;
+  width: 400px; 
+  height: 400px;
 
 }
 </style>

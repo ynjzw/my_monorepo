@@ -1,11 +1,14 @@
 <template>
-  <div id="main" ></div>
+  
+  <level_oneVue />
 </template>
 
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
-
+import level_oneVue from '../components/level_one.vue';
+import level_twoVue from '../components/level_two.vue';
+import level_threeVue from '../components/level_three.vue';
 // 将初始化逻辑包装在 onMounted 中
 onMounted(() => {
   var chartDom = document.getElementById('main');
@@ -56,8 +59,8 @@ onMounted(() => {
 
 <style>
 #main{
-  width: 800px; 
-  height: 800px;
+  width: 400px; 
+  height: 400px;
 
 }
 </style>
