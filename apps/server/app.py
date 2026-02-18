@@ -1,46 +1,43 @@
-
-from fastapi import FastAPI, Depends,UploadFile, File, HTTPException, Query
+import os
+import uuid
+import shutil
+from pathlib import Path
+from typing import List
+from fastapi import FastAPI, UploadFile, File, Form, Depends, HTTPException, Query
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker,Session
-import uvicorn,os
+from sqlalchemy.orm import Session
+from sqlalchemy import desc
 import pandas as pd
 import json
-from fastapi.responses import JSONResponse
-from database import engine, Base, SessionLocal, get_db
-from models import UploadFileRecord, ImportedData,Links,family,world
-from sqlalchemy import desc
+from datetime import datetime
+
 from schemas import (
     FileUploadResponse, FileListResponse, 
     ImportProgressResponse, ImportedDataResponse,
     ErrorResponse
 )
-from typing import List
-import uuid
-
-# 创建数据表
-Base.metadata.create_all(bind=engine)
 
 
-app=FastAPI(
+# 创建应用
+app = FastAPI(
     title="Simple File Import API",
     description="简单的文件数据导入数据库接口",
     version="1.0.0"
 )
 
-origins = [
-    "http://localhost:5173",    # Vite 开发服务器
-    "http://localhost:8080",    # 其他前端服务器
-    "http://localhost:3001"
-]
-
+# 配置CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,      # 允许的来源列表
-    allow_credentials=True,     # 允许携带 cookie
-    allow_methods=["*"],        # 允许的方法
-    allow_headers=["*"],        # 允许的头部
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+
+# 配置文件上传目录
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # 允许的文件类型
 ALLOWED_EXTENSIONS = {'.csv', '.xlsx', '.xls', '.txt', '.json'}
@@ -52,55 +49,56 @@ ALLOWED_MIME_TYPES = {
     'application/json'
 }
 
-# 配置文件上传目录
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 def get_file_extension(filename: str) -> str:
     """获取文件扩展名"""
     return os.path.splitext(filename)[1].lower()
 
-@app.get('/')
-def hello():
-    return {'hello':'world'}
-
-@app.get('/links')
-def get_links(db:Session=Depends(get_db)):
-    links = db.query(Links).all()
-    return links
-
-@app.get('/family')
-def get_links(db:Session=Depends(get_db)):
-    links = db.query(family).all()
-    return links
-
-@app.get('/world')
-def get_world(db:Session=Depends(get_db)):
-    data = db.query(world).all()
-    return data
-
-
-def allowed_file(filename):
-    """检查文件扩展名是否允许"""
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-
-def parse_csv_file(filepath):
+async def parse_csv_file(file_path: str, max_rows: int = None) -> tuple:
     """解析CSV文件"""
     try:
-        df = pd.read_csv(filepath)
-        return df.to_dict('records')
+        # 尝试不同的编码
+        encodings = ['utf-8', 'gbk', 'gb2312', 'latin1']
+        df = None
+        
+        for encoding in encodings:
+            try:
+                df = pd.read_csv(file_path, encoding=encoding)
+                break
+            except UnicodeDecodeError:
+                continue
+        
+        if df is None:
+            df = pd.read_csv(file_path, encoding='latin1')
+        
+        # 处理数据
+        total_rows = len(df)
+        if max_rows:
+            df = df.head(max_rows)
+        
+        # 转换为字典列表，处理NaN值
+        data_list = df.replace({pd.NA: None, float('nan'): None}).to_dict('records')
+        
+        return data_list, total_rows
+        
     except Exception as e:
-        print(f"CSV解析错误: {str(e)}")
-        return []
+        raise ValueError(f"CSV解析失败: {str(e)}")
 
-def parse_excel_file(filepath):
+async def parse_excel_file(file_path: str, max_rows: int = None) -> tuple:
     """解析Excel文件"""
     try:
-        df = pd.read_excel(filepath)
-        return df.to_dict('records')
+        df = pd.read_excel(file_path)
+        
+        total_rows = len(df)
+        if max_rows:
+            df = df.head(max_rows)
+        
+        # 转换为字典列表，处理NaN值
+        data_list = df.replace({pd.NA: None, float('nan'): None}).to_dict('records')
+        
+        return data_list, total_rows
+        
     except Exception as e:
-        print(f"Excel解析错误: {str(e)}")
-        return []
+        raise ValueError(f"Excel解析失败: {str(e)}")
 
 async def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
     """解析JSON文件"""
@@ -134,15 +132,37 @@ async def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
     except Exception as e:
         raise ValueError(f"JSON解析失败: {str(e)}")
 
-def parse_text_file(filepath):
-    """解析文本文件"""
+async def parse_text_file(file_path: str, max_rows: int = None) -> tuple:
+    """解析文本文件（按行导入）"""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
-        return [{'content': content[:1000]}]  # 只保存前1000个字符
+        data_list = []
+        encodings = ['utf-8', 'gbk', 'gb2312', 'latin1']
+        content = None
+        
+        for encoding in encodings:
+            try:
+                with open(file_path, 'r', encoding=encoding) as f:
+                    content = f.readlines()
+                break
+            except UnicodeDecodeError:
+                continue
+        
+        if content is None:
+            with open(file_path, 'r', encoding='latin1') as f:
+                content = f.readlines()
+        
+        total_rows = len(content)
+        for i, line in enumerate(content):
+            if max_rows and i >= max_rows:
+                break
+            line = line.strip()
+            if line:  # 跳过空行
+                data_list.append({"line": line, "line_number": i + 1})
+        
+        return data_list, total_rows
+        
     except Exception as e:
-        print(f"文本解析错误: {str(e)}")
-        return []
+        raise ValueError(f"文本文件解析失败: {str(e)}")
 
 async def import_data_to_db(
     db: Session,
@@ -173,6 +193,21 @@ async def import_data_to_db(
         db.rollback()
         raise e
 
+@app.get("/")
+async def root():
+    """根路径"""
+    return {
+        "message": "Simple File Import API",
+        "version": "1.0.0",
+        "endpoints": {
+            "POST /upload": "上传文件并导入数据",
+            "GET /files": "获取文件列表",
+            "GET /files/{file_id}": "获取文件详情",
+            "GET /files/{file_id}/data": "获取导入的数据",
+            "DELETE /files/{file_id}": "删除文件记录",
+            "GET /stats": "获取统计信息"
+        }
+    }
 
 @app.post("/upload", response_model=FileUploadResponse, responses={400: {"model": ErrorResponse}})
 async def upload_file(
@@ -428,5 +463,12 @@ async def get_statistics(db: Session = Depends(get_db)):
         "recent_uploads": [f.to_dict() for f in recent_files]
     }
 
-if __name__=='__main__':
-    uvicorn.run('main:app',host='0.0.0.0',port=8000,reload=True)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "app:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True
+    )

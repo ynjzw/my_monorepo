@@ -1,26 +1,20 @@
 <template>
   <div class="upload-page">
     <h1>File Upload</h1>
-    <UploadForm @file-uploaded="handleFileUploaded" />
+    <UploadForm @file-uploaded="handleFileUploaded" :msg="jjsdjd"/>
+    <p>{{ msg }}</p>
   </div>
 </template>
 
-<script >
-import { defineComponent } from 'vue';
+<script setup>
+import { ref } from 'vue';
 import UploadForm from '../components/UploadForm.vue';
 
-export default defineComponent({
-  name: 'UploadPage',
-  components: {
-    UploadForm,
-  },
-  methods: {
-    handleFileUploaded() {
-      // Handle the response after file upload
-      console.log('File uploaded successfully:', response);
-    },
-  },
-});
+const msg=ref('wdhuwdhj')
+const handleFileUploaded = () => {
+    // Handle the response after file upload
+    console.log('File uploaded successfully:', response);
+  }
 </script>
 
 <style scoped>

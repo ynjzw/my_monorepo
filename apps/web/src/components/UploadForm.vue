@@ -2,59 +2,55 @@
 <template>
   <div class="upload-form">
     <h2>Upload File</h2>
-    <form @submit.prevent="handleUpload">
-      <input type="file" @change="onFileChange" />
-      <button type="submit">Upload</button>
+    <form @submit.prevent="handleUpload()">
+      <input type="file" @change="onFileChange(x)" /><br>
+      <button type="submit" @click="uploadFile()">Upload</button>
     </form>
-    <div v-if="message">{{ message }}</div>
+    <div class="mes" v-if="message">{{ message }}</div>
   </div>
+  <p>{{ props.msg }}</p>
 </template>
 
-<script >
-import { ref } from 'vue';
-import { getJs } from '../api/index';
+<script setup>
+import { onMounted, ref } from 'vue';
+import { uploadFile } from '@/api/index';
 
-export default {
-  setup() {
-    const file = ref(null);
-    const message = ref(null);
-
-    const onFileChange = () => {
-      const x= getJs()
-      console.log(x)
-    };
-
-    const handleUpload = async () => {
-      if (!file.value) {
-        message.value = 'Please select a file to upload.';
-        return;
-      }
-
-      try {
-        const response = await uploadFile(file.value);
-        message.value = response.data.message;
-      } catch (error) {
-        message.value = 'Error uploading file.';
-      }
-    };
-
-    return {
-      onFileChange,
-      handleUpload,
-      message,
-    };
-  },
+const file = ref(null);
+const message = ref(null);
+const props=defineProps({
+  msg:String
+})
+const onFileChange = () => {
+  console.log('aaa')
 };
+
+const handleUpload = async () => {
+  if (!file.value) {
+    message.value = 'Please select a file to upload.';
+    return;
+  }
+  console.log('ccc')
+  try {
+    const response = await uploadFile(file.value);
+    message.value = response.data.message;
+  } catch (error) {
+    message.value = 'Error uploading file.';
+  }
+};
+
+onMounted( {
+  onFileChange,
+  handleUpload,
+  message,
+});
 </script>
 
 <style scoped>
 .upload-form {
   max-width: 400px;
   margin: auto;
-  text-align: center;
 }
-
-.upload-form input {
-  margin-bottom: 10px;
+.mes {
+  color: red;
 }
 </style>

@@ -1,15 +1,14 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getFamily,getLinks } from '../api';
 import * as echarts from 'echarts';
 
-const node=ref([]);
-const links=ref([])
+const props=defineProps({
+    data:Array,
+    msg:String
+})
 onMounted(async ()=>{
-    const node = await getFamily();
-    const links = await getLinks();
     const chartDom = document.getElementById('main');
-  
+  console.log(props.data)
     // 增加逻辑判断防止报错
     if (!chartDom) return;
 
@@ -25,9 +24,9 @@ onMounted(async ()=>{
                     label: {
                         show: true
                     },
-                    data: node,
-                    // links: [],
-                    links: links,
+                    data: props.data,
+                    links: [],
+                    // links: links,
                     lineStyle: {
                         opacity: 0.9,
                         width: 2,
@@ -43,4 +42,5 @@ onMounted(async ()=>{
 
 <template>
     <div id="main" ></div>
+    <p>{{ props.msg }}</p>
 </template>

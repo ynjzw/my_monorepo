@@ -43,29 +43,14 @@ export function getWorld(){
     })    
 }
 
-const url4='/test1'
-export function getAIRes(data){
+const url4='/uploadFile'
+export function uploadFile(data){
     return request.post(
         url4,
         {'data':data}
     )    
 }
 
-const url5='https://echarts.apache.org/examples/data/asset/data/option-view.json'
-export async function getJson(){
-    try {
-    // 方案1: 使用本地代理
-    const response = await axios.get('/api/proxy/echarts-data', {
-      params: {
-        url: 'https://echarts.apache.org/examples/data/asset/data/option-view.json'
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('获取数据失败:', error);
-    throw error;
-  }   
-}
 
 const url6='/family'
 export function getFamily(){
@@ -73,15 +58,4 @@ export function getFamily(){
         url:url6,
         method:'get'
     })    
-}
-
-const url7='https://echarts.apache.org/zh/js/vendors/d3-hierarchy@2.0.0/dist/d3-hierarchy.min.js'
-export function getJs(){
-    return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = url7;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  }); 
 }

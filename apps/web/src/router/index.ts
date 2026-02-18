@@ -6,6 +6,7 @@ import world from '../views/world.vue'
 import nation from '../views/nation.vue'
 import internation from '../views/internation.vue'
 import UploadPage from '../views/UploadPage.vue'
+import circle from '../views/circle.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -14,7 +15,8 @@ const routes = [
   {name: 'world',path: '/world',component: world},
   {name: 'nation',path: '/nation',component: nation},
   {name: 'internation',path: '/internation',component: internation},
-  {name: 'uploadpage',path:'/uploadpage',component:UploadPage}
+  {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
+  {name: 'circle',path:'/circle',component:circle}
 ]
 
 // 创建路由实例
