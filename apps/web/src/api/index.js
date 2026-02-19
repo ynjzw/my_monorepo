@@ -43,14 +43,6 @@ export function getWorld(){
     })    
 }
 
-const url4='/uploadFile'
-export function uploadFile(data){
-    return request.post(
-        url4,
-        {'data':data}
-    )    
-}
-
 
 const url6='/family'
 export function getFamily(){
@@ -58,4 +50,12 @@ export function getFamily(){
         url:url6,
         method:'get'
     })    
+}
+
+const url4='/upload'
+export function uploadFile(data){
+    return request.post(
+        url4,
+        data
+    )    
 }

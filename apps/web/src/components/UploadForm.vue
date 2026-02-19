@@ -1,7 +1,14 @@
 
 <template>
   <div class="upload-form">
-    <h2>Upload File</h2>
+    
+    <el-upload
+      action="https://localhost:8000/api/upload/"
+      :on-change="handleChange"
+      :auto-upload="false"
+    >
+      <el-button>Click to upload</el-button>
+    </el-upload>
     <form @submit.prevent="handleUpload()">
       <input type="file" @change="onFileChange(x)" /><br>
       <button type="submit" @click="uploadFile()">Upload</button>
