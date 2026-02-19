@@ -14,10 +14,13 @@ const props=defineProps({
 })
 
 const test=()=>{
-  const chartDom = document.getElementById('main');
-  // 增加逻辑判断防止报错
-  if (!chartDom) return;
-  const myChart = echarts.init(chartDom);
+  const chartDom = document.getElementById('main');  
+  
+  const myChart = echarts.getInstanceByDom(chartDom);
+
+  if (myChart) {
+    myChart.dispose();
+  }
       
   const option = {
               series: [

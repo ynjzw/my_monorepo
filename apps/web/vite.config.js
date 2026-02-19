@@ -4,11 +4,14 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [
-    vue() // 2. 将插件添加到数组中
+    vue({
+      reactivityTransform: true
+    }) // 2. 将插件添加到数组中
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, './src')
+      '@': resolve(__dirname, './src'),
+      '@components': './src/components'
     }
   },
   server:{

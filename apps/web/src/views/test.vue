@@ -1,17 +1,18 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getFamily,getLinks } from '../api';
+import { getFamily,getLinks,getWorld } from '@/api';
 import * as echarts from 'echarts';
-import level from '../components/level.vue';
+import level from '@/components/level.vue';
 const node = ref([])
-const msg = ref('jsjjdjs');
+const world = ref([])
 onMounted(async()=>{
     node.value = await getFamily();
+    world.value = await getWorld();
 })
 </script>
 
 <template>
     
-    <level :data="node" :msg="msg"></level>
-    <!-- <level :data="node"></level> -->
+    <level :data="node" ></level>
+    <level :data="world"></level>
 </template>

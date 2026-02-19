@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import CirclePackingChart from '../components/CirclePackingChart.vue'
+import CirclePackingChart from '@/components/CirclePackingChart.vue'
 
 const chartRef = ref(null)
 const currentDepth = ref(0)

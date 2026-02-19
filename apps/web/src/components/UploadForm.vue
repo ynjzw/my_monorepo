@@ -10,7 +10,7 @@
       <el-button>Click to upload</el-button>
     </el-upload>
     <form @submit.prevent="handleUpload()">
-      <input type="file" @change="onFileChange(x)" /><br>
+      <input type="file" @change="onFileChange()" /><br>
       <button type="submit" @click="uploadFile()">Upload</button>
     </form>
     <div class="mes" v-if="message">{{ message }}</div>

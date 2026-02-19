@@ -7,6 +7,7 @@ import nation from '../views/nation.vue'
 import internation from '../views/internation.vue'
 import UploadPage from '../views/UploadPage.vue'
 import father from '../views/father.vue'
+import internet from '../views/internet.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -16,7 +17,8 @@ const routes = [
   {name: 'nation',path: '/nation',component: nation},
   {name: 'internation',path: '/internation',component: internation},
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
-  {name: 'father',path:'/father',component:father}
+  {name: 'father',path:'/father',component:father},
+  {name: 'internet',path:'/internet',component:internet}
 ]
 
 // 创建路由实例
