@@ -7,7 +7,6 @@
     <CirclePackingChart 
       ref="chartRef"
       height="400px"
-      theme="light"
       @chart-ready="handleChartReady"
       @node-click="handleNodeClick"
       @data-loaded="handleDataLoaded"
@@ -24,12 +23,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import CirclePackingChart from '@/components/CirclePackingChart.vue'
+import { getWorld } from '../api'
 
 const chartRef = ref(null)
 const currentDepth = ref(0)
-
+const data = ref([])
 // 处理图表就绪
 const handleChartReady = (chart) => {
   console.log('图表已就绪:', chart)
@@ -68,6 +68,10 @@ const resetChart = () => {
     currentDepth.value = 0
   }
 }
+onMounted(async() => {
+ 
+  data.value=await getWorld()
+})
 </script>
 
 <style scoped>

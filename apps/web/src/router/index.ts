@@ -8,6 +8,7 @@ import internation from '../views/internation.vue'
 import UploadPage from '../views/UploadPage.vue'
 import father from '../views/father.vue'
 import internet from '../views/internet.vue'
+import ai_voice from '../views/ai_voice.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -18,7 +19,8 @@ const routes = [
   {name: 'internation',path: '/internation',component: internation},
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
   {name: 'father',path:'/father',component:father},
-  {name: 'internet',path:'/internet',component:internet}
+  {name: 'internet',path:'/internet',component:internet},
+  {name: 'ai_voice',path:'/ai_voice',component:ai_voice},
 ]
 
 // 创建路由实例

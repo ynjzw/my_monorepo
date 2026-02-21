@@ -50,7 +50,7 @@ const props = defineProps({
   // 主题颜色
   theme: {
     type: String,
-    default: 'light'
+    default: 'dark'
   }
 })
 
@@ -75,34 +75,63 @@ const maxDepth = ref(0)
 let displayRoot = null
 
 // 创建模拟数据（作为后备）
-const createMockData = () => {
-  return {
-    "$count": 100,
-    "Chart": {
-      "$count": 30,
-      "Basic": {
-        "$count": 10,
-        "Bar": { "$count": 5 },
-        "Line": { "$count": 5 }
-      },
-      "Advanced": {
-        "$count": 20,
-        "Pie": { "$count": 10 },
-        "Scatter": { "$count": 10 }
-      }
-    },
-    "Component": {
-      "$count": 40,
-      "Grid": { "$count": 15 },
-      "Legend": { "$count": 15 },
-      "Tooltip": { "$count": 10 }
-    },
-    "Option": {
-      "$count": 30,
-      "Title": { "$count": 10 },
-      "Toolbox": { "$count": 10 },
-      "VisualMap": { "$count": 10 }
-    }
+// const createMockData = {
+//     "$count": 100,
+//     "Chart": {
+//       "$count": 30,
+//       "Basic": {
+//         "$count": 10,
+//         "Bar": { "$count": 5 },
+//         "Line": { "$count": 5 }
+//       },
+//       "Advanced": {
+//         "$count": 20,
+//         "Pie": { "$count": 10 },
+//         "Scatter": { "$count": 10 }
+//       }
+//     },
+//     "Component": {
+//       "$count": 40,
+//       "Grid": { "$count": 15 },
+//       "Legend": { "$count": 15 },
+//       "Tooltip": { "$count": 10 }
+//     },
+//     "Option": {
+//       "$count": 30,
+//       "Title": { "$count": 10 },
+//       "Toolbox": { "$count": 10 },
+//       "VisualMap": { "$count": 10 }
+//     }
+//   }
+const Chart = {
+  "$count":50,
+  "Option1": {
+    "$count":10,
+  },
+  "Option2": {
+    "$count":10,
+  },
+  "Option3": {
+    "$count":10,
+  }
+}
+const data = {
+  "$count":50,
+  Chart,
+  "Chart1": { 
+    "$count":10,
+  },
+  "Component": {
+    "$count":10,
+  },
+  "Option1": {
+    "$count":10,
+  },
+  "Option2": {
+    "$count":10,
+  },
+  "Option3": {
+    "$count":10,
   }
 }
 
@@ -284,7 +313,7 @@ const createChartOption = () => {
         max: maxDepth.value,
         dimension: 'depth',
         inRange: {
-          color: ['#006edd', '#e0ffff']
+          color: ['red', 'yellow']
         }
       }
     ],
@@ -370,7 +399,7 @@ const loadData = async () => {
       rawData = props.data
     } else {
       // 使用模拟数据
-      rawData = createMockData()
+      rawData = data
       // 模拟异步加载
       await new Promise(resolve => setTimeout(resolve, 500))
     }
@@ -529,7 +558,7 @@ defineExpose({
   right: 10px;
   display: flex;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.9);
+  background: blueviolet;
   padding: 8px 12px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -538,7 +567,7 @@ defineExpose({
 
 .control-btn {
   padding: 4px 8px;
-  background: #f0f0f0;
+  background: burlywood;
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
@@ -546,12 +575,12 @@ defineExpose({
 }
 
 .control-btn:hover {
-  background: #e0e0e0;
+  background: burlywood;
 }
 
 .depth-indicator {
   font-size: 12px;
-  color: #666;
+  color: black;
   line-height: 24px;
 }
 </style>
