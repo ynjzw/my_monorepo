@@ -9,6 +9,7 @@ import UploadPage from '../views/UploadPage.vue'
 import father from '../views/father.vue'
 import internet from '../views/internet.vue'
 import ai_voice from '../views/ai_voice.vue'
+import circle from '../views/circle.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -21,6 +22,7 @@ const routes = [
   {name: 'father',path:'/father',component:father},
   {name: 'internet',path:'/internet',component:internet},
   {name: 'ai_voice',path:'/ai_voice',component:ai_voice},
+  {name: 'circle',path:'/circle',component:circle}
 ]
 
 // 创建路由实例

@@ -59,3 +59,19 @@ export function uploadFile(data){
         data
     )    
 }
+
+const url5='/chat'
+export function chat(data){
+    return request.post(
+        url5,
+        data
+    )    
+}
+
+const url6='/speechtotext'
+export function speechtotext(){
+    return request({
+        url:url6,
+        method:'get'
+    })    
+}

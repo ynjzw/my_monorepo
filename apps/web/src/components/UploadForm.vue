@@ -12,13 +12,13 @@
         :disabled="uploading"
       />
       
-      <el-button 
+      <button 
         type="primary" 
         @click="triggerFileInput"
         :disabled="uploading"
       >
         选择文件
-      </el-button>
+      </button>
     </div>
 
     <!-- 显示选择的文件 -->
@@ -29,18 +29,18 @@
 
     <!-- 上传按钮 -->
     <div class="actions">
-      <el-button 
+      <button 
         type="success" 
         @click="handleUpload" 
         :loading="uploading"
         :disabled="!selectedFile"
       >
         {{ uploading ? '上传中...' : '开始上传' }}
-      </el-button>
+      </button>
       
-      <el-button @click="resetForm" :disabled="uploading">
+      <button @click="resetForm" :disabled="uploading">
         清空
-      </el-button>
+      </button>
     </div>
 
     <!-- 提示信息 -->
@@ -52,7 +52,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { ElMessage } from 'element-plus';
 import { uploadFile } from '@/api/index';
 
 const props = defineProps({
@@ -82,7 +81,7 @@ const onFileChange = (event) => {
   if (file) {
     // 验证文件大小（10MB）
     if (file.size > 10 * 1024 * 1024) {
-      ElMessage.error('文件大小不能超过 10MB');
+      window.alert('文件大小不能超过 10MB');
       resetForm();
       return;
     }

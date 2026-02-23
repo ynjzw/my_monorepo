@@ -17,6 +17,13 @@ from schemas import (
 )
 from typing import List
 import uuid
+import pyttsx3
+import os
+import queue, json
+from ollama import chat,ChatResponse
+import sounddevice as sd
+from vosk import Model, KaldiRecognizer
+from sqlalchemy import func
 
 # 创建数据表
 Base.metadata.create_all(bind=engine)
@@ -70,8 +77,8 @@ def get_links(db:Session=Depends(get_db)):
 
 @app.get('/family')
 def get_links(db:Session=Depends(get_db)):
-    links = db.query(family).all()
-    return links
+    family = db.query(family).all()
+    return family
 
 @app.get('/world')
 def get_world(db:Session=Depends(get_db)):
@@ -264,7 +271,7 @@ async def upload_file(
             db.commit()
             raise HTTPException(status_code=500, detail=f"数据处理失败: {str(e)}")
         
-        return file_record.to_dict()
+        return {"status":200,"data":file_record.to_dict()}
         
     except HTTPException:
         raise
@@ -321,6 +328,7 @@ async def get_import_progress(
         progress = (file_record.imported_rows / file_record.total_rows) * 100
     
     return {
+        "status": 200,
         "file_id": file_record.id,
         "filename": file_record.original_filename,
         "status": file_record.status,
@@ -351,6 +359,7 @@ async def get_imported_data(
         .offset(skip).limit(limit).all()
     
     return {
+        "status": 200,
         "file_id": file_id,
         "filename": file_record.original_filename,
         "total": total,
@@ -382,7 +391,7 @@ async def delete_file(
         db.delete(file_record)
         db.commit()
         
-        return {"message": "删除成功", "file_id": file_id}
+        return {"status":200,"message": "删除成功", "file_id": file_id}
         
     except Exception as e:
         db.rollback()
@@ -403,7 +412,7 @@ async def get_statistics(db: Session = Depends(get_db)):
     pending_count = db.query(UploadFileRecord).filter(UploadFileRecord.status == "pending").count()
     
     # 文件类型统计
-    from sqlalchemy import func
+    
     type_stats = db.query(
         UploadFileRecord.file_type,
         func.count(UploadFileRecord.id).label('count')
@@ -415,6 +424,7 @@ async def get_statistics(db: Session = Depends(get_db)):
         .limit(5).all()
     
     return {
+        "status": 200,
         "total_files": total_files,
         "total_data_rows": total_rows,
         "status_stats": {
@@ -427,6 +437,78 @@ async def get_statistics(db: Session = Depends(get_db)):
         ],
         "recent_uploads": [f.to_dict() for f in recent_files]
     }
+
+@app.get("/speechtotext")
+def speech_to_text():
+    # 加载离线模型（确保模型路径正确）
+    model_path = "model/vosk-model-small-cn-0.22"  # 替换为你的模型文件夹路径
+    
+    model = Model(model_path)
+    recognizer = KaldiRecognizer(model, 16000)  # 设置采样率为 16kHz
+    audio_queue = queue.Queue()
+
+    def callback(indata, frames, time, status):
+        if status:
+            print(f"状态错误: {status}")
+        audio_queue.put(bytes(indata))
+
+    print("请开始说话...")
+    with sd.RawInputStream(samplerate=16000, blocksize=8000, dtype="int16",
+                           channels=1, callback=callback):
+        while True:
+            data = audio_queue.get()
+            if recognizer.AcceptWaveform(data):
+                result = recognizer.Result()
+                result=json.loads(result)['text']
+                result=result.replace(' ', '')
+                return result
+                break
+
+@app.post("/chat")
+def chat_with_ollama(text: str):
+    engine=pyttsx3.init()
+    print("欢迎使用 Ollama AI 对话功能！输入 '退出' 退出对话。")
+    model = "deepseek-r1:1.5b"  # 使用的模型名称（确保已通过 Ollama 下载）
+    # url = f"http://localhost:11434/api/chat"  # Ollama 本地 API 地址
+    conversation = []  # 用于存储对话上下文
+
+    while True:
+        # 用户输入
+        user_input=text
+        if user_input.startswith("退出") :
+            print("对话结束，再见！")
+            engine.say("对话结束，再见！")
+            engine.runAndWait()
+            break
+        else:
+            print("你: ", user_input)
+
+        # 添加用户消息到上下文
+        
+        conversation.append({"role": "user", "content": user_input})
+
+        # 发送请求到 Ollama API
+        response: ChatResponse = chat(model=model, stream=True, messages=[
+            {"role": "system", "content": "你是一个友好的 AI 助手，随时准备回答用户的问题。"},
+            {"role": "user", "content": user_input}
+        ])
+
+        # 实时输出 AI 回复
+        print("AI: ", end="", flush=True)
+        ai_response = ""
+        for chunk in response:
+            if chunk.message and chunk.message.content:
+                data = chunk.message.content                     
+                print(data, end="", flush=True)
+                ai_response += data
+        engine.say(ai_response)
+        engine.runAndWait()
+        print()
+        
+        # 将 AI 回复添加到上下文
+        conversation.append({"role": "assistant", "content": ai_response})
+        engine.stop()
+
 
 if __name__=='__main__':
     uvicorn.run('main:app',host='0.0.0.0',port=8000,reload=True)
