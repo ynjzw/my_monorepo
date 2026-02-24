@@ -16,7 +16,7 @@ from schemas import (
     ErrorResponse
 )
 from typing import List
-import uuid
+import uuid,logging
 import pyttsx3
 import os
 import queue, json
@@ -27,7 +27,7 @@ from sqlalchemy import func
 
 # 创建数据表
 Base.metadata.create_all(bind=engine)
-
+logger=logging.getLogger(__name__)
 
 app=FastAPI(
     title="Simple File Import API",
@@ -70,6 +70,11 @@ def get_file_extension(filename: str) -> str:
 def hello():
     return {'hello':'world'}
 
+@app.get('/data')
+def get_links(db:Session=Depends(get_db)):
+    data = db.query('select data from imported_data').all()
+    return data
+
 @app.get('/links')
 def get_links(db:Session=Depends(get_db)):
     links = db.query(Links).all()
@@ -95,19 +100,24 @@ def parse_csv_file(filepath):
     """解析CSV文件"""
     try:
         df = pd.read_csv(filepath)
-        return df.to_dict('records')
+        records = df.to_dict('records')
+        total_rows = len(df)
+        logger.info(df.head())
+        return records,total_rows
     except Exception as e:
         print(f"CSV解析错误: {str(e)}")
-        return []
+        return [],0
 
 def parse_excel_file(filepath):
     """解析Excel文件"""
     try:
         df = pd.read_excel(filepath)
-        return df.to_dict('records')
+        records = df.to_dict('records')
+        total_rows = len(df)
+        return records,total_rows
     except Exception as e:
-        print(f"Excel解析错误: {str(e)}")
-        return []
+        logger.info(f"Excel解析错误: {str(e)}")
+        return [],0
 
 async def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
     """解析JSON文件"""
@@ -139,17 +149,28 @@ async def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
         return data_list, total_rows
         
     except Exception as e:
-        raise ValueError(f"JSON解析失败: {str(e)}")
+        return [],0
 
 def parse_text_file(filepath):
     """解析文本文件"""
     try:
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
-        return [{'content': content[:1000]}]  # 只保存前1000个字符
+        lines = content.split('\n')
+        data_list = []
+        for i, line in enumerate(lines):
+            if line.strip():  # 跳过空行
+                data_list.append({
+                    'line_number': i + 1,
+                    'content': line.strip()
+                })
+        
+        total_rows = len(data_list)
+        logger.info(f"文本解析成功，共 {total_rows} 行")
+        return data_list, total_rows  # ✅ 返回2个值
     except Exception as e:
-        print(f"文本解析错误: {str(e)}")
-        return []
+        logger.info(f"文本解析错误: {str(e)}")
+        return [],0
 
 async def import_data_to_db(
     db: Session,
@@ -243,13 +264,13 @@ async def upload_file(
             total_rows = 0
             
             if ext == '.csv':
-                data_list, total_rows = await parse_csv_file(file_path)
+                data_list, total_rows = parse_csv_file(file_path)
             elif ext in ['.xlsx', '.xls']:
-                data_list, total_rows = await parse_excel_file(file_path)
+                data_list, total_rows = parse_excel_file(file_path)
             elif ext == '.json':
                 data_list, total_rows = await parse_json_file(file_path)
             elif ext == '.txt':
-                data_list, total_rows = await parse_text_file(file_path)
+                data_list, total_rows = parse_text_file(file_path)
             
             # 更新总行数
             file_record.total_rows = total_rows
@@ -271,7 +292,7 @@ async def upload_file(
             db.commit()
             raise HTTPException(status_code=500, detail=f"数据处理失败: {str(e)}")
         
-        return {"status":200,"data":file_record.to_dict()}
+        return file_record.to_dict()
         
     except HTTPException:
         raise
@@ -328,7 +349,6 @@ async def get_import_progress(
         progress = (file_record.imported_rows / file_record.total_rows) * 100
     
     return {
-        "status": 200,
         "file_id": file_record.id,
         "filename": file_record.original_filename,
         "status": file_record.status,
@@ -359,7 +379,6 @@ async def get_imported_data(
         .offset(skip).limit(limit).all()
     
     return {
-        "status": 200,
         "file_id": file_id,
         "filename": file_record.original_filename,
         "total": total,
@@ -391,7 +410,7 @@ async def delete_file(
         db.delete(file_record)
         db.commit()
         
-        return {"status":200,"message": "删除成功", "file_id": file_id}
+        return {"message": "删除成功", "file_id": file_id}
         
     except Exception as e:
         db.rollback()
@@ -424,7 +443,6 @@ async def get_statistics(db: Session = Depends(get_db)):
         .limit(5).all()
     
     return {
-        "status": 200,
         "total_files": total_files,
         "total_data_rows": total_rows,
         "status_stats": {
@@ -449,7 +467,7 @@ def speech_to_text():
 
     def callback(indata, frames, time, status):
         if status:
-            print(f"状态错误: {status}")
+            logger.info(f"状态错误: {status}")
         audio_queue.put(bytes(indata))
 
     print("请开始说话...")

@@ -120,7 +120,7 @@ const handleUpload = async () => {
   try {
     const formData = new FormData();
     formData.append('file', selectedFile.value);
-
+    console.log(formData)
     const response = await uploadFile(formData);
     
     message.value = response.data.message || '上传成功';

@@ -89,7 +89,8 @@ const startMicrophone = async () => {
     
     bufferLength = analyser.frequencyBinCount
     dataArray = new Uint8Array(bufferLength)
-    text=await speechtotext()
+    text.value=await speechtotext()
+    console.log(text.value)
     isActive.value = true
     volumeLevel.value = 0
     

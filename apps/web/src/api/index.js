@@ -68,10 +68,10 @@ export function chat(data){
     )    
 }
 
-const url6='/speechtotext'
+const url7='/speechtotext'
 export function speechtotext(){
     return request({
-        url:url6,
+        url:url7,
         method:'get'
     })    
 }
