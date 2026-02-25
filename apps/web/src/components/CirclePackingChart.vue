@@ -74,35 +74,6 @@ const seriesData = ref([])
 const maxDepth = ref(0)
 let displayRoot = null
 
-// 创建模拟数据（作为后备）
-// const createMockData = {
-//     "$count": 100,
-//     "Chart": {
-//       "$count": 30,
-//       "Basic": {
-//         "$count": 10,
-//         "Bar": { "$count": 5 },
-//         "Line": { "$count": 5 }
-//       },
-//       "Advanced": {
-//         "$count": 20,
-//         "Pie": { "$count": 10 },
-//         "Scatter": { "$count": 10 }
-//       }
-//     },
-//     "Component": {
-//       "$count": 40,
-//       "Grid": { "$count": 15 },
-//       "Legend": { "$count": 15 },
-//       "Tooltip": { "$count": 10 }
-//     },
-//     "Option": {
-//       "$count": 30,
-//       "Title": { "$count": 10 },
-//       "Toolbox": { "$count": 10 },
-//       "VisualMap": { "$count": 10 }
-//     }
-//   }
 const Chart = {
   "$count":50,
   "Option1": {

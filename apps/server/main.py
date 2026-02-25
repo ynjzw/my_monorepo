@@ -24,7 +24,7 @@ from ollama import chat,ChatResponse
 import sounddevice as sd
 from vosk import Model, KaldiRecognizer
 from sqlalchemy import func
-
+from fastapi.responses import Response
 # 创建数据表
 Base.metadata.create_all(bind=engine)
 logger=logging.getLogger(__name__)
@@ -70,10 +70,15 @@ def get_file_extension(filename: str) -> str:
 def hello():
     return {'hello':'world'}
 
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    # 返回空响应
+    return Response(status_code=204)  # 204 No Content
+
 @app.get('/data')
-def get_links(db:Session=Depends(get_db)):
-    data = db.query('select data from imported_data').all()
-    return data
+def get_datas(db:Session=Depends(get_db)):
+    data = db.query(ImportedData).all()
+    return [item.to_dict() for item in data]
 
 @app.get('/links')
 def get_links(db:Session=Depends(get_db)):

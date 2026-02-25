@@ -29,126 +29,47 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
 import * as echarts from 'echarts'
-import * as d3 from 'd3-hierarchy'
 
-// 模拟数据 - 完全内部定义，不依赖外部传入
+// 模拟数据 - 树形结构
 const mockData = {
-  root: {
-    id: 'root',
-    name: '根节点',
-    value: 100,
-    children: [
-      { id: 'chart', name: 'Chart', value: 30 },
-      { id: 'component', name: 'Component', value: 40 },
-      { id: 'option', name: 'Option', value: 30 }
-    ]
-  },
-  chart: {
-    id: 'chart',
-    name: 'Chart',
-    value: 30,
-    children: [
-      { id: 'chart.line', name: 'Line', value: 10 },
-      { id: 'chart.bar', name: 'Bar', value: 12 },
-      { id: 'chart.pie', name: 'Pie', value: 8 }
-    ]
-  },
-  component: {
-    id: 'component',
-    name: 'Component',
-    value: 40,
-    children: [
-      { id: 'component.button', name: 'Button', value: 15 },
-      { id: 'component.input', name: 'Input', value: 12 },
-      { id: 'component.table', name: 'Table', value: 13 }
-    ]
-  },
-  option: {
-    id: 'option',
-    name: 'Option',
-    value: 30,
-    children: [
-      { id: 'option.setting', name: 'Setting', value: 10 },
-      { id: 'option.preference', name: 'Preference', value: 10 },
-      { id: 'option.config', name: 'Config', value: 10 }
-    ]
-  },
-  'chart.line': {
-    id: 'chart.line',
-    name: 'Line',
-    value: 10,
-    children: []
-  },
-  'chart.bar': {
-    id: 'chart.bar',
-    name: 'Bar',
-    value: 12,
-    children: []
-  },
-  'chart.pie': {
-    id: 'chart.pie',
-    name: 'Pie',
-    value: 8,
-    children: []
-  },
-  'component.button': {
-    id: 'component.button',
-    name: 'Button',
-    value: 15,
-    children: [
-      { id: 'component.button.primary', name: 'Primary', value: 5 },
-      { id: 'component.button.secondary', name: 'Secondary', value: 5 },
-      { id: 'component.button.danger', name: 'Danger', value: 5 }
-    ]
-  },
-  'component.input': {
-    id: 'component.input',
-    name: 'Input',
-    value: 12,
-    children: []
-  },
-  'component.table': {
-    id: 'component.table',
-    name: 'Table',
-    value: 13,
-    children: []
-  },
-  'component.button.primary': {
-    id: 'component.button.primary',
-    name: 'Primary',
-    value: 5,
-    children: []
-  },
-  'component.button.secondary': {
-    id: 'component.button.secondary',
-    name: 'Secondary',
-    value: 5,
-    children: []
-  },
-  'component.button.danger': {
-    id: 'component.button.danger',
-    name: 'Danger',
-    value: 5,
-    children: []
-  },
-  'option.setting': {
-    id: 'option.setting',
-    name: 'Setting',
-    value: 10,
-    children: []
-  },
-  'option.preference': {
-    id: 'option.preference',
-    name: 'Preference',
-    value: 10,
-    children: []
-  },
-  'option.config': {
-    id: 'option.config',
-    name: 'Config',
-    value: 10,
-    children: []
-  }
+  name: "根节点",
+  children: [
+    {
+      name: "Chart",
+      value: 30,
+      children: [
+        { name: "Line", value: 10 },
+        { name: "Bar", value: 12 },
+        { name: "Pie", value: 8 }
+      ]
+    },
+    {
+      name: "Component",
+      value: 40,
+      children: [
+        { 
+          name: "Button", 
+          value: 15,
+          children: [
+            { name: "Primary", value: 5 },
+            { name: "Secondary", value: 5 },
+            { name: "Danger", value: 5 }
+          ]
+        },
+        { name: "Input", value: 12 },
+        { name: "Table", value: 13 }
+      ]
+    },
+    {
+      name: "Option",
+      value: 30,
+      children: [
+        { name: "Setting", value: 10 },
+        { name: "Preference", value: 10 },
+        { name: "Config", value: 10 }
+      ]
+    }
+  ]
 }
 
 // DOM 引用
@@ -160,145 +81,99 @@ const loading = ref(false)
 const error = ref(null)
 
 // 导航历史栈
-const historyStack = ref(['root'])
+const historyStack = ref([mockData])
 // 缓存已加载的节点数据
 const nodeCache = ref(new Map())
 
-// 当前节点ID
-const currentNodeId = computed(() => {
+// 当前节点
+const currentNode = computed(() => {
   return historyStack.value[historyStack.value.length - 1]
 })
 
 // 当前路径显示
 const currentPath = computed(() => {
-  return historyStack.value.map(id => {
-    const node = nodeCache.value.get(id)
-    return node ? node.name : id
-  }).join(' > ')
+  return historyStack.value.map(node => node.name).join(' > ')
 })
-
-// 获取当前节点数据
-const getCurrentNodeData = () => {
-  return nodeCache.value.get(currentNodeId.value)
-}
-
-// 获取当前节点的子节点
-const getCurrentChildren = () => {
-  const currentNode = getCurrentNodeData()
-  return currentNode?.children || []
-}
-
-// 模拟异步加载节点数据
-const loadNodeData = async (nodeId) => {
-  // 模拟网络延迟
-  await new Promise(resolve => setTimeout(resolve, 300))
-  
-  // 从mock数据中获取
-  const nodeData = mockData[nodeId]
-  if (!nodeData) {
-    throw new Error(`节点 ${nodeId} 不存在`)
-  }
-  
-  return nodeData
-}
-
-// 加载节点
-const loadNode = async (nodeId) => {
-  loading.value = true
-  error.value = null
-  
-  try {
-    // 检查缓存
-    if (!nodeCache.value.has(nodeId)) {
-      const nodeData = await loadNodeData(nodeId)
-      nodeCache.value.set(nodeId, nodeData)
-    }
-    
-    // 更新图表
-    await nextTick()
-    updateChart()
-    
-  } catch (err) {
-    console.error('加载节点失败:', err)
-    error.value = `加载失败: ${err.message}`
-  } finally {
-    loading.value = false
-  }
-}
 
 // 准备当前层级的圆堆数据
 const prepareCurrentLevelData = () => {
-  const currentNode = getCurrentNodeData()
-  if (!currentNode) return []
+  const currentNodeData = currentNode.value
+  if (!currentNodeData) return { data: [], root: null }
   
-  const result = []
+  // 创建层级结构数据
+  const nodes = []
+  const edges = []
   
-  // 添加当前节点（中心节点）- 放大显示
-  result.push({
-    id: currentNode.id,
-    name: currentNode.name,
-    value: currentNode.value || 50,
+  // 添加当前节点
+  const rootId = 'root'
+  nodes.push({
+    id: rootId,
+    name: currentNodeData.name,
+    value: currentNodeData.value || 50,
     isCurrent: true,
-    depth: 0,
-    type: 'current'
+    depth: 0
   })
   
   // 添加子节点
-  const children = getCurrentChildren()
-  children.forEach((child, index) => {
-    // 从缓存获取完整数据，如果没有则使用基本信息
-    const cachedChild = nodeCache.value.get(child.id) || child
-    result.push({
-      id: cachedChild.id,
-      name: cachedChild.name,
-      value: cachedChild.value || 20,
-      parentId: currentNode.id,
-      depth: 1,
-      type: cachedChild.children?.length ? 'parent' : 'leaf',
-      hasChildren: cachedChild.children?.length > 0
+  if (currentNodeData.children) {
+    currentNodeData.children.forEach((child, index) => {
+      const childId = `child_${index}_${Date.now()}_${Math.random()}`
+      nodes.push({
+        id: childId,
+        name: child.name,
+        value: child.value || 20,
+        parentId: rootId,
+        depth: 1,
+        hasChildren: child.children && child.children.length > 0
+      })
+      
+      edges.push({
+        source: rootId,
+        target: childId
+      })
     })
-  })
+  }
   
-  return result
+  return { nodes, edges, root: { id: rootId, ...currentNodeData } }
 }
 
 // 创建图表配置
-const createChartOption = (levelData) => {
-  if (!levelData.length) return {}
-  
+const createChartOption = (nodes, edges, root) => {
   const width = chartContainer.value?.clientWidth || 800
   const height = chartContainer.value?.clientHeight || 600
   
-  // 创建层级结构
-  const stratifyData = d3.stratify()
-    .id(d => d.id)
-    .parentId(d => d.parentId || null)(levelData)
+  // 计算圆形布局位置
+  const centerX = width / 2
+  const centerY = height / 2
+  const rootRadius = Math.min(width, height) * 0.25
   
-  // 计算圆堆布局
-  const root = d3.hierarchy(stratifyData)
-    .sum(d => d.data.value)
-  
-  const pack = d3.pack()
-    .size([width - 60, height - 60])
-    .padding(8)
-  
-  pack(root)
-  
-  // 构建节点数据
-  const nodes = root.descendants().map(node => {
-    const data = node.data.data
-    return {
-      id: data.id,
-      name: data.name,
-      value: node.value,
-      x: node.x + 30,
-      y: node.y + 30,
-      r: node.r,
-      depth: node.depth,
-      type: data.type,
-      isCurrent: data.isCurrent || false,
-      hasChildren: data.hasChildren || false,
-      children: node.children ? node.children.map(c => c.data.data.id) : []
+  // 为每个节点计算位置
+  const positionedNodes = nodes.map(node => {
+    if (node.isCurrent) {
+      // 根节点放在中心
+      return {
+        ...node,
+        x: centerX,
+        y: centerY,
+        r: rootRadius
+      }
+    } else {
+      // 子节点围绕根节点分布
+      const childNodes = nodes.filter(n => n.parentId === node.parentId)
+      const index = childNodes.findIndex(n => n.id === node.id)
+      const total = childNodes.length
+      
+      // 计算角度
+      const angle = (index / total) * Math.PI * 2
+      // 计算位置（距离中心 rootRadius + 一些间距）
+      const distance = rootRadius + 50 + (node.hasChildren ? 30 : 0)
+      
+      return {
+        ...node,
+        x: centerX + Math.cos(angle) * distance,
+        y: centerY + Math.sin(angle) * distance,
+        r: node.hasChildren ? 40 : 30
+      }
     }
   })
   
@@ -309,9 +184,8 @@ const createChartOption = (levelData) => {
         if (!data) return ''
         
         let info = `${data.name}<br/>`
-        info += `值: ${data.value.toFixed(2)}<br/>`
+        info += `值: ${data.value}<br/>`
         if (data.hasChildren) {
-          info += `包含 ${data.children?.length || 0} 个子节点<br/>`
           info += `点击可展开`
         } else {
           info += `叶子节点`
@@ -320,67 +194,65 @@ const createChartOption = (levelData) => {
       }
     },
     series: [{
-      type: 'custom',
-      renderItem: (params, api) => {
-        const data = params.data
-        if (!data) return
-        
-        // 根据节点类型设置不同颜色
-        let fillColor
-        if (data.isCurrent) {
-          fillColor = '#ff6b6b' // 当前节点 - 红色
-        } else if (data.hasChildren) {
-          fillColor = '#4ecdc4' // 有子节点的节点 - 青色
-        } else {
-          fillColor = '#95a5a6' // 叶子节点 - 灰色
-        }
-        
-        // 计算字体大小
-        const fontSize = Math.min(Math.max(data.r / 4, 10), 16)
-        
-        return {
-          type: 'circle',
-          shape: {
-            cx: data.x,
-            cy: data.y,
-            r: data.r
-          },
-          style: {
-            fill: fillColor,
-            stroke: '#fff',
-            lineWidth: data.isCurrent ? 4 : 2,
-            shadowBlur: data.isCurrent ? 20 : 5,
-            shadowColor: 'rgba(0,0,0,0.3)',
-            transition: ['fill', 'shadowBlur']
-          },
-          styleEmphasis: {
-            fill: data.isCurrent ? '#ff5252' : (data.hasChildren ? '#45b7d1' : '#7f8c8d'),
-            shadowBlur: 20,
-            scale: 1.05
-          },
-          textContent: {
-            type: 'text',
-            style: {
-              text: data.name,
-              fontFamily: 'Arial',
-              fontSize: fontSize,
-              fill: '#fff',
-              fontWeight: 'bold',
-              textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-              lineWidth: 0
-            },
-            styleEmphasis: {
-              fontSize: fontSize + 2
-            }
-          },
-          textConfig: {
-            position: 'inside'
-          }
+      type: 'graph',
+      layout: 'none',
+      coordinateSystem: 'none',
+      symbolSize: (value, params) => {
+        return params.data.isCurrent ? 80 : (params.data.hasChildren ? 60 : 40)
+      },
+      roam: true,
+      label: {
+        show: true,
+        position: 'inside',
+        fontSize: 12,
+        color: '#fff',
+        fontWeight: 'bold',
+        formatter: (params) => {
+          return params.data.name
         }
       },
-      data: nodes,
-      progressive: 0,
-      coordinateSystem: 'none'
+      edgeSymbol: ['none', 'arrow'],
+      edgeSymbolSize: [0, 10],
+      lineStyle: {
+        color: '#fff',
+        width: 2,
+        curveness: 0.2,
+        opacity: 0.5
+      },
+      data: positionedNodes.map(node => ({
+        ...node,
+        itemStyle: {
+          color: node.isCurrent ? '#ff6b6b' : (node.hasChildren ? '#4ecdc4' : '#95a5a6'),
+          borderColor: '#fff',
+          borderWidth: node.isCurrent ? 4 : 2,
+          shadowBlur: node.isCurrent ? 20 : 5,
+          shadowColor: 'rgba(0,0,0,0.3)'
+        },
+        emphasis: {
+          itemStyle: {
+            color: node.isCurrent ? '#ff5252' : (node.hasChildren ? '#45b7d1' : '#7f8c8d'),
+            shadowBlur: 20,
+            scale: 1.1
+          }
+        }
+      })),
+      edges: edges,
+      categories: [{
+        name: 'root',
+        itemStyle: {
+          color: '#ff6b6b'
+        }
+      }, {
+        name: 'parent',
+        itemStyle: {
+          color: '#4ecdc4'
+        }
+      }, {
+        name: 'leaf',
+        itemStyle: {
+          color: '#95a5a6'
+        }
+      }]
     }]
   }
 }
@@ -389,8 +261,8 @@ const createChartOption = (levelData) => {
 const updateChart = () => {
   if (!myChart) return
   
-  const levelData = prepareCurrentLevelData()
-  const option = createChartOption(levelData)
+  const { nodes, edges, root } = prepareCurrentLevelData()
+  const option = createChartOption(nodes, edges, root)
   myChart.setOption(option, { notMerge: false })
 }
 
@@ -406,8 +278,8 @@ const initChart = () => {
     myChart = echarts.init(chartContainer.value)
     bindEvents()
     
-    // 加载根节点
-    loadRoot()
+    // 更新图表
+    updateChart()
     
   } catch (err) {
     console.error('图表初始化失败:', err)
@@ -420,27 +292,29 @@ const bindEvents = () => {
   if (!myChart) return
   
   // 节点点击事件
-  myChart.on('click', { seriesIndex: 0 }, async (params) => {
+  myChart.on('click', (params) => {
     const node = params.data
     if (!node) return
     
     // 如果是当前节点，不做处理
     if (node.isCurrent) return
     
+    // 查找对应的子节点数据
+    const findChildNode = (parent, childName) => {
+      if (!parent.children) return null
+      return parent.children.find(child => child.name === childName)
+    }
+    
+    const childNode = findChildNode(currentNode.value, node.name)
+    
     // 如果是可展开的节点（有子节点）
-    if (node.hasChildren) {
+    if (childNode && childNode.children && childNode.children.length > 0) {
       // 添加到历史栈
-      historyStack.value.push(node.id)
-      // 加载该节点
-      await loadNode(node.id)
+      historyStack.value.push(childNode)
+      // 更新图表
+      updateChart()
     }
   })
-}
-
-// 加载根节点
-const loadRoot = async () => {
-  historyStack.value = ['root']
-  await loadNode('root')
 }
 
 // 返回上一级
@@ -448,44 +322,39 @@ const goBack = () => {
   if (historyStack.value.length <= 1) return
   
   historyStack.value.pop()
-  loadNode(currentNodeId.value)
+  updateChart()
 }
 
 // 重置到根节点
 const resetToRoot = () => {
-  loadRoot()
+  historyStack.value = [mockData]
+  updateChart()
 }
 
 // 重试加载
 const retryLoad = () => {
-  loadNode(currentNodeId.value)
+  updateChart()
 }
 
 // 处理窗口大小变化
 const handleResize = () => {
   if (myChart) {
     myChart.resize()
-    updateChart() // 重新计算布局
+    updateChart()
   }
 }
 
 // 生命周期
 onMounted(() => {
-  initChart()
-  window.addEventListener('resize', handleResize)
-  
-  // 使用 ResizeObserver 监听容器尺寸变化
-  const resizeObserver = new ResizeObserver(() => {
-    handleResize()
+  // 等待DOM渲染完成
+  nextTick(() => {
+    initChart()
   })
   
-  if (chartContainer.value) {
-    resizeObserver.observe(chartContainer.value)
-  }
+  window.addEventListener('resize', handleResize)
   
   onBeforeUnmount(() => {
     window.removeEventListener('resize', handleResize)
-    resizeObserver.disconnect()
     if (myChart) {
       myChart.dispose()
       myChart = null
@@ -506,8 +375,8 @@ onMounted(() => {
 }
 
 .chart-container {
-  width: 1000px;
-  height: 600px;
+  width: 100%;
+  height: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
