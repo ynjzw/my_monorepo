@@ -21,7 +21,6 @@
         ← 返回上一级
       </button>
       <button @click="resetToRoot" class="control-btn">🏠 根节点</button>
-      <span class="path-indicator">{{ currentPath }}</span>
     </div>
   </div>
 </template>
@@ -33,6 +32,7 @@ import * as echarts from 'echarts'
 // 模拟数据 - 树形结构
 const mockData = {
   name: "根节点",
+  value:11,
   children: [
     {
       name: "Chart",
@@ -56,7 +56,18 @@ const mockData = {
             { name: "Danger", value: 5 }
           ]
         },
-        { name: "Input", value: 12 },
+        {
+          "$count":5,
+          "Option1": {
+            "$count":3,
+          },
+          "Option2": {
+            "$count":10,
+          },
+          "Option3": {
+            "$count":10,
+          }
+        },
         { name: "Table", value: 13 }
       ]
     },
@@ -88,11 +99,6 @@ const nodeCache = ref(new Map())
 // 当前节点
 const currentNode = computed(() => {
   return historyStack.value[historyStack.value.length - 1]
-})
-
-// 当前路径显示
-const currentPath = computed(() => {
-  return historyStack.value.map(node => node.name).join(' > ')
 })
 
 // 准备当前层级的圆堆数据
@@ -193,10 +199,9 @@ const createChartOption = (nodes, edges, root) => {
         return info
       }
     },
-    series: [{
+    series: [
+      {
       type: 'graph',
-      layout: 'none',
-      coordinateSystem: 'none',
       symbolSize: (value, params) => {
         return params.data.isCurrent ? 80 : (params.data.hasChildren ? 60 : 40)
       },
@@ -220,39 +225,9 @@ const createChartOption = (nodes, edges, root) => {
         opacity: 0.5
       },
       data: positionedNodes.map(node => ({
-        ...node,
-        itemStyle: {
-          color: node.isCurrent ? '#ff6b6b' : (node.hasChildren ? '#4ecdc4' : '#95a5a6'),
-          borderColor: '#fff',
-          borderWidth: node.isCurrent ? 4 : 2,
-          shadowBlur: node.isCurrent ? 20 : 5,
-          shadowColor: 'rgba(0,0,0,0.3)'
-        },
-        emphasis: {
-          itemStyle: {
-            color: node.isCurrent ? '#ff5252' : (node.hasChildren ? '#45b7d1' : '#7f8c8d'),
-            shadowBlur: 20,
-            scale: 1.1
-          }
-        }
+        ...node
       })),
-      edges: edges,
-      categories: [{
-        name: 'root',
-        itemStyle: {
-          color: '#ff6b6b'
-        }
-      }, {
-        name: 'parent',
-        itemStyle: {
-          color: '#4ecdc4'
-        }
-      }, {
-        name: 'leaf',
-        itemStyle: {
-          color: '#95a5a6'
-        }
-      }]
+      edges: edges
     }]
   }
 }
@@ -367,7 +342,7 @@ onMounted(() => {
 .circle-packing-container {
   position: relative;
   width: 1000px;
-  height: 600px;
+  height: 400px;
   min-height: 400px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;

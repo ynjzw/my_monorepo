@@ -5,7 +5,7 @@
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
-import {getWorld} from '../api';
+import {getWorld} from '@/api';
 import { useRouter } from 'vue-router';
 
 // 将初始化逻辑包装在 onMounted 中
@@ -52,7 +52,7 @@ onMounted(async() => {
 
 <style>
 #main{
-  width: 400px; 
+  width: 1280px; 
   height: 400px;
 
 }

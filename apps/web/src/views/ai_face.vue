@@ -2,33 +2,6 @@
   <div class="voice-visualizer">
     <canvas ref="canvasRef" width="800" height="400"></canvas>
     
-    <div class="button-group">
-      <button 
-        @click="startMicrophone" 
-        :disabled="isActive"
-        class="btn start-btn"
-      >
-        {{ isActive ? '🎤 麦克风已激活' : '🎤 启动麦克风' }}
-      </button>
-      
-      <button 
-        @click="stopMicrophone" 
-        :disabled="!isActive"
-        class="btn stop-btn"
-      >
-        ⏹️ 关闭麦克风
-      </button>
-    </div>
-
-    <!-- 添加音量指示器 -->
-    <div v-if="isActive" class="volume-indicator">
-      <div 
-        class="volume-bar" 
-        :style="{ width: volumeLevel + '%' }"
-      ></div>
-      <span>{{ volumeLevel }}%</span>
-    </div>
-
     <!-- 可视化模式选择 -->
     <div class="mode-selector">
       <button 
@@ -45,7 +18,7 @@
       >
         🌐 3D球体
       </button>
-    </div>
+    </div>    
   </div>
 </template>
 

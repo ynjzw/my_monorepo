@@ -1,19 +1,25 @@
-<script lang="ts" setup>
-
+<script setup>
+import personGif from '../images/person.gif'
+import worldGif from '../images/world.gif'
 </script>
 
 <template>
-  <div class="taiji">
-        <img class="person" src="../images/person.gif" @click="$router.push({'name':'person'})">
-        <img class="world" src="../images/world.gif" @click="$router.push({'name':'world'})">
+  <div class="container">
+    <div class="taiji">
+            <img class="person" :src="personGif" @click="$router.push({'name':'person'})">
+            <img class="world" :src="worldGif" @click="$router.push({'name':'world'})">
+    </div>
   </div>
 </template>
 
-
-<style  scoped>
+<style scoped>
 
 *{margin: 0;padding: 0;}
-    
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .taiji{
     width: 300px;
     height: 300px;

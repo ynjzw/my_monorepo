@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Depends,UploadFile, File, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import create_engine
@@ -25,6 +24,7 @@ import sounddevice as sd
 from vosk import Model, KaldiRecognizer
 from sqlalchemy import func
 from fastapi.responses import Response
+import pymysql
 # 创建数据表
 Base.metadata.create_all(bind=engine)
 logger=logging.getLogger(__name__)
@@ -65,6 +65,10 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 def get_file_extension(filename: str) -> str:
     """获取文件扩展名"""
     return os.path.splitext(filename)[1].lower()
+
+def get_file_name(filename: str) -> str:
+    """获取文件扩展名"""
+    return os.path.splitext(filename)[0].lower()
 
 @app.get('/')
 def hello():
@@ -269,6 +273,7 @@ async def upload_file(
             total_rows = 0
             
             if ext == '.csv':
+                load_csv(file)
                 data_list, total_rows = parse_csv_file(file_path)
             elif ext in ['.xlsx', '.xls']:
                 data_list, total_rows = parse_excel_file(file_path)
@@ -532,6 +537,49 @@ def chat_with_ollama(text: str):
         conversation.append({"role": "assistant", "content": ai_response})
         engine.stop()
 
+def load_csv(
+    file: UploadFile = File(..., description="要上传的文件")
+):
+    #打开csv文件
+    config = {'host':'127.0.0.1',
+          'port':3406,
+          'user':'jack',
+          'passwd':'',
+          'charset':'utf8mb4',
+          'local_infile':1
+          }
+
+    conn = pymysql.connect(**config)
+    cur = conn.cursor()
+    database = 'graph'
+    table_name = get_file_name(file.filename)
+    # file = open(csv_file_path, 'r',encoding='utf-8')
+    #读取csv文件第一行字段名，创建表
+    reader = file.readline()
+    reader = reader.replace('\n','')
+    b = reader.split(',')
+    colum = ''
+    for a in b:
+        colum = colum + '`' + a + '`' + ' varchar(255),'
+    colum = colum[:-1]
+    #编写sql，create_sql负责创建表，data_sql负责导入数据
+    create_sql = 'create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'
+    data_sql = "LOAD DATA LOCAL INFILE '%s' INTO TABLE %s FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n' IGNORE 1 LINES" % (file,table_name)
+    
+    #使用数据库
+    cur.execute('use %s' % database)
+    #设置编码格式
+    cur.execute('SET NAMES utf8;')
+    cur.execute('SET character_set_connection=utf8;')
+    cur.execute('SET global local_infile = 1;')
+    #执行create_sql，创建表
+    cur.execute(create_sql)
+    #执行data_sql，导入数据
+    cur.execute(data_sql)
+    conn.commit()
+    #关闭连接
+    conn.close()
+    cur.close()
 
 if __name__=='__main__':
     uvicorn.run('main:app',host='0.0.0.0',port=8000,reload=True)

@@ -61,8 +61,6 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['file-uploaded']);
-
 // 状态变量
 const fileInput = ref(null);
 const selectedFile = ref(null);
@@ -120,13 +118,11 @@ const handleUpload = async () => {
   try {
     const formData = new FormData();
     formData.append('file', selectedFile.value);
-    console.log(formData)
+    
     const response = await uploadFile(formData);
-    
-    message.value = response.data.message || '上传成功';
+    console.log(response)
+    message.value = response.data || '上传成功';
     messageType.value = 'success';
-    
-    emit('file-uploaded', response.data);
     
     // 成功后延迟清空
     setTimeout(() => {
