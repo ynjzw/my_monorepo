@@ -1,32 +1,20 @@
-from fastapi import FastAPI, Depends,UploadFile, File, HTTPException, Query
+from fastapi import FastAPI,Depends,UploadFile,File,HTTPException,Query
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker,Session
-import uvicorn,os
-import pandas as pd
-import json
-from fastapi.responses import JSONResponse
-from database import engine, Base, SessionLocal, get_db
-from models import UploadFileRecord, ImportedData,Links,family,world
-from sqlalchemy import desc
-from schemas import (
-    FileUploadResponse, FileListResponse, 
-    ImportProgressResponse, ImportedDataResponse,
-    ErrorResponse
-)
-from typing import List
-import uuid,logging
-import pyttsx3
-import os
-import queue, json
-from ollama import chat,ChatResponse
-import sounddevice as sd
-from vosk import Model, KaldiRecognizer
-from sqlalchemy import func
 from fastapi.responses import Response
-import pymysql
-# 创建数据表
-Base.metadata.create_all(bind=engine)
+from sqlalchemy import func,desc
+from sqlalchemy.orm import Session
+from vosk import Model, KaldiRecognizer
+from ollama import chat,ChatResponse
+
+from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse
+from database import get_db
+from models import UploadFileRecord, ImportedData,Links,family,world
+from typing import List
+
+import pymysql,uvicorn,os,uuid,logging,queue,json,pyttsx3,os
+import sounddevice as sd
+import pandas as pd
+
 logger=logging.getLogger(__name__)
 
 app=FastAPI(
@@ -61,6 +49,7 @@ ALLOWED_MIME_TYPES = {
 
 # 配置文件上传目录
 UPLOAD_DIR = "uploads"
+BASE_PATH='/home/jack/my_monorepo/apps/server'
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 def get_file_extension(filename: str) -> str:
     """获取文件扩展名"""
@@ -111,7 +100,7 @@ def parse_csv_file(filepath):
         df = pd.read_csv(filepath)
         records = df.to_dict('records')
         total_rows = len(df)
-        logger.info(df.head())
+        load_csv(records)
         return records,total_rows
     except Exception as e:
         print(f"CSV解析错误: {str(e)}")
@@ -128,7 +117,7 @@ def parse_excel_file(filepath):
         logger.info(f"Excel解析错误: {str(e)}")
         return [],0
 
-async def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
+def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
     """解析JSON文件"""
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
@@ -210,6 +199,53 @@ async def import_data_to_db(
         db.rollback()
         raise e
 
+def load_csv(data_list: List[dict], db: Session = Depends(get_db)):
+    for row in data_list:
+        row['name'] = 0
+    #打开csv文件
+    config = {'host':'127.0.0.1',
+        'port':3406,
+        'user':'jack',
+        'passwd':'',
+        'charset':'utf8mb4',
+        'local_infile':1
+        }
+
+    conn = pymysql.connect(**config)
+    cur = conn.cursor()
+    database = 'graph'                
+    
+    # table_name = get_file_name(file.filename)
+    file_path='sss'
+    table_name = 'xxx'
+    csv_file_path=BASE_PATH + '/' + file_path
+    data = open(csv_file_path, 'r',encoding='utf-8')
+    #读取csv文件第一行字段名，创建表
+    reader = data.readline()
+    reader = reader.replace('\n','')
+    b = reader.split(',')
+    colum = ''
+    for a in b:
+        colum = colum + '`' + a + '`' + ' varchar(255),'
+    colum = colum[:-1]
+    #编写sql，create_sql负责创建表，data_sql负责导入数据
+    create_sql = 'create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'
+    data_sql = "LOAD DATA LOCAL INFILE '%s' INTO TABLE %s FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n' IGNORE 1 LINES" % (csv_file_path,table_name)
+    
+    #使用数据库
+    cur.execute('use %s' % database)
+    #设置编码格式
+    cur.execute('SET NAMES utf8;')
+    cur.execute('SET character_set_connection=utf8;')
+    cur.execute('SET global local_infile = 1;')
+    #执行create_sql，创建表
+    cur.execute(create_sql)
+    #执行data_sql，导入数据
+    cur.execute(data_sql)
+    conn.commit()
+    #关闭连接
+    conn.close()
+    cur.close()
 
 @app.post("/upload", response_model=FileUploadResponse, responses={400: {"model": ErrorResponse}})
 async def upload_file(
@@ -247,7 +283,7 @@ async def upload_file(
         
         # 生成唯一文件名
         file_id = str(uuid.uuid4())
-        stored_filename = f"{file_id}{ext}"
+        stored_filename = file.filename
         file_path = os.path.join(UPLOAD_DIR, stored_filename)
         
         # 保存文件
@@ -274,54 +310,10 @@ async def upload_file(
             
             if ext == '.csv':
                 data_list, total_rows = parse_csv_file(file_path)
-                
-                #打开csv文件
-                config = {'host':'127.0.0.1',
-                    'port':3406,
-                    'user':'jack',
-                    'passwd':'',
-                    'charset':'utf8mb4',
-                    'local_infile':1
-                    }
-
-                conn = pymysql.connect(**config)
-                cur = conn.cursor()
-                database = 'graph'                
-                
-                table_name = get_file_name(file.filename)
-
-                data=open(file_path, 'r',encoding='utf-8')
-                #读取csv文件第一行字段名，创建表
-                reader = data.readline()
-                reader = reader.replace('\n','')
-                b = reader.split(',')
-                colum = ''
-                for a in b:
-                    colum = colum + '`' + a + '`' + ' varchar(255),'
-                colum = colum[:-1]
-                #编写sql，create_sql负责创建表，data_sql负责导入数据
-                create_sql = 'create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'
-                data_sql = "LOAD DATA LOCAL INFILE '%s' INTO TABLE %s FIELDS TERMINATED BY ',' LINES TERMINATED BY '\\r\\n' IGNORE 1 LINES" % (data,table_name)
-                
-                #使用数据库
-                cur.execute('use %s' % database)
-                #设置编码格式
-                cur.execute('SET NAMES utf8;')
-                cur.execute('SET character_set_connection=utf8;')
-                cur.execute('SET global local_infile = 1;')
-                #执行create_sql，创建表
-                cur.execute(create_sql)
-                #执行data_sql，导入数据
-                cur.execute(data_sql)
-                conn.commit()
-                #关闭连接
-                conn.close()
-                cur.close()
-
             elif ext in ['.xlsx', '.xls']:
                 data_list, total_rows = parse_excel_file(file_path)
             elif ext == '.json':
-                data_list, total_rows = await parse_json_file(file_path)
+                data_list, total_rows = parse_json_file(file_path)
             elif ext == '.txt':
                 data_list, total_rows = parse_text_file(file_path)
             

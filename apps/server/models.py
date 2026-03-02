@@ -2,7 +2,8 @@ from sqlalchemy import Column, Integer, String, DateTime, Text, Float, BigIntege
 from sqlalchemy.sql import func
 from database import Base
 import uuid
-from sqlalchemy.orm import declarative_base,Session
+from sqlalchemy.orm import declarative_base,Session,Mapped
+from typing import List
 
 # 创建对象的基类:
 Base = declarative_base()
@@ -103,3 +104,16 @@ class family(Base):
     symbol=Column(String(255))
     symbol_size=Column(Integer)
     itemStyle=Column(JSON)
+
+class nodes(Base):
+    # 表的名字:
+    __tablename__ = 'nodes'
+    # 表的结构:    
+    name = Column(String(255),primary_key=True)
+    value = Column(String(255))
+    x=Column(Integer)
+    y=Column(Integer)
+    symbol=Column(String(255))
+    symbol_size=Column(Integer)
+    itemStyle=Column(JSON)
+    # children=Column(List)
