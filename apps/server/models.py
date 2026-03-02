@@ -1,8 +1,8 @@
-from sqlalchemy import Column, Integer, String, DateTime, Text, Float, BigInteger, JSON
+from sqlalchemy import Column, Integer, String, DateTime, Text, Float, ARRAY, JSON
 from sqlalchemy.sql import func
 from database import Base
 import uuid
-from sqlalchemy.orm import declarative_base,Session,Mapped
+from sqlalchemy.orm import declarative_base,Session,Mapped,relationship
 from typing import List
 
 # 创建对象的基类:
@@ -116,4 +116,4 @@ class nodes(Base):
     symbol=Column(String(255))
     symbol_size=Column(Integer)
     itemStyle=Column(JSON)
-    # children=Column(List)
+    children=Column(ARRAY(JSON))
