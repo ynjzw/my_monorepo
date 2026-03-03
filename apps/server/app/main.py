@@ -220,20 +220,64 @@ def create_table(filename:str,db: Session = Depends(get_db)):
         conn.commit()
         
 def load_csv(data_list: List[dict], db: Session = Depends(get_db)):
-    for row in data_list:
-        file_record = nodes(
-            name=row['name'],
-            value=row['value'],
-            x=row['x'],
-            y=row['y'],
-            symbol=row['symbol'],
-            symbol_size=row['symbol_size'],
-            itemStyle=row['itemStyle'],
-            children=[]
-        )
-        db.add(file_record)
-        db.flush()
-    db.commit()
+    """
+    将CSV数据导入到nodes表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            node_data = {
+                'name': row.get('name') or row.get('Name') or row.get('NAME', ''),
+                'value': row.get('value') or row.get('Value') or row.get('VALUE', ''),
+                'x': int(row.get('x') or row.get('X') or 0),
+                'y': int(row.get('y') or row.get('Y') or 0),
+                'symbol': row.get('symbol') or row.get('Symbol') or 'circle',
+                'symbol_size': int(row.get('symbol_size') or row.get('size') or 20),
+                'itemStyle': row.get('itemStyle') or row.get('style') or {},
+                'children': row.get('children') or []
+            }
+            
+            # 验证必要字段
+            if not node_data['name']:
+                logger.warning(f"第 {index + 1} 行缺少 name 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = nodes(**node_data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
         
 @app.post("/upload", response_model=FileUploadResponse, responses={400: {"model": ErrorResponse}})
 async def upload_file(

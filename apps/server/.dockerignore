@@ -1,0 +1,34 @@
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore environment files
+.env
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+
+# Ignore uploads directory
+uploads/
+
+# Ignore test files
+tests/
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore log files
+*.log
+
+# Ignore any other files you want to exclude from the Docker image
+*.md
+*.txt
+*.csv
+*.xlsx
+*.xls
+*.json

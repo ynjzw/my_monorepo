@@ -12,13 +12,13 @@ web
 ├── nginx
 │   └── default.conf
 ├── package.json
-├── yarn.lock
 ├── vite.config.js
 ├── .env
 ├── public
-│   └── index.html
+│   ├── typescript.svg
+│   └── vite.svg
 ├── src
-│   ├── main.js
+│   ├── main.ts
 │   ├── App.vue
 │   └── components
 │       └── HelloWorld.vue
