@@ -79,9 +79,9 @@ def get_links(db:Session=Depends(get_db)):
     return links
 
 @app.get('/family')
-def get_links(db:Session=Depends(get_db)):
-    family = db.query(family).all()
-    return family
+def get_family(db:Session=Depends(get_db)):
+    data = db.query(family).all()
+    return data
 
 @app.get('/world')
 def get_world(db:Session=Depends(get_db)):
@@ -215,22 +215,25 @@ def create_table(filename:str,db: Session = Depends(get_db)):
         colum = colum + '`' + a + '`' + ' varchar(255),'
     colum = colum[:-1]
     with engine.connect() as conn:
-        conn.execute(text('create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'))
+        sql='create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'
+        conn.execute(text(sql))
+        conn.commit()
         
 def load_csv(data_list: List[dict], db: Session = Depends(get_db)):
     for row in data_list:
         file_record = nodes(
-            name=row.name,
-            value=row.value,
-            x=row.x,
-            y=row.y,
-            symbol=row.symbol,
-            symbol_size=row.symbol_size,
-            itemStyle=row.itemStyle,
+            name=row['name'],
+            value=row['value'],
+            x=row['x'],
+            y=row['y'],
+            symbol=row['symbol'],
+            symbol_size=row['symbol_size'],
+            itemStyle=row['itemStyle'],
             children=[]
         )
         db.add(file_record)
         db.flush()
+    db.commit()
         
 @app.post("/upload", response_model=FileUploadResponse, responses={400: {"model": ErrorResponse}})
 async def upload_file(

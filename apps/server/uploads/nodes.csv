@@ -1,5 +1,0 @@
-name,value,x,y,is_fixed,category,symbol,symbol_size,label_opts,itemStyle,id,children
-阿莫西林,100,100,100,,,image://http://localhost:8000/image/icon_gear.png,30,,,,
-米诺地尔,30,200,100,,,image://http://localhost:8000/image/icon_gear.png,30,,,,
-阿司匹林,40,300,100,,,image://http://localhost:8000/image/icon_gear.png,30,,,,
-青霉素,80,400,100,,,image://http://localhost:8000/image/icon_gear.png,30,,,,

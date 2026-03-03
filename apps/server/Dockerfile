@@ -1,0 +1,26 @@
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the requirements file
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY ./apps/server ./apps/server
+COPY .env ./
+COPY docker-compose.yml ./
+COPY README.md ./
+COPY scripts/start.sh ./scripts/start.sh
+
+# Make the start script executable
+RUN chmod +x ./scripts/start.sh
+
+# Expose the port the app runs on
+EXPOSE 8000
+
+# Command to run the application
+CMD ["./scripts/start.sh"]
