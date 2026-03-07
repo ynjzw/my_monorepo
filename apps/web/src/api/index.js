@@ -75,3 +75,19 @@ export function speechtotext(){
         method:'get'
     })    
 }
+
+const url8='/base_nodes'
+export function get_base_nodes(){
+    return request({
+        url:url8,
+        method:'get'
+    })    
+}
+
+const url9='/maslow_needs'
+export function get_maslow_needs(){
+    return request({
+        url:url9,
+        method:'get'
+    })    
+}

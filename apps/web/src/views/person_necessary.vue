@@ -6,6 +6,7 @@
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
+import { get_base_nodes } from '../api/index';
 // 将初始化逻辑包装在 onMounted 中
 onMounted(() => {
   var chartDom = document.getElementById('main');
