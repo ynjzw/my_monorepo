@@ -5,29 +5,28 @@ This project is a FastAPI application designed for easy file import and data man
 ## Project Structure
 
 ```
-server
+my-fastapi-server
 ├── Dockerfile
 ├── .dockerignore
 ├── requirements.txt
 ├── .env
 ├── docker-compose.yml
 ├── README.md
-├── app
-│   ├── __pycache__
-│   ├── image
-│   ├── main.py
-│   ├── models.py
-│   ├── schemas.py
-│   ├── database.py
-│   ├── routes
-│   │   └── __init__.py
-│   └── utils
-│       └── __init__.py
-│   
-│── scripts
-│   └── start.sh
-│── tests
+├── apps
+│   └── server
+│       ├── main.py
+│       ├── models.py
+│       ├── schemas.py
+│       ├── database.py
+│       ├── __init__.py
+│       ├── routes
+│       │   └── __init__.py
+│       └── utils
+│           └── __init__.py
+├── tests
 │   └── test_main.py
+└── scripts
+    └── start.sh
 ```
 
 ## Requirements
@@ -45,13 +44,13 @@ To build and run the application using Docker, follow these steps:
 1. Build the Docker image:
 
    ```
-   docker build -t server .
+   docker build -t my-fastapi-server .
    ```
 
 2. Run the Docker container:
 
    ```
-   docker run -d -p 8000:8000 server
+   docker run -d -p 8000:8000 my-fastapi-server
    ```
 
 Alternatively, you can use Docker Compose to manage the application:
@@ -69,7 +68,7 @@ Create a `.env` file in the root directory to store your environment variables, 
 To run the tests, execute the following command:
 
 ```
-pytest app/tests/test_main.py
+pytest tests/test_main.py
 ```
 
 ## Usage
