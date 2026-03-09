@@ -6,11 +6,12 @@
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
-import { get_base_nodes } from '../api/index';
+import { get_base_nodes,get_maslow_needs } from '../api/index';
 // 将初始化逻辑包装在 onMounted 中
-onMounted(() => {
+onMounted(async() => {
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
+  const maslow_needs = await get_maslow_needs();
   var option;
   option = {
     title: {
@@ -25,13 +26,7 @@ onMounted(() => {
         name: '马斯洛需求层次理论',
         type: 'funnel',
         sort: 'ascending',
-        data: [
-          { value: 5, name: '自我实现需求' },
-          { value: 15, name: '尊重需求' },
-          { value: 20, name: '社交需求' },
-          { value: 25, name: '安全需求' },
-          { value: 35, name: '生理需求' }
-        ]
+        data: maslow_needs
       }
     ]
   };

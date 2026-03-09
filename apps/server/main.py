@@ -8,7 +8,7 @@ from ollama import chat,ChatResponse
 
 from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse
 from database import get_db,engine
-from models import Nodes,UploadFileRecord, ImportedData,Links,family,world
+from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
 from typing import List
 
 import pymysql,uvicorn,os,uuid,logging,queue,json,pyttsx3,os
@@ -17,11 +17,7 @@ import pandas as pd
 
 logger=logging.getLogger(__name__)
 
-app=FastAPI(
-    title="Simple File Import API",
-    description="简单的文件数据导入数据库接口",
-    version="1.0.0"
-)
+app=FastAPI()
 
 origins = [
     "http://localhost:5173",    # Vite 开发服务器
@@ -88,10 +84,20 @@ def get_maslow_needs(db:Session=Depends(get_db)):
     data = db.query(Nodes).filter(Nodes.type=='马斯洛需求').all()
     return data
 
-@app.get('/links')
-def get_links(db:Session=Depends(get_db)):
-    links = db.query(Links).all()
-    return links
+@app.get('/old_structure')
+def get_old_structure(db:Session=Depends(get_db)):
+    data = db.query(Structure).filter(Structure.type=='old').all()
+    return data
+
+@app.get('/new_structure')
+def get_new_structure(db:Session=Depends(get_db)):
+    data = db.query(Structure).filter(Structure.type=='new').all()
+    return data
+
+@app.get('/link')
+def get_link(db:Session=Depends(get_db)):
+    link = db.query(Link).all()
+    return link
 
 @app.get('/family')
 def get_family(db:Session=Depends(get_db)):
@@ -109,14 +115,21 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-def parse_csv_file(filepath,db:Session):
+def parse_csv_file(table_name,filepath,db:Session):
     """解析CSV文件"""
     try:
         logger.info("CSV解析开始")
         df = pd.read_csv(filepath)
         records = df.to_dict('records')
         total_rows = len(df)
-        load_csv(records,db)
+
+        if(table_name=='nodes'):
+            load_nodes_csv(records,db)
+        if(table_name=='structure'):
+            load_structure_csv(records,db)
+        if(table_name=='link'):
+            load_link_csv(records,db)
+
         logger.info("CSV解析成功")
         return records,total_rows
     except Exception as e:
@@ -246,7 +259,7 @@ def create_table(filename:str):
         logger.error(f"创建表失败: {str(e)}")
         raise e
         
-def load_csv(data_list: List[dict], db: Session):
+def load_nodes_csv(data_list: List[dict], db: Session):
     """
     将CSV数据导入到nodes表
     Args:
@@ -265,11 +278,11 @@ def load_csv(data_list: List[dict], db: Session):
     for index,row in enumerate(data_list):
         try:
             # 提取数据，使用默认值处理缺失字段
-            node_data = {
+            data = {
                 'name': row.get('name', ''),
                 'value': row.get('value', ''),
                 'x': int(row.get('x') or (index * 100 + 100)),
-                'y': int(row.get('y') or (index / 7 * 100 + 100)),
+                'y': int(row.get('y') or 100),
                 'symbol': row.get('symbol') or 'circle',
                 'symbol_size': int(row.get('symbol_size') or 20),
                 'children': json.loads(row.get('children') or '[]'),
@@ -277,13 +290,129 @@ def load_csv(data_list: List[dict], db: Session):
             }
             
             # 验证必要字段
-            if not node_data['name']:
+            if not data['name']:
                 logger.warning(f"第 {index + 1} 行缺少 name 字段，跳过")
                 error_count += 1
                 continue
             
             # 创建记录
-            file_record = Nodes(**node_data)
+            file_record = Nodes(**data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
+
+def load_structure_csv(data_list: List[dict], db: Session):
+    """
+    将CSV数据导入到structure表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            data = {
+                'name': row.get('name', ''),
+                'value': row.get('value', ''),
+                'x': int(row.get('x') or (index * 100 + 100)),
+                'y': int(row.get('y') or 100),
+                'symbol': row.get('symbol') or 'circle',
+                'symbol_size': int(row.get('symbol_size') or 20),
+                'children': json.loads(row.get('children') or '[]'),
+                'type':row.get('type', '')
+            }
+            
+            # 验证必要字段
+            if not data['name']:
+                logger.warning(f"第 {index + 1} 行缺少 name 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = Structure(**data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
+
+def load_link_csv(data_list: List[dict], db: Session):
+    """
+    将CSV数据导入到link表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            data = {
+                'source': row.get('source', ''),
+                'value': row.get('value', ''),
+                'symbol': row.get('symbol') or 'circle',
+                'target':row.get('target', '')
+            }
+            
+            # 验证必要字段
+            if not data['source']:
+                logger.warning(f"第 {index + 1} 行缺少 source 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = Link(**data)
             db.add(file_record)
             success_count += 1
             
@@ -369,7 +498,8 @@ async def upload_file(
             
             if ext == '.csv':
                 create_table(file.filename)
-                data_list, total_rows = parse_csv_file(file_path,db)
+                table_name=get_file_name(file.filename)
+                data_list, total_rows = parse_csv_file(table_name,file_path,db)
             elif ext in ['.xlsx', '.xls']:
                 data_list, total_rows = parse_excel_file(file_path)
             elif ext == '.json':

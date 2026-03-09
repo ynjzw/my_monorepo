@@ -25,8 +25,8 @@ export function getNodes(){
     })    
 }
 
-const url2='/links'
-export function getLinks(){
+const url2='/link'
+export function getLink(){
     // return request.get('http://localhost:8000/books')
     return request({
         url:url2,

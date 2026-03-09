@@ -11,6 +11,8 @@ import internet from '../views/internet.vue'
 import ai_face from '../views/ai_face.vue'
 import circle from '../views/circle.vue'
 import person_necessary from '../views/person_necessary.vue'
+import timeline from '../views/timeline.vue'
+import timeaxis from '../views/timeaxis.vue'
 import main from '../views/main.vue'
 // 定义路由表
 const routes = [
@@ -25,6 +27,8 @@ const routes = [
   {name: 'internet',path:'/internet',component:internet},
   {name: 'ai_face',path:'/ai_face',component:ai_face},
   {name: 'circle',path:'/circle',component:circle},
+  {name: 'timeline',path:'/timeline',component:timeline},
+  {name: 'timeaxis',path:'/timeaxis',component:timeaxis},
   {name: 'person_necessary',path:'/person_necessary',component:person_necessary}
 ]
 

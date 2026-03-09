@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { getFamily, getLinks, getWorld } from '@/api';
+import { getFamily, getLink, getWorld } from '@/api';
 import * as echarts from 'echarts';
 import level from '@/components/level.vue';
 
@@ -27,7 +27,7 @@ const loadData = async () => {
     const [familyData, worldData,linkData] = await Promise.all([
       getFamily(),
       getWorld(),
-      getLinks()
+      getLink()
     ])
     
     node.value = familyData
