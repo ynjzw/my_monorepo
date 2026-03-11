@@ -91,3 +91,19 @@ export function get_maslow_needs(){
         method:'get'
     })    
 }
+
+const old_structure_url='/old_structure'
+export function get_old_structure(){
+    return request({
+        url:old_structure_url,
+        method:'get'
+    })    
+}
+
+const new_structure_url='/new_structure'
+export function get_new_structure(){
+    return request({
+        url:new_structure_url,
+        method:'get'
+    })    
+}

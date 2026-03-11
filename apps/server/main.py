@@ -401,7 +401,7 @@ def load_link_csv(data_list: List[dict], db: Session):
             data = {
                 'source': row.get('source', ''),
                 'value': row.get('value', ''),
-                'symbol': row.get('symbol') or 'circle',
+                'symbol': row.get('symbol') or 'arrow',
                 'target':row.get('target', '')
             }
             

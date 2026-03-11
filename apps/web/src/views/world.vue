@@ -5,7 +5,7 @@
 <script setup >
 import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
-import {getWorld} from '@/api';
+import {get_base_nodes} from '@/api';
 import { useRouter } from 'vue-router';
 
 // 将初始化逻辑包装在 onMounted 中
@@ -13,30 +13,29 @@ onMounted(async() => {
   const router=useRouter()
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
-  const world = await getWorld();
+  const base_nodes = await get_base_nodes();
   // console.log(world)
   const option = {
     series: [
                   {
                     type: 'graph',
-                    layout: 'none',
-                    symbolSize: 50,
+                    layout: 'force',
                     roam: true,
                     label: {
                         show: true
                     },
-                    edgeSymbol: ['circle', 'arrow'],
-                    edgeSymbolSize: [4, 10],
-                    edgeLabel: {
-                        fontSize: 20
-                    },
-                    data: world,
+                    // edgeSymbol: ['circle', 'arrow'],
+                    // edgeSymbolSize: [4, 10],
+                    // edgeLabel: {
+                    //     fontSize: 20
+                    // },
+                    data: base_nodes,
                     links: [],
                     // links: links,
-                    lineStyle: {
-                        opacity: 0.9,
-                        width: 2,
-                        curveness: 0
+                    force: {
+                      initLayout: 'circular',
+                      gravity: 0.2,
+                      repulsion: 30
                     }
                   }
             ]
