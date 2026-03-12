@@ -1,22 +1,25 @@
 FROM node:16
 
-# Set the working directory
+# 设置工作目录
 WORKDIR /app
 
-# Copy package.json and yarn.lock
-COPY package.json yarn.lock ./
+# 复制依赖文件
+COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN yarn install
+# 安装 pnpm
+RUN npm install -g pnpm@8.15.4
 
-# Copy the rest of the application code
+# 安装依赖
+RUN pnpm install --frozen-lockfile
+
+# 复制应用代码（排除 node_modules）
 COPY . .
 
-# Build the application
-RUN yarn build
+# 构建应用
+RUN pnpm build
 
-# Expose the port the app runs on
+# 暴露端口
 EXPOSE 3000
 
-# Command to run the application
-CMD ["yarn", "serve"]
+# 启动命令
+CMD ["pnpm", "preview"]

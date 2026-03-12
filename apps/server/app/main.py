@@ -1,4 +1,5 @@
 from fastapi import FastAPI,Depends,UploadFile,File,HTTPException,Query
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from sqlalchemy import func,desc,text
@@ -8,7 +9,7 @@ from ollama import chat,ChatResponse
 
 from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse
 from database import get_db,engine
-from models import nodes,UploadFileRecord, ImportedData,Links,family,world
+from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
 from typing import List
 
 import pymysql,uvicorn,os,uuid,logging,queue,json,pyttsx3,os
@@ -17,11 +18,7 @@ import pandas as pd
 
 logger=logging.getLogger(__name__)
 
-app=FastAPI(
-    title="Simple File Import API",
-    description="简单的文件数据导入数据库接口",
-    version="1.0.0"
-)
+app=FastAPI()
 
 origins = [
     "http://localhost:5173",    # Vite 开发服务器
@@ -73,10 +70,117 @@ def get_datas(db:Session=Depends(get_db)):
     data = db.query(ImportedData).all()
     return [item.to_dict() for item in data]
 
-@app.get('/links')
-def get_links(db:Session=Depends(get_db)):
-    links = db.query(Links).all()
-    return links
+@app.get('/nodes')
+def get_nodes(db:Session=Depends(get_db)):
+    nodes = db.query(Nodes).all()
+    return nodes
+
+@app.get('/base_nodes')
+def get_base_nodes(db:Session=Depends(get_db)):
+    data = db.query(Nodes).filter(Nodes.type=='基础需求').all()
+    return data
+
+# 评论筛选规则请求体
+class FilterRule(BaseModel):
+    rule: str  # 规则描述，如“包含关键词xxx”或“长度大于10”
+    comment: str  # 评论内容
+
+def apply_rule(rule: str, comment: str) -> bool:
+    """
+    简单规则解析：
+    - 包含关键词xxx
+    - 长度大于N
+    - 长度小于N
+    后续可扩展
+    """
+    rule = rule.strip()
+    # 检测无意义文字
+    meaningless_words = ["哈哈哈", "啦啦啦", "啊啊啊", "123456", "abcdef"]
+    if rule == "无意义文字":
+        # 1. 检查是否为常见无意义词
+        for w in meaningless_words:
+            if w in comment:
+                return False
+        # 2. 检查是否为单一字符重复
+        if len(set(comment)) == 1 and len(comment) > 3:
+            return False
+        # 3. 检查是否为同一词语重复
+        import re
+        match = re.match(r"^(\w+)(\\1){2,}$", comment)
+        if match:
+            return False
+        return True
+    elif rule == "重复文字":
+        # 检查是否为同一词语重复
+        import re
+        match = re.match(r"^(\w+)(\\1){2,}$", comment)
+        if match:
+            return False
+        # 检查是否为单一字符重复
+        if len(set(comment)) == 1 and len(comment) > 3:
+            return False
+        return True
+    elif rule.startswith('包含关键词'):
+        keyword = rule.replace('包含关键词', '').strip()
+        return keyword in comment
+    elif rule.startswith('长度大于'):
+        try:
+            n = int(rule.replace('长度大于', '').strip())
+            return len(comment) > n
+        except:
+            return False
+    elif rule.startswith('长度小于'):
+        try:
+            n = int(rule.replace('长度小于', '').strip())
+            return len(comment) < n
+        except:
+            return False
+    else:
+        # 默认通过
+        return True
+
+@app.post('/filter_comment')
+def filter_comment(rule_data: FilterRule):
+    """
+    根据规则描述过滤评论，返回是否通过筛选
+    """
+    result = apply_rule(rule_data.rule, rule_data.comment)
+    return {"passed": result}
+
+@app.get('/maslow_needs')
+def get_maslow_needs(db:Session=Depends(get_db)):
+    data = db.query(Nodes).filter(Nodes.type=='马斯洛需求').all()
+    return data
+
+@app.get('/old_structure')
+def get_old_structure(db:Session=Depends(get_db)):
+    data = db.query(Structure).filter(Structure.type=='old').all()
+    return data
+
+@app.get('/new_structure')
+def get_new_structure(db:Session=Depends(get_db)):
+    data = db.query(Structure).filter(Structure.type=='new').all()
+    return data
+
+# AI评论筛选接口
+@app.post('/ai_filter_comment')
+def ai_filter_comment(rule_data: FilterRule):
+    """
+    使用AI模型，根据规则过滤评论，返回是否通过筛选
+    """
+    prompt = f"你是一个评论审核助手。请根据以下规则判断评论是否通过筛选。\n规则：{rule_data.rule}\n评论：{rule_data.comment}\n只回答True或False，不要解释。"
+    try:
+        response: ChatResponse = chat(messages=[{"role": "user", "content": prompt}])
+        ai_result = response.message.content.strip()
+        passed = ai_result.lower() == "true"
+    except Exception as e:
+        return {"error": str(e), "passed": False}
+    return {"passed": passed}
+
+@app.get('/link')
+def get_link(db:Session=Depends(get_db)):
+    link = db.query(Link).all()
+    return link
 
 @app.get('/family')
 def get_family(db:Session=Depends(get_db)):
@@ -88,19 +192,29 @@ def get_world(db:Session=Depends(get_db)):
     data = db.query(world).all()
     return data
 
+def deduce_situation(data):
+    pass
 
 def allowed_file(filename):
     """检查文件扩展名是否允许"""
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-def parse_csv_file(filepath):
+def parse_csv_file(table_name,filepath,db:Session):
     """解析CSV文件"""
     try:
+        logger.info("CSV解析开始")
         df = pd.read_csv(filepath)
         records = df.to_dict('records')
         total_rows = len(df)
-        load_csv(records)
+
+        if(table_name=='nodes'):
+            load_nodes_csv(records,db)
+        if(table_name=='structure'):
+            load_structure_csv(records,db)
+        if(table_name=='link'):
+            load_link_csv(records,db)
+
         logger.info("CSV解析成功")
         return records,total_rows
     except Exception as e:
@@ -194,46 +308,217 @@ async def import_data_to_db(
             if imported_count % 100 == 0:
                 db.flush()
         
-        db.commit()
         return imported_count
         
     except Exception as e:
         db.rollback()
         raise e
 
-def create_table(filename:str,db: Session = Depends(get_db)):
+def create_table(filename:str):
     table_name=os.path.splitext(filename)[0].lower()
     file_path=os.path.join(UPLOAD_DIR, filename)
-    csv_file_path=BASE_PATH + '/' + file_path
-    data = open(csv_file_path, 'r',encoding='utf-8')
-    #读取csv文件第一行字段名，创建表
-    reader = data.readline()
-    reader = reader.replace('\n','')
-    b = reader.split(',')
-    colum = ''
-    for a in b:
-        colum = colum + '`' + a + '`' + ' varchar(255),'
-    colum = colum[:-1]
-    with engine.connect() as conn:
-        sql='create table if not exists ' + table_name + ' ' + '(' + colum + ')' + ' DEFAULT CHARSET=utf8'
-        conn.execute(text(sql))
-        conn.commit()
+    csv_file_path=os.path.join(BASE_PATH, file_path)
+    try:
+        # 读取CSV文件第一行获取字段名
+        with open(csv_file_path, 'r', encoding='utf-8') as f:
+            header = f.readline().strip()
         
-def load_csv(data_list: List[dict], db: Session = Depends(get_db)):
-    for row in data_list:
-        file_record = nodes(
-            name=row['name'],
-            value=row['value'],
-            x=row['x'],
-            y=row['y'],
-            symbol=row['symbol'],
-            symbol_size=row['symbol_size'],
-            itemStyle=row['itemStyle'],
-            children=[]
-        )
-        db.add(file_record)
-        db.flush()
-    db.commit()
+        fields = header.split(',')
+        columns = []
+        for field in fields:
+            # 清理字段名（移除引号、空格等）
+            clean_field = field.strip().strip('"').strip("'")
+            columns.append(f"`{clean_field}` VARCHAR(255)")
+        
+        columns_sql = ', '.join(columns)
+        
+        # 使用 engine 执行SQL
+        with engine.connect() as conn:
+            sql = f"CREATE TABLE IF NOT EXISTS `{table_name}` ({columns_sql}) DEFAULT CHARSET=utf8mb4"
+            conn.execute(text(sql))
+            conn.commit()
+            
+        logger.info(f"表 {table_name} 创建成功")
+        
+    except Exception as e:
+        logger.error(f"创建表失败: {str(e)}")
+        raise e
+        
+def load_nodes_csv(data_list: List[dict], db: Session):
+    """
+    将CSV数据导入到nodes表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            data = {
+                'name': row.get('name', ''),
+                'value': row.get('value', ''),
+                'x': int(row.get('x') or (index * 100 + 100)),
+                'y': int(row.get('y') or 100),
+                'symbol': row.get('symbol') or 'circle',
+                'symbol_size': int(row.get('symbol_size') or 20),
+                'children': json.loads(row.get('children') or '[]'),
+                'type':row.get('type', '')
+            }
+            
+            # 验证必要字段
+            if not data['name']:
+                logger.warning(f"第 {index + 1} 行缺少 name 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = Nodes(**data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
+
+def load_structure_csv(data_list: List[dict], db: Session):
+    """
+    将CSV数据导入到structure表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            data = {
+                'name': row.get('name', ''),
+                'value': row.get('value', ''),
+                'x': int(row.get('x') or (index * 100 + 100)),
+                'y': int(row.get('y') or 100),
+                'symbol': row.get('symbol') or 'circle',
+                'symbol_size': int(row.get('symbol_size') or 20),
+                'children': json.loads(row.get('children') or '[]'),
+                'type':row.get('type', '')
+            }
+            
+            # 验证必要字段
+            if not data['name']:
+                logger.warning(f"第 {index + 1} 行缺少 name 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = Structure(**data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
+
+def load_link_csv(data_list: List[dict], db: Session):
+    """
+    将CSV数据导入到link表
+    Args:
+        data_list: 字典列表，每个字典包含name, value, x, y等字段
+        db: 数据库会话
+    Returns:
+        int: 成功导入的记录数
+    """
+    if not data_list:
+        logger.warning("没有数据需要导入")
+        return 0
+    
+    success_count = 0
+    error_count = 0
+
+    for index,row in enumerate(data_list):
+        try:
+            # 提取数据，使用默认值处理缺失字段
+            data = {
+                'source': row.get('source', ''),
+                'value': row.get('value', ''),
+                'symbol': row.get('symbol') or 'arrow',
+                'target':row.get('target', '')
+            }
+            
+            # 验证必要字段
+            if not data['source']:
+                logger.warning(f"第 {index + 1} 行缺少 source 字段，跳过")
+                error_count += 1
+                continue
+            
+            # 创建记录
+            file_record = Link(**data)
+            db.add(file_record)
+            success_count += 1
+            
+            # 每100条批量提交一次
+            if success_count % 100 == 0:
+                db.flush()
+                logger.info(f"已处理 {success_count} 条记录")
+                
+        except Exception as e:
+            error_count += 1
+            logger.error(f"处理第 {index + 1} 行数据失败: {e}")
+            logger.debug(f"问题数据: {row}")
+            continue
+    try:
+        db.commit()
+        logger.info(f"✅ 导入完成: 成功 {success_count} 条, 失败 {error_count} 条")
+        return success_count
+    except Exception as e:
+        db.rollback()
+        logger.error(f"❌ 提交事务失败: {e}")
+        raise
         
 @app.post("/upload", response_model=FileUploadResponse, responses={400: {"model": ErrorResponse}})
 async def upload_file(
@@ -297,8 +582,9 @@ async def upload_file(
             total_rows = 0
             
             if ext == '.csv':
-                create_table(file.filename,file_path)
-                data_list, total_rows = parse_csv_file(file_path)
+                create_table(file.filename)
+                table_name=get_file_name(file.filename)
+                data_list, total_rows = parse_csv_file(table_name,file_path,db)
             elif ext in ['.xlsx', '.xls']:
                 data_list, total_rows = parse_excel_file(file_path)
             elif ext == '.json':
@@ -323,6 +609,7 @@ async def upload_file(
         except Exception as e:
             file_record.status = "failed"
             file_record.message = str(e)
+            db.rollback()
             db.commit()
             raise HTTPException(status_code=500, detail=f"数据处理失败: {str(e)}")
         

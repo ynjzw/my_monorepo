@@ -72,9 +72,9 @@ class ImportedData(Base):
         }
     
 
-class Links(Base):
+class Link(Base):
     # 表的名字:
-    __tablename__ = 'links'
+    __tablename__ = 'link'
     # 表的结构:    
     source = Column(String(255),primary_key=True)
     target = Column(String(255))
@@ -105,7 +105,7 @@ class family(Base):
     symbol_size=Column(Integer)
     itemStyle=Column(JSON)
 
-class nodes(Base):
+class Nodes(Base):
     # 表的名字:
     __tablename__ = 'nodes'
     # 表的结构:    
@@ -115,5 +115,18 @@ class nodes(Base):
     y=Column(Integer)
     symbol=Column(String(255))
     symbol_size=Column(Integer)
-    itemStyle=Column(JSON)
-    children=Column(ARRAY(JSON))
+    children=Column(JSON,default=[])
+    type = Column(String(255))
+
+class Structure(Base):
+    # 表的名字:
+    __tablename__ = 'structure'
+    # 表的结构:    
+    name = Column(String(255),primary_key=True)
+    value = Column(String(255))
+    x=Column(Integer)
+    y=Column(Integer)
+    symbol=Column(String(255))
+    symbol_size=Column(Integer)
+    children=Column(JSON,default=[])
+    type = Column(String(255))
