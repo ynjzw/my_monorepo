@@ -12,7 +12,7 @@ from database import get_db,engine
 from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
 from typing import List
 
-import pymysql,uvicorn,os,uuid,logging,queue,json,pyttsx3,os
+import uvicorn,os,uuid,logging,queue,json,pyttsx3
 import sounddevice as sd
 import pandas as pd
 

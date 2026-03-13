@@ -1,16 +1,29 @@
 services:
-  web:
+  server:
     build:
-      context: .
+      context: ./apps/server
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
     volumes:
-      - ./apps/server:/app/apps/server
+      - ./apps/server/app:/app/app
     env_file:
-      - .env
+      - ./apps/server/.env
     depends_on:
       - db
+
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api
+    volumes:
+      - ./apps/web:/app
+    depends_on:
+      - server
 
   db:
     image: mysql:5.7

@@ -10,11 +10,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code
-COPY ./apps/server ./apps/server
-COPY .env ./
-COPY docker-compose.yml ./
-COPY README.md ./
-COPY scripts/start.sh ./scripts/start.sh
+COPY . .
 
 # Make the start script executable
 RUN chmod +x ./scripts/start.sh
