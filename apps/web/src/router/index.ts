@@ -8,7 +8,7 @@ import internation from '../views/internation.vue'
 import UploadPage from '../views/UploadPage.vue'
 import father from '../views/father.vue'
 import internet from '../views/internet.vue'
-import ai_face from '../views/ai_face.vue'
+import main from '../views/main.vue'
 import circle from '../views/circle.vue'
 import person_necessary from '../views/person_necessary.vue'
 import timeline from '../views/timeline.vue'
@@ -25,7 +25,7 @@ const routes = [
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
   {name: 'father',path:'/father',component:father},
   {name: 'internet',path:'/internet',component:internet},
-  {name: 'ai_face',path:'/ai_face',component:ai_face},
+  {name: 'main',path:'/main',component:main},
   {name: 'circle',path:'/circle',component:circle},
   {name: 'timeline',path:'/timeline',component:timeline},
   {name: 'timeaxis',path:'/timeaxis',component:timeaxis},

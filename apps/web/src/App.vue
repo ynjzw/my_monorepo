@@ -4,7 +4,6 @@ import Main from './views/main.vue';
 
 <template>
   <router-view />
-  <Main />
 </template>
 
 <style scoped>

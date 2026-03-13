@@ -1,8 +1,9 @@
 <template>
   <div class="voice-visualizer">   
+    <canvas ref="canvasRef" width="400" height="400"></canvas>
     <div class="button-group">
       <button 
-        @click="startMicrophoneAndNavigate" 
+        @click="startMicrophone" 
         :disabled="isActive"
         class="btn start-btn"
       >
@@ -41,37 +42,42 @@ let bufferLength = 0
 let animationFrame = null
 let mediaStream = null
 // 启动麦克风并导航到 ai_face
-const startMicrophoneAndNavigate = async () => {
-  try {
-    // 先启动麦克风
-    await startMicrophone()
+// const startMicrophoneAndNavigate = async () => {
+//   try {
+//     // 先启动麦克风
+//     await startMicrophone()
     
     // 麦克风启动成功后，显示提示信息
-    console.log('麦克风启动成功，准备跳转到AI对话界面...')
+    // console.log('麦克风启动成功，准备跳转到AI对话界面...')
     
     // 短暂延迟，让用户看到提示
-    setTimeout(() => {
-      // 导航到 ai_face 视图
-      router.push({ name: 'ai_face' })
-    }, 1500) // 1.5秒后跳转
+    // setTimeout(() => {
+    //   // 导航到 ai_face 视图
+    //   router.push({ name: 'ai_face' })
+    // }, 1500) // 1.5秒后跳转
     
-  } catch (error) {
-    console.error('启动失败:', error)
-    // 如果启动失败，重置状态
-    isActive.value = false
-  }
-}
+//   } catch (error) {
+//     console.error('启动失败:', error)
+//     // 如果启动失败，重置状态
+//     isActive.value = false
+//   }
+// }
 // 启动麦克风
 const startMicrophone = async () => {
   try {
     mediaStream = await navigator.mediaDevices.getUserMedia({ audio: true })
-    
+    const audioTracks = mediaStream.getAudioTracks();
     audioContext = new (window.AudioContext || window.webkitAudioContext)()
     
     if (audioContext.state === 'suspended') {
       await audioContext.resume()
       
     }    
+    if (audioTracks.length > 0 && audioTracks[0].readyState === 'live') {
+          console.log('✅ 麦克风连接成功');
+        } else {
+          console.log('❌ 麦克风未连接');
+        }
     
     analyser = audioContext.createAnalyser()
     analyser.fftSize = 512 // 增加FFT大小以获得更精细的数据
@@ -82,8 +88,8 @@ const startMicrophone = async () => {
     
     bufferLength = analyser.frequencyBinCount
     dataArray = new Uint8Array(bufferLength)
-    text.value=await speechtotext()
-    console.log(text.value)
+    // text.value=await speechtotext()
+    // console.log(text.value)
     isActive.value = true
     volumeLevel.value = 0
     
