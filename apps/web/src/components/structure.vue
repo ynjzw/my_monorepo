@@ -93,9 +93,10 @@ const updateChartOptions = async () => {
     type: 'graph',
     layout: props.layout,
     roam: true,
+    symbolSize: 20,
     label: {
-      show: true,
-      position: 'right',
+      show: false,
+      position: 'bottom',
       fontSize: 12
     },
     edgeLabel: {
@@ -104,29 +105,29 @@ const updateChartOptions = async () => {
     data: props.data.map(item => ({
       ...item,
       // 确保每个节点有名称
-      name: item.name || item.id || '未知'
+      // name: item.name || item.id || '未知'
     })),
     links: props.link.map(link => ({
       ...link,
       // 确保连接有源和目标
-      source: link.source || link.from,
-      target: link.target || link.to
+      // source: link.source || link.from,
+      // target: link.target || link.to
     })),
     force: {
       initLayout: 'circular',
-      gravity: 0.2,
-      repulsion: 100,
-      edgeLength: 100,
+      gravity: 0.1,
+      repulsion: 2000,
+      edgeLength: 1000,
       layoutAnimation: true
     },
     lineStyle: {
-      color: 'source',
+      color: 'blue',
       curveness: 0.3,
       width: 2
     },
-    emphasis: {
-      focus: 'adjacency'
-    }
+    // emphasis: {
+    //   focus: 'adjacency'
+    // }
   })
   
   // 如果数据为空，显示空状态
@@ -240,6 +241,7 @@ defineExpose({
   width: 100%;
   height: 100%;
   min-height: 400px; /* 设置最小高度 */
+  background-color: aliceblue;
 }
 
 .loading, .error {

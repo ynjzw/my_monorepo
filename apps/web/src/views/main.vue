@@ -74,9 +74,9 @@ const startMicrophone = async () => {
       
     }    
     if (audioTracks.length > 0 && audioTracks[0].readyState === 'live') {
-          console.log('✅ 麦克风连接成功');
+          alert('✅ 麦克风连接成功');
         } else {
-          console.log('❌ 麦克风未连接');
+          alert('❌ 麦克风未连接');
         }
     
     analyser = audioContext.createAnalyser()

@@ -10,10 +10,9 @@ import father from '../views/father.vue'
 import internet from '../views/internet.vue'
 import main from '../views/main.vue'
 import circle from '../views/circle.vue'
-import person_necessary from '../views/person_necessary.vue'
 import timeline from '../views/timeline.vue'
 import timeaxis from '../views/timeaxis.vue'
-import main from '../views/main.vue'
+import skill_resource_wish from '../views/skill_resource_wish.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -29,7 +28,7 @@ const routes = [
   {name: 'circle',path:'/circle',component:circle},
   {name: 'timeline',path:'/timeline',component:timeline},
   {name: 'timeaxis',path:'/timeaxis',component:timeaxis},
-  {name: 'person_necessary',path:'/person_necessary',component:person_necessary}
+  {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish}
 ]
 
 // 创建路由实例

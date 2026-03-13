@@ -17,34 +17,39 @@ onMounted(async() => {
   // console.log(world)
   const option = {
     series: [
-                  {
-                    type: 'graph',
-                    layout: 'force',
-                    roam: true,
-                    label: {
-                        show: true
-                    },
-                    // edgeSymbol: ['circle', 'arrow'],
-                    // edgeSymbolSize: [4, 10],
-                    // edgeLabel: {
-                    //     fontSize: 20
-                    // },
-                    data: base_nodes,
-                    links: [],
-                    // links: links,
-                    force: {
-                      initLayout: 'circular',
-                      gravity: 0.2,
-                      repulsion: 30
-                    }
+                {
+                  type: 'graph',
+                  layout: 'force',
+                  roam: true,
+                  symbolSize: 20,
+                  label: {
+                    show: true,
+                    position: 'bottom',
+                    fontSize: 12
+                  },
+                  // edgeSymbol: ['circle', 'arrow'],
+                  // edgeSymbolSize: [4, 10],
+                  // edgeLabel: {
+                  //     fontSize: 20
+                  // },
+                  data: base_nodes,
+                  links: [],
+                  // links: links,
+                  force: {
+                    initLayout: 'circular',
+                    gravity: 0.5,
+                    repulsion: 1000,
+                    edgeLength: 100,
+                    layoutAnimation: true
                   }
+                }
             ]
   };
   myChart.setOption(option);
   myChart.on('click', function (params) {
-    // console.log(params.data.value)
-    const value=params.data.value
-    router.push(value)
+    console.log(params.data.value)
+    // const value=params.data.value
+    // router.push(value)
   });
 });
 </script>
