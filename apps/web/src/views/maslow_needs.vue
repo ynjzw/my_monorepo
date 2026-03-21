@@ -17,9 +17,16 @@ onMounted(async() => {
     title: {
       text: '马斯洛需求层次理论'
     },
-    tooltip: {
+    toolbox: {
+      orient: 'vertical',
+      top: 'center',
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%'
+      formatter: '{a} <br/>{b} : {c}%',
+      feature: {
+        dataView: { readOnly: false },
+        restore: {},
+        saveAsImage: {}
+      }
     },
     series: [
       {
