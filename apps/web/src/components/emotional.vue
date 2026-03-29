@@ -14,13 +14,11 @@ onMounted(() => {
   
   // 树形数据
   const treeData = {
-    name: 'Root',
+    name: 'basic emotions',
     children: [
       { name: 'A', value: 30 },
-      { name: 'B', value: 40, children: [
-        { name: 'B1', value: 20 },
-        { name: 'B2', value: 15 }
-      ]},
+      { name: 'B', value: 40 },
+      { name: 'C', value: 30 },
       { name: 'C', value: 30 }
     ]
   }

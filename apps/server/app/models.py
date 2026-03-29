@@ -76,10 +76,11 @@ class Link(Base):
     # 表的名字:
     __tablename__ = 'link'
     # 表的结构:    
-    source = Column(String(255),primary_key=True)
+    id = Column(String(255),primary_key=True)
+    source = Column(String(255))
     target = Column(String(255))
     value = Column(String(255))
-    symbol=Column(String(255))
+    symbol=Column(JSON,default=[])
 
 class world(Base):
     # 表的名字:
@@ -109,7 +110,8 @@ class Nodes(Base):
     # 表的名字:
     __tablename__ = 'nodes'
     # 表的结构:    
-    name = Column(String(255),primary_key=True)
+    id = Column(String(255),primary_key=True)
+    name = Column(String(255))
     value = Column(String(255))
     x=Column(Integer)
     y=Column(Integer)
@@ -122,11 +124,13 @@ class Structure(Base):
     # 表的名字:
     __tablename__ = 'structure'
     # 表的结构:    
-    name = Column(String(255),primary_key=True)
+    id = Column(String(255),primary_key=True)
+    name = Column(String(255))
     value = Column(String(255))
     x=Column(Integer)
     y=Column(Integer)
     symbol=Column(String(255))
     symbol_size=Column(Integer)
+    itemStyle=Column(JSON)
     children=Column(JSON,default=[])
     type = Column(String(255))

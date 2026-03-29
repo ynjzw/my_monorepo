@@ -14,6 +14,13 @@ onMounted(async() => {
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
   const base_nodes = await get_base_nodes();
+  // 为节点添加不同颜色
+  const colors = ['#ff7f50', '#87cefa', '#daa520', '#32cd32', '#ba55d3', '#ff69b4', '#20b2aa', '#ff6347', '#00ced1', '#dc143c'];
+  base_nodes.forEach((node, index) => {
+    node.itemStyle = {
+      color: colors[index % colors.length]
+    };
+  });
   // console.log(world)
   const option = {
     series: [

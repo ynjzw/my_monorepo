@@ -93,9 +93,9 @@ const updateChartOptions = async () => {
     type: 'graph',
     layout: props.layout,
     roam: true,
-    symbolSize: 20,
+    draggable:true,
     label: {
-      show: false,
+      show: true,
       position: 'bottom',
       fontSize: 12
     },
@@ -104,11 +104,14 @@ const updateChartOptions = async () => {
     },
     data: props.data.map(item => ({
       ...item,
+      symbolSize: item.symbol_size ,
+      itemStyle: item.itemStyle
       // 确保每个节点有名称
       // name: item.name || item.id || '未知'
     })),
-    links: props.link.map(link => ({
-      ...link,
+    links: props.link.map(item => ({
+      ...item,
+      symbol: item.symbol || 'circle'
       // 确保连接有源和目标
       // source: link.source || link.from,
       // target: link.target || link.to
@@ -116,8 +119,7 @@ const updateChartOptions = async () => {
     force: {
       initLayout: 'circular',
       gravity: 0.1,
-      repulsion: 2000,
-      edgeLength: 1000,
+      repulsion: 100,
       layoutAnimation: true
     },
     lineStyle: {

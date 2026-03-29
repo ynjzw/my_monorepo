@@ -12,10 +12,13 @@ import main from '../views/main.vue'
 import circle from '../views/circle.vue'
 import timeline from '../views/timeline.vue'
 import timeaxis from '../views/timeaxis.vue'
+import brain from '../views/brain.vue'
+import map from '../views/map.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
+  {name: 'map',path: '/map',component: map},
   {name: 'test',path: '/test',component: test},
   {name: 'person',path: '/person',component: person},
   {name: 'world',path: '/world',component: world},
@@ -28,6 +31,7 @@ const routes = [
   {name: 'circle',path:'/circle',component:circle},
   {name: 'timeline',path:'/timeline',component:timeline},
   {name: 'timeaxis',path:'/timeaxis',component:timeaxis},
+  {name: 'brain',path:'/brain',component:brain},
   {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish}
 ]
 
