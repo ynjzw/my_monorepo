@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { get_old_structure, get_new_structure, getLink } from '@/api';
 import rational from '@/components/rational.vue';
 import emotional from '@/components/emotional.vue';
 
-const old_structure = ref([])
-const new_structure = ref([])
+
+const rational_data = ref([])
+const emotional_data = ref({})
 const link = ref([])
 const isLoading = ref(true)
 
@@ -24,17 +24,36 @@ const handleError = (error) => {
 const loadData = async () => {
   isLoading.value = true
   try {
-    // 并行加载数据
-    const [old_structureData, new_structureData, linkData] = await Promise.all([
-      get_old_structure(),
-      get_new_structure(),
-      getLink()
-    ])
     
-    old_structure.value = old_structureData
-    new_structure.value = new_structureData
-    link.value = linkData
-    
+    emotional_data.value = {
+                              "$count": 200,
+                              "快乐": { "$count": 40 },
+                              "愤怒": { "$count": 35 },
+                              "恐惧": { "$count": 35 },
+                              "悲伤": { "$count": 40 }
+                            };
+    rational_data.value = [
+                            {"name": "原因", "value": "原因", "symbolSize": 20,
+                              itemStyle: {
+                                color: 'green'
+                              }
+                            },
+                            {"name": "手段", "value": "手段", "symbolSize": 20},
+                            {"name": "目的", "value": "目的", "symbolSize": 20},
+                            {"name": "问题", "value": "问题", "symbolSize": 20},
+                            {"name": "效果", "value": "效果", "symbolSize": 20}
+                          ]
+    link.value = [
+                  {"source": "原因", "target": "手段"},
+                  {"source": "原因", "target": "目的"},
+                  {"source": "原因", "target": "问题"},
+                  {"source": "原因", "target": "效果"},
+                  {"source": "手段", "target": "目的"},
+                  {"source": "手段", "target": "问题"},
+                  {"source": "手段", "target": "效果"},
+                  {"source": "目的", "target": "问题"},
+                ]
+    //console.log(linkData)
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {
@@ -49,13 +68,22 @@ onMounted(() => {
 
 <template>
   <div class="container">
-    <div v-if="isLoading" class="loading">加载数据中...</div>
-    <div v-else class="charts-wrapper">
+    
+    <div class="charts-wrapper">
       <div class="chart-item">
-        <rational />
+        <rational 
+          :data="rational_data" 
+          :link="link"
+          @chart-ready="handleChartReady" 
+          @error="handleError"
+        />
       </div>
       <div class="chart-item">
-        <emotional />
+        <emotional 
+          :data="emotional_data" 
+          @chart-ready="handleChartReady" 
+          @error="handleError"
+        />
       </div>
     </div>
   </div>

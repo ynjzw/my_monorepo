@@ -93,7 +93,7 @@ const updateChartOptions = async () => {
     type: 'graph',
     layout: props.layout,
     roam: true,
-    draggable:true,
+    draggable:true,    
     label: {
       show: true,
       position: 'bottom',
@@ -116,6 +116,7 @@ const updateChartOptions = async () => {
       // source: link.source || link.from,
       // target: link.target || link.to
     })),
+    // links:[{source: '1', target: '2'}],
     force: {
       initLayout: 'circular',
       gravity: 0.1,
@@ -162,6 +163,13 @@ const updateChartOptions = async () => {
         } else {
           return `关系: ${params.data.source || ''} → ${params.data.target || ''}`
         }
+      }
+    },
+    toolbox: {
+      feature: {
+        dataView: { readOnly: false },
+        restore: {},
+        saveAsImage: {}
       }
     },
     series: seriesData,

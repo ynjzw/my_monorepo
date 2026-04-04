@@ -33,7 +33,7 @@ const loadData = async () => {
     old_structure.value = old_structureData
     new_structure.value = new_structureData
     link.value = linkData
-    console.log(linkData)
+    //console.log(linkData)
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {

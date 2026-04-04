@@ -15,6 +15,8 @@ import timeaxis from '../views/timeaxis.vue'
 import brain from '../views/brain.vue'
 import map from '../views/map.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
+
+import ttt from '../views/ttt.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -32,6 +34,7 @@ const routes = [
   {name: 'timeline',path:'/timeline',component:timeline},
   {name: 'timeaxis',path:'/timeaxis',component:timeaxis},
   {name: 'brain',path:'/brain',component:brain},
+  {name: 'ttt',path:'/ttt',component:ttt},
   {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish}
 ]
 
