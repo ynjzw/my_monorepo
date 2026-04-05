@@ -17,16 +17,20 @@ import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
 
 // props & emits
-const props = defineProps({
-  data: {
-    type: Object,
-    default: () => {}  // 提供默认值
-  },
-  autoLoad: {
-    type: Boolean,
-    default: true
-  }
-});
+const data = {
+                "$count": 100,
+                "happy": { "$count": 50 },
+                "angry": { "$count": 50 },
+                "fear": { "$count": 20 },
+                "sad": { "$count": 20 }
+              };
+const happy = {
+                "$count": 100,
+                "ss": { "$count": 40 },
+                "dd": { "$count": 35 },
+                "aa": { "$count": 35 },
+                "zz": { "$count": 40 }
+              };
 const emit = defineEmits(['chart-ready','data-loaded', 'error', 'node-click']);
 
 // 响应式变量
@@ -46,12 +50,22 @@ const prepareData = (rawData) => {
     if (source == null) return;
     if (depth > 5) return;
     depth = Math.max(currentDepth, depth);
-    dataArr.push({
-      id: basePath,
-      value: source.$count || 0,
-      depth: currentDepth,
-      index: dataArr.length
-    });
+      if (basePath=='root'){
+        dataArr.push({
+          id: basePath,
+          value: source.$count ,
+          depth: currentDepth,
+          index: dataArr.length
+        });
+    } else {
+      dataArr.push({
+        id: basePath,
+        value: source.$count + 5,
+        depth: currentDepth,
+        index: dataArr.length
+      });
+    }
+    
     for (const key in source) {
       if (Object.prototype.hasOwnProperty.call(source, key) && !key.match(/^\$/)) {
         const path = basePath + '.' + key;
@@ -60,6 +74,7 @@ const prepareData = (rawData) => {
     }
   };
   convert(rawData, 'root', 0);
+  // console.log(dataArr,depth)
   return {
     seriesData: dataArr,
     maxDepth: depth
@@ -122,6 +137,7 @@ const createChartOption = () => {
       overallLayout(params, api);
     }
     const nodePath = api.value('id');
+    // console.log(params, api)
     const node = context.nodes[nodePath];
     if (!node) return;
     const isLeaf = !node.children || !node.children.length;
@@ -157,7 +173,7 @@ const createChartOption = () => {
         emphasis: {
           style: {
             overflow: null,
-            fontSize: 11
+            fontSize: 20
           }
         }
       },
@@ -170,12 +186,8 @@ const createChartOption = () => {
       emphasis: {
         style: {
           fontFamily: 'Arial',
-          fontSize: 12,
-          shadowBlur: 20,
-          shadowOffsetX: 3,
-          shadowOffsetY: 5,
-          shadowColor: 'rgba(0,0,0,0.3)',
-          fill: api.visual('color', { emphasis: true })
+          fontSize: 20
+          // fill: api.visual('color', { emphasis: true })
         },
         focus: 'self'
       }
@@ -185,7 +197,6 @@ const createChartOption = () => {
     dataset: {
       source: seriesData.value
     },
-    tooltip: {},
     toolbox: {
       feature: {
         dataView: { readOnly: false },
@@ -195,12 +206,12 @@ const createChartOption = () => {
     },
     visualMap: [
       {
-        show: false,
+        show: true,
         min: 0,
         max: maxDepth.value,
         dimension: 'depth',
         inRange: {
-          color: ['red', 'green']
+          color: ['red', 'green','yellow']
         }
       }
     ],
@@ -247,6 +258,14 @@ const bindEvents = () => {
 // 下钻功能
 const drillDown = (targetNodeId) => {
   displayRoot.value = stratifyData();
+  let rawData;
+  rawData = happy;
+  const result = prepareData(rawData);
+  seriesData.value = result.seriesData;
+  maxDepth.value = result.maxDepth;
+  emit('data-loaded', result);
+  
+  initChart();
   if (targetNodeId) {
     displayRoot.value = displayRoot.value.descendants().find(
       (node) => node.data.id === targetNodeId
@@ -282,7 +301,7 @@ const loadData = async () => {
   error.value = null;
   try {
     let rawData;
-    rawData = props.data;
+    rawData = data;
     await new Promise(resolve => setTimeout(resolve, 500));
     const result = prepareData(rawData);
     seriesData.value = result.seriesData;
@@ -329,24 +348,23 @@ let direction = 1; // 1: 增大, -1: 减小
 let innerValue = 20;
 
 onMounted(() => {
-  if (props.autoLoad) {
-    loadData();
-  }
+  loadData();
   window.addEventListener('resize', handleResize);
   const observer = setupResizeObserver();
 
   // 动画：一级节点 value 在 20~50 之间来回变化
   intervalId = setInterval(() => {
+    
     if (seriesData.value && seriesData.value.length > 0) {
       // 只调整 depth === 1 的节点
       if (direction === 1) {
-        innerValue += 2;
+        innerValue += 3;
         if (innerValue >= 50) {
           innerValue = 50;
           direction = -1;
         }
       } else {
-        innerValue -= 2;
+        innerValue -= 3;
         if (innerValue <= 20) {
           innerValue = 20;
           direction = 1;
@@ -366,7 +384,8 @@ onMounted(() => {
         });
       }
     }
-  }, 60);
+    // console.log(seriesData.value)
+  }, 10);
 
   // 清理函数
   onBeforeUnmount(() => {
@@ -385,13 +404,6 @@ onMounted(() => {
   });
 });
 
-// 监听数据变化
-watch(() => props.data, (newData) => {
-  if (newData) {
-    loadData();
-  }
-}, { deep: true });
-
 </script>
 <style scoped>
 .chart-wrapper {
@@ -404,7 +416,6 @@ watch(() => props.data, (newData) => {
   width: 100%;
   height: 100%;
   min-height: 400px; /* 设置最小高度 */
-  background-color: aliceblue;
 }
 
 .loading, .error {
@@ -419,13 +430,4 @@ watch(() => props.data, (newData) => {
   z-index: 10;
 }
 
-.error {
-  color: #f56c6c;
-  border: 1px solid #f56c6c;
-}
-
-.loading {
-  color: #909399;
-  border: 1px solid #909399;
-}
 </style>

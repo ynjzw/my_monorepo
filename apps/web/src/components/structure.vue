@@ -111,7 +111,7 @@ const updateChartOptions = async () => {
     })),
     links: props.link.map(item => ({
       ...item,
-      symbol: item.symbol || 'circle'
+      symbol: item.symbol || 'arrow'
       // 确保连接有源和目标
       // source: link.source || link.from,
       // target: link.target || link.to
@@ -147,7 +147,7 @@ const updateChartOptions = async () => {
   
   const option = {
     title: {
-      text: props.layout === 'force' ? '力导向布局图' : '关系图',
+      text: props.layout === 'force' ? '新管理架构' : '传统管理架构',
       left: 'center',
       top: 10,
       textStyle: {
