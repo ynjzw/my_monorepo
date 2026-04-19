@@ -24,13 +24,30 @@ const data = {
                 "fear": { "$count": 20 },
                 "sad": { "$count": 20 }
               };
-const happy = {
-                "$count": 100,
+const happy = {                
                 "ss": { "$count": 40 },
                 "dd": { "$count": 35 },
                 "aa": { "$count": 35 },
                 "zz": { "$count": 40 }
               };
+const angry = {                
+                "ss": { "$count": 40 },
+                "dd": { "$count": 35 },
+                "aa": { "$count": 35 },
+                "zz": { "$count": 40 }
+              };
+const fear = {                
+                "ss": { "$count": 40 },
+                "dd": { "$count": 35 },
+                "aa": { "$count": 35 },
+                "zz": { "$count": 40 }
+              };
+const sad = {                
+                "ss": { "$count": 40 },
+                "dd": { "$count": 35 },
+                "aa": { "$count": 35 },
+                "zz": { "$count": 40 }
+              };                           
 const emit = defineEmits(['chart-ready','data-loaded', 'error', 'node-click']);
 
 // 响应式变量
@@ -209,10 +226,7 @@ const createChartOption = () => {
         show: true,
         min: 0,
         max: maxDepth.value,
-        dimension: 'depth',
-        inRange: {
-          color: ['red', 'green','yellow']
-        }
+        dimension: 'depth'
       }
     ],
     hoverLayerThreshold: Infinity,
@@ -258,6 +272,7 @@ const bindEvents = () => {
 // 下钻功能
 const drillDown = (targetNodeId) => {
   displayRoot.value = stratifyData();
+  
   let rawData;
   rawData = happy;
   const result = prepareData(rawData);
@@ -351,7 +366,8 @@ onMounted(() => {
   loadData();
   window.addEventListener('resize', handleResize);
   const observer = setupResizeObserver();
-
+  console.log(eval(Object.keys(data)[2]));
+  
   // 动画：一级节点 value 在 20~50 之间来回变化
   intervalId = setInterval(() => {
     

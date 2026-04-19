@@ -107,3 +107,12 @@ export function get_new_structure(){
         method:'get'
     })    
 }
+
+
+const solar='/solar'
+export function get_solar(){
+    return request({
+        url:solar,
+        method:'get'
+    })    
+}

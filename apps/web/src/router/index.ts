@@ -15,7 +15,7 @@ import timeaxis from '../views/timeaxis.vue'
 import brain from '../views/brain.vue'
 import map from '../views/map.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
-
+import stock_sector from '../views/stock_sector.vue'
 import ttt from '../views/ttt.vue'
 // 定义路由表
 const routes = [
@@ -23,7 +23,7 @@ const routes = [
   {name: 'map',path: '/map',component: map},
   {name: 'test',path: '/test',component: test},
   {name: 'person',path: '/person',component: person},
-  {name: 'world',path: '/world',component: world},
+  // {name: 'world',path: '/world',component: world},
   {name: 'nation',path: '/nation',component: nation},
   {name: 'internation',path: '/internation',component: internation},
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
@@ -35,7 +35,8 @@ const routes = [
   {name: 'timeaxis',path:'/timeaxis',component:timeaxis},
   {name: 'brain',path:'/brain',component:brain},
   {name: 'ttt',path:'/ttt',component:ttt},
-  {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish}
+  {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish},
+  {name: 'stock_sector', path: '/stock_sector', component: stock_sector}
 ]
 
 // 创建路由实例

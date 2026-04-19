@@ -94,6 +94,18 @@ class world(Base):
     symbol_size=Column(Integer)
     itemStyle=Column(JSON)
 
+class solar(Base):
+    # 表的名字:
+    __tablename__ = 'solar'
+    # 表的结构:    
+    name = Column(String(255),primary_key=True)
+    value = Column(String(255))
+    x=Column(Integer)
+    y=Column(Integer)
+    symbol=Column(String(255))
+    symbol_size=Column(Integer)
+    itemStyle=Column(JSON)
+
 class family(Base):
     # 表的名字:
     __tablename__ = 'family'

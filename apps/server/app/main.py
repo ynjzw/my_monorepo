@@ -9,7 +9,7 @@ from ollama import chat,ChatResponse
 
 from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse
 from database import get_db,engine
-from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
+from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure,solar
 from typing import List
 
 import uvicorn,os,uuid,logging,queue,json,pyttsx3
@@ -181,6 +181,11 @@ def ai_filter_comment(rule_data: FilterRule):
 def get_link(db:Session=Depends(get_db)):
     link = db.query(Link).all()
     return link
+
+@app.get('/solar')
+def get_solar(db:Session=Depends(get_db)):
+    solar = db.query(solar).all()
+    return solar
 
 @app.get('/family')
 def get_family(db:Session=Depends(get_db)):
