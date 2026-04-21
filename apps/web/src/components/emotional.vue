@@ -223,7 +223,7 @@ const createChartOption = () => {
     },
     visualMap: [
       {
-        show: true,
+        show: false,
         min: 0,
         max: maxDepth.value,
         dimension: 'depth'

@@ -25,7 +25,7 @@ const loadData = async () => {
   isLoading.value = true
   try {    
     
-    console.log(link)
+    
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {

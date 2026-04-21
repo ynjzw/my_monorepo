@@ -1,169 +1,126 @@
-
 <template>
   <div class="chart-wrapper">
-    <div 
-      ref="chartContainer" 
-      class="chart-container"
+    <div id="main"
     ></div>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 
-<script setup >
+<script setup>
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
-import { get_solar } from '../api';
 
-const chartContainer = ref(null)
-let myChart = null
-const loading = ref(false)
-const error = ref(null)
-const initChart = () => {
-  if (!chartContainer.value) return
-  
-  try {
-    // 如果已存在图表实例，先销毁
-    if (myChart) {
-      myChart.dispose()
+
+
+const roundDatas=(num, size, starname, color)=>{ 
+    const datas = [];
+    let i;
+    for (i = 0; i < num; i++) {
+        datas.push({
+            name: 'circle' + i
+        });
     }
-    
-    // 创建新图表实例
-    myChart = echarts.init(chartContainer.value)
-    
-    // 设置基本选项
-    updateChartOptions()
-    
-    // 监听窗口大小变化
-    window.addEventListener('resize', handleResize)
-    
-    
-  } catch (err) {
-    console.error('图表初始化失败:', err)
-    error.value = '图表初始化失败'
-  }
-}
+    const mark = Math.floor(Math.random() * num);
 
-// 更新图表选项
-const updateChartOptions = () => {
-  if (!myChart) return
-  
-  const data = await get_solar()
-  const option = {
-    series: [{
-      type: 'graph',
-      layout: 'none',
-      draggable:true,    
-      symbolSize: 50,
-      roam: true,
-      label: {
-        show: true
-      },
-      data: data,  // 使用传入的数据
-      links: [],  // 可以根据需要从props传入
-      lineStyle: {
-        opacity: 0.9,
-        width: 2,
-        curveness: 0
-      }
-    }],
-    toolbox: {
-      feature: {
-        dataView: { readOnly: false },
-        restore: {},
-        saveAsImage: {}
-      }
-    },
-    title: {
-      text: '太阳系',
-      left: 'center',
-      top: 10,
-      textStyle: {
-        fontSize: 14,
-        fontWeight: 'normal'
-      }
+    datas[mark] = {
+        name: 'circle' + mark,
+        symbolSize: size,
+        itemStyle: {
+            normal: {
+                color: color
+            }
+        },
+        label: {
+            normal: {
+                show: true,
+                formatter: starname,
+                position: 'top'
+
+            }
+        }
+    };
+    return datas;
+}
+const linkDatas = (num) => {
+    const ldatas = [];
+    let i;
+    for (i = 0; i < num; i++) {
+        ldatas.push({
+            source: 'circle' + i,
+            target: 'circle' + (i + 1)
+        });
     }
-  }
-  
-  myChart.setOption(option)
-}
-// 组件挂载后初始化
-onMounted(() => {
-  initChart()
-})
-
-// 处理窗口大小变化
-const handleResize = () => {
-  myChart?.resize()
-}
-
-defineExpose({
-  getChart: () => myChart,
-  updateChart: updateChartOptions
-})
-
-const bindEvents = () => {
-  if (!myChart.value) return;
-  myChart.on('click',(params)=>{
-    s
-  })
-  // 节点点击事件
-  myChart.value.on('click', { seriesIndex: 0 }, (params) => {
-    drillDown(params.data.id);
-  });
-};
-
-const drillDown=(targetNodeId)=>{
-  displayRoot.value = stratifyData();
-  let rawData;
-  rawData = happy;
-  const result = prepareData(rawData);
-  seriesData.value = result.seriesData;
-  maxDepth.value = result.maxDepth;
-  
-  initChart();
-  if (targetNodeId) {
-    displayRoot.value = displayRoot.value.descendants().find(
-      (node) => node.data.id === targetNodeId
-    );
-  }
-  if (displayRoot.value) {
-    displayRoot.value.parent = null;
-    // 更新当前深度
-    currentDepth.value = displayRoot.value.depth;
-    // 刷新图表
-    myChart.value.setOption({
-      dataset: {
-        source: seriesData.value
-      }
+    ldatas.push({
+        source: 'circle' + (i - 1),
+        target: 'circle0'
     });
-  }
+    return ldatas;
 }
+const starSeries=(circlesize, data, link, flag)=> {
+    const star = {
+        type: 'graph',
+        layout: 'circular',
+        circular: {
+            rotateLabel: flag
+        },
+        lineStyle: {
+            normal: {
+                color: '#F0F8FF',
+                width: 3
+            }
+        },
+
+        symbol: 'circle',
+        symbolSize: 1,
+        width: circlesize,
+        height: circlesize,
+        data: data,
+        links: link
+    };
+    return star;
+}
+onMounted(() => { 
+  var chartDom = document.getElementById('main');
+  var myChart = echarts.init(chartDom);
+  var option;
+  option = {
+    //   backgroundColor: '#1d1626',
+      series: [
+          starSeries('0%', roundDatas(1, 40, '太阳', '#ef4136'), linkDatas(1), false),
+          starSeries('15%', roundDatas(30, 15, '水星', '#72baa7'), linkDatas(30), false),
+          starSeries('25%', roundDatas(40, 15, '金星', '#c88400'), linkDatas(40), false),
+          starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF'), linkDatas(50), false),
+          starSeries('45%', roundDatas(60, 15, '火星', '#FF5809'), linkDatas(60), false),
+          starSeries('55%', roundDatas(70, 20, '木星', '#e0861a'), linkDatas(70), false),
+          starSeries('65%', roundDatas(80, 23, '土星', '#33a3dc'), linkDatas(80), false),
+          starSeries('75%', roundDatas(90, 28, '天王星', '#8f4b4a'), linkDatas(90), false),
+          starSeries('85%', roundDatas(100, 30, '海王星', '#afb4db'), linkDatas(100), false),
+          starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa'), linkDatas(110), false),
+      ]
+  }
+  option && myChart.setOption(option);
+});
 </script>
 
-<style scoped>
+<style>
+.loading {
+  text-align: center;
+  padding: 20px;
+}
+.error {
+  color: red;
+}
 .chart-wrapper {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.chart-container {
+#main {
   width: 100%;
   height: 100%;
   min-height: 400px; /* 设置最小高度 */
+  min-width: 400px; 
 }
-
-.loading, .error {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 4px;
-  z-index: 10;
-}
-
 </style>

@@ -23,7 +23,7 @@ const routes = [
   {name: 'map',path: '/map',component: map},
   {name: 'test',path: '/test',component: test},
   {name: 'person',path: '/person',component: person},
-  // {name: 'world',path: '/world',component: world},
+  {name: 'world',path: '/world',component: world},
   {name: 'nation',path: '/nation',component: nation},
   {name: 'internation',path: '/internation',component: internation},
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
