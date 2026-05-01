@@ -10,9 +10,10 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
-
-
-
+import {useRouter} from 'vue-router'
+const router = useRouter();
+const loading = ref(false)
+const error = ref(null)
 const roundDatas=(num, size, starname, color)=>{ 
     const datas = [];
     let i;
@@ -25,19 +26,15 @@ const roundDatas=(num, size, starname, color)=>{
 
     datas[mark] = {
         name: 'circle' + mark,
+        value: starname,
         symbolSize: size,
         itemStyle: {
-            normal: {
-                color: color
-            }
+            color: color
         },
         label: {
-            normal: {
-                show: true,
-                formatter: starname,
-                position: 'top'
-
-            }
+            show: true,
+            formatter: starname,
+            position: 'top'
         }
     };
     return datas;
@@ -64,13 +61,6 @@ const starSeries=(circlesize, data, link, flag)=> {
         circular: {
             rotateLabel: flag
         },
-        lineStyle: {
-            normal: {
-                color: '#F0F8FF',
-                width: 3
-            }
-        },
-
         symbol: 'circle',
         symbolSize: 1,
         width: circlesize,
@@ -80,6 +70,7 @@ const starSeries=(circlesize, data, link, flag)=> {
     };
     return star;
 }
+
 onMounted(() => { 
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
@@ -100,6 +91,14 @@ onMounted(() => {
       ]
   }
   option && myChart.setOption(option);
+  if (!myChart) return
+  
+  // 节点点击事件
+  myChart.on('click', function (params) {
+    console.log(params.data.value)
+    const value=params.data.value
+    router.push('earth')
+  })
 });
 </script>
 

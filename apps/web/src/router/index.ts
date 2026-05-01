@@ -13,14 +13,14 @@ import circle from '../views/circle.vue'
 import timeline from '../views/timeline.vue'
 import timeaxis from '../views/timeaxis.vue'
 import brain from '../views/brain.vue'
-import map from '../views/map.vue'
+import earth from '../views/earth.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
 import stock_sector from '../views/stock_sector.vue'
 import ttt from '../views/ttt.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
-  {name: 'map',path: '/map',component: map},
+  {name: 'earth',path: '/earth',component: earth},
   {name: 'test',path: '/test',component: test},
   {name: 'person',path: '/person',component: person},
   {name: 'world',path: '/world',component: world},
