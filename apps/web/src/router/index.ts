@@ -13,14 +13,16 @@ import circle from '../views/circle.vue'
 import timeline from '../views/timeline.vue'
 import timeaxis from '../views/timeaxis.vue'
 import brain from '../views/brain.vue'
-import earth from '../views/earth.vue'
+import 地球 from '../views/地球.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
 import stock_sector from '../views/stock_sector.vue'
 import ttt from '../views/ttt.vue'
+import China from '../views/China.vue'
+import dynamic_graph from '../views/dynamic_graph.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
-  {name: 'earth',path: '/earth',component: earth},
+  {name: '地球',path: '/地球',component: 地球},
   {name: 'test',path: '/test',component: test},
   {name: 'person',path: '/person',component: person},
   {name: 'world',path: '/world',component: world},
@@ -36,7 +38,9 @@ const routes = [
   {name: 'brain',path:'/brain',component:brain},
   {name: 'ttt',path:'/ttt',component:ttt},
   {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish},
-  {name: 'stock_sector', path: '/stock_sector', component: stock_sector}
+  {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
+  {name: 'China', path: '/China', component: China},
+  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph}
 ]
 
 // 创建路由实例

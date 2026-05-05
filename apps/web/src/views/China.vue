@@ -7,7 +7,9 @@
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import china from '@/data/geojson.json'; // 本地中国地图数据
+import {useRouter} from 'vue-router'
 
+const router = useRouter();
 const mapRef = ref(null);
 
 onMounted(async () => {
@@ -24,7 +26,7 @@ onMounted(async () => {
       top: 'bottom',
       text: ['高','低'],
       inRange: { color: ['#e0ffe0', '#00b050', '#006400'] }, // 绿色渐变
-      show: true
+      show: false
     },
     series: [{
       name: '中国地图',
@@ -35,6 +37,13 @@ onMounted(async () => {
       data: [] // 可填充省份数据
     }]
   });
+  // 节点点击事件
+  chart.on('click', function (params) {
+    if (params.data){
+      const {adcode,name,level}=params.data
+    }
+    console.log(params.data)
+  })
 });
 </script>
 <style scoped> 

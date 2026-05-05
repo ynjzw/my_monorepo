@@ -95,9 +95,9 @@ onMounted(() => {
   
   // 节点点击事件
   myChart.on('click', function (params) {
-    console.log(params.data.value)
+    // console.log(params.data.value)
     const value=params.data.value
-    router.push('earth')
+    router.push(value)
   })
 });
 </script>

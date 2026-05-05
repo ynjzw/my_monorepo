@@ -6,8 +6,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
+import {useRouter} from 'vue-router'
 import earth from '@/data/earth.json'; // 本地中国地图数据
 
+const router = useRouter();
 const mapRef = ref(null);
 
 onMounted(async () => {
@@ -24,7 +26,7 @@ onMounted(async () => {
       top: 'bottom',
       text: ['高','低'],
       inRange: { color: ['#e0ffe0', '#00b050', '#006400'] }, // 绿色渐变
-      show: false
+      show: true
     },
     series: [{
       name: '中国地图',
@@ -35,6 +37,14 @@ onMounted(async () => {
       data: [] // 可填充省份数据
     }]
   });
+  chart.on('click', function (params) {
+    if (params.data){
+      const {adcode,name,level}=params.data
+    }
+    console.log(params.data.name)
+    // const value=params.data.value
+    router.push(params.data.name)
+  })
 });
 </script>
 <style scoped> 
