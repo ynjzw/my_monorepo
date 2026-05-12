@@ -116,3 +116,12 @@ export function get_solar(){
         method:'get'
     })    
 }
+
+
+const url_extract_triples='/extract_triples'
+export function extract_triples(text){
+    return request.post(
+        url_extract_triples,
+        text
+    )    
+}

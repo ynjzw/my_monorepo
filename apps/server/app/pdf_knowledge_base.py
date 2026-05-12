@@ -10,7 +10,7 @@ import pickle
 import numpy as np
 from typing import List, Dict, Any
 from sentence_transformers import SentenceTransformer
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 
 class PDFKnowledgeBase:
     """基于 PDF 的本地知识库"""

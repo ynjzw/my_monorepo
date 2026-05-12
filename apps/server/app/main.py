@@ -12,6 +12,7 @@ from database import get_db,engine
 from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure,solar
 from typing import List
 
+from openai import OpenAI
 import uvicorn,os,uuid,logging,queue,json,pyttsx3
 import sounddevice as sd
 import pandas as pd
@@ -853,6 +854,25 @@ def chat_with_ollama(text: str):
         conversation.append({"role": "assistant", "content": ai_response})
         engine.stop()
 
+
+client = OpenAI(api_key="YOUR_API_KEY", base_url="...")
+
+@app.post("/extract_triples")
+def extract_triples(text):
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "你是信息抽取专家。输出JSON数组，每个元素含subject, predicate, object。"},
+            {"role": "user", "content": f"文本：{text}"}
+        ],
+        response_format={"type": "json_object"}  # 确保输出JSON
+    )
+    return response.choices[0].message.content
+
+# 使用
+# text = "OpenAI与微软延长了多年的合作伙伴关系，继续在AI领域深度合作。"
+# print(extract_triples(text))
+# 输出: {"triples": [{"subject": "OpenAI", "predicate": "合作", "object": "微软"}]}
 
 if __name__=='__main__':
     uvicorn.run('main:app',host='0.0.0.0',port=8000,reload=True)

@@ -15,7 +15,7 @@ const mapRef = ref(null);
 onMounted(async () => {
   const chart = echarts.init(mapRef.value);
   // 动态加载中国地图geoJSON
-  const geoJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').then(res => res.json());
+  // const geoJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').then(res => res.json());
   echarts.registerMap('earth', earth);
   chart.setOption({
     tooltip: { trigger: 'item' },
@@ -39,11 +39,10 @@ onMounted(async () => {
   });
   chart.on('click', function (params) {
     if (params.data){
-      const {adcode,name,level}=params.data
+      
+      const geoJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/' + params.data.adcode + '_full.json').then(res => res.json());
     }
-    console.log(params.data.name)
-    // const value=params.data.value
-    router.push(params.data.name)
+    
   })
 });
 </script>
