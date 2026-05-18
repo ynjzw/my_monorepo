@@ -1,18 +1,21 @@
 <template>
-  <div class="map" >
-      <button v-if="currentMapName !== 'china'" @click="initChinaMap" class="drill-btn">
+  <div class="chart-wrapper">
+    <button v-if="currentMapName !== 'china'" @click="initChinaMap" class="drill-btn">
         返回全国地图 (按ESC键)
       </button>
       <div class="map-tip">💡 提示：点击地图区域下钻，按ESC键返回上一级</div>
-     <map ref="mapRef" class="map-container" ></map>
-    <Funnel :data="extract_triples(mapRef.value)" :link="mapRef.value"></Funnel>
+    <div 
+      ref="chartContainer" 
+      class="chart-container"
+    ></div>
+    <div v-if="loading" class="loading">加载中...</div>
+    <div v-if="error" class="error">{{ error }}</div>
   </div>
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
-import Funnel from '../components/funnel.vue';
-import map from '../components/map.vue';
+import china from '@/data/china.json'; // 本地中国地图数据
 
 const mapRef = ref(null);
 
@@ -83,7 +86,7 @@ const renderMap = async (name, adcode) => {
             left: 'left',
             top: 'bottom',
             text: ['高', '低'],
-            inRange: { color: ['#e0ffe0', '#00b050', '#006400'] },
+            inRange: { color: ['#5470c6', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'] },
             show: true,
             calculable: true
         },
@@ -214,14 +217,24 @@ onMounted(async () => {
     });
 });
 </script>
-<style scoped> 
-.map{
-    width: 1000px;
-    height: 600px;
+<style>
+.loading {
+  text-align: center;
+  padding: 20px;
 }
-.map-container{
-    width: 1000px;
-    height: 600px;
+.error {
+  color: red;
+}
+.chart-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
+.chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* 设置最小高度 */
+  min-width: 400px; 
+}
 </style>

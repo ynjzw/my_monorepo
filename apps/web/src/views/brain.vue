@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import rational from '@/components/rational.vue';
 import emotional from '@/components/emotional.vue';
+import graph from '@/components/graph.vue';
 
 
 const rational_data = ref([])
@@ -24,7 +25,20 @@ const handleError = (error) => {
 const loadData = async () => {
   isLoading.value = true
   try {    
-    
+    rational_data = [
+          {"name": "原因", "value": "原因"},
+          {"name": "手段", "value": "手段"},
+          {"name": "目的", "value": "目的"},
+          {"name": "问题", "value": "问题"},
+          {"name": "效果", "value": "效果"}
+        ];
+    link = [
+              {"source": "原因", "target": "问题"},
+              {"source": "原因", "target": "效果"},
+              {"source": "手段", "target": "目的"},
+              {"source": "手段", "target": "效果"},
+              {"source": "目的", "target": "问题"},
+            ]
     
   } catch (error) {
     console.error('数据加载失败:', error)
@@ -43,7 +57,9 @@ onMounted(async() => {
     
     <div class="charts-wrapper">
       <div class="chart-item">
-        <rational 
+        <graph 
+          :data="rational_data"
+          :link="link" 
           @chart-ready="handleChartReady" 
           @error="handleError"
         />

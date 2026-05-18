@@ -8,6 +8,7 @@ import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import {useRouter} from 'vue-router'
 import earth from '@/data/earth.json'; // 本地中国地图数据
+import { extract_triples } from '../api';
 
 const router = useRouter();
 const mapRef = ref(null);
@@ -17,6 +18,16 @@ onMounted(async () => {
   // 动态加载中国地图geoJSON
   // const geoJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json').then(res => res.json());
   echarts.registerMap('earth', earth);
+  const features = earth.features || [];
+  const allRegionData = features.map(feature => {
+    const props = feature.properties;
+    return {
+      name: props.name,
+      value: 0,  // 默认值，后续可覆盖
+      adcode: props.adcode,
+      level: props.level
+    };
+  });
   chart.setOption({
     tooltip: { trigger: 'item' },
     visualMap: {
@@ -25,22 +36,25 @@ onMounted(async () => {
       left: 'left',
       top: 'bottom',
       text: ['高','低'],
-      inRange: { color: ['#e0ffe0', '#00b050', '#006400'] }, // 绿色渐变
+      inRange: { color: ['#e0ffe0', '#00b050', '#006400']  }, // 绿色渐变
       show: true
     },
     series: [{
-      name: '中国地图',
+      name: '地球地图',
       type: 'map',
       map: 'earth',
       roam: true,
-      label: { show: false },
-      data: [] // 可填充省份数据
+      label: { show: true },
+      data: allRegionData // 可填充省份数据
     }]
   });
   chart.on('click', function (params) {
     if (params.data){
-      
-      const geoJson = await fetch('https://geo.datav.aliyun.com/areas_v3/bound/' + params.data.adcode + '_full.json').then(res => res.json());
+      // const { adcode, name, level } = params.data;
+      // console.log(params)
+      // const geoJson = fetch('https://geo.datav.aliyun.com/areas_v3/bound/' + params.data.adcode + '_full.json').then(res => res.json());
+      // console.log(geoJson)
+      router.push(params.data.name)
     }
     
   })

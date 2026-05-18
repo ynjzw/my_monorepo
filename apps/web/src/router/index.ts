@@ -10,8 +10,8 @@ import father from '../views/father.vue'
 import internet from '../views/internet.vue'
 import main from '../views/main.vue'
 import circle from '../views/circle.vue'
-import timeline from '../views/timeline.vue'
-import timeaxis from '../views/timeaxis.vue'
+import timeline from '../components/timeline.vue'
+import timeaxis from '../components/timeaxis.vue'
 import brain from '../views/brain.vue'
 import 地球 from '../views/地球.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
@@ -19,6 +19,7 @@ import stock_sector from '../views/stock_sector.vue'
 import ttt from '../views/ttt.vue'
 import China from '../views/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
+import hundreds_dots from '../views/hundreds_dots.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -40,7 +41,8 @@ const routes = [
   {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'China', path: '/China', component: China},
-  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph}
+  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
+  {name: 'hundreds_dots', path: '/hundreds_dots', component: hundreds_dots}
 ]
 
 // 创建路由实例

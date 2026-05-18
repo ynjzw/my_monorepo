@@ -49,3 +49,12 @@ class ErrorResponse(BaseModel):
     code: int
     message: str
     details: Optional[Dict[str, Any]] = None
+
+class PdfPathInput(BaseModel):
+    pdf_path: str
+
+class QuestionInput(BaseModel):
+    question: str
+
+class TripleResponse(BaseModel):
+    triples: List[Dict[str, str]]
