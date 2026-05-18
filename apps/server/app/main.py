@@ -19,7 +19,6 @@ from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 import json
-from openai import OpenAI
 import uvicorn,os,uuid,logging,queue,json,pyttsx3
 import sounddevice as sd
 import pandas as pd
