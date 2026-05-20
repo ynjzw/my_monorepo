@@ -7,9 +7,9 @@ from sqlalchemy.orm import Session
 from vosk import Model, KaldiRecognizer
 from ollama import chat,ChatResponse
 
-from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse,PdfPathInput,QuestionInput,TripleResponse
+from schemas import FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse,PdfPathInput,QuestionInput,TripleResponse,TextInput
 from database import get_db,engine
-from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure,solar
+from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
 from typing import List
 from langchain_core.prompts import ChatPromptTemplate
 import PyPDF2

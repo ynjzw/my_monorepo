@@ -53,6 +53,9 @@ class ErrorResponse(BaseModel):
 class PdfPathInput(BaseModel):
     pdf_path: str
 
+class TextInput(BaseModel):
+    text: str
+
 class QuestionInput(BaseModel):
     question: str
 
