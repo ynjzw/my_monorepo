@@ -16,6 +16,12 @@ import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
 
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []  // 提供默认值
+  }
+})
 // props & emits
 const data = {
                 "$count": 100,

@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import rational from '@/components/rational.vue';
-import emotional from '@/components/emotional.vue';
+import circle from '@/components/circle.vue';
 import graph from '@/components/graph.vue';
 
 
@@ -65,7 +64,8 @@ onMounted(async() => {
         />
       </div>
       <div class="chart-item">
-        <emotional 
+        <circle 
+          :data="emotional_data" 
           @chart-ready="handleChartReady" 
           @error="handleError"
         />

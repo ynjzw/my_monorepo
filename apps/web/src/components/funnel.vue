@@ -22,8 +22,12 @@ const props = defineProps({
 
 // 将初始化逻辑包装在 onMounted 中
 onMounted(() => {
-  var chartDom = document.getElementById('main');
-  var myChart = echarts.init(chartDom);
+  if (!chartContainer.value) return;
+  if (myChart.value) {
+    myChart.value.dispose();
+  }
+    // 创建新图表实例
+  myChart.value = echarts.init(chartContainer.value);
   var option;
   option = {
     title: {

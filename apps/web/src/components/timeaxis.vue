@@ -13,6 +13,12 @@ import { Timeline } from "vis-timeline";
 import moment from 'moment';
 import "moment/dist/locale/zh-cn.js";
 
+const props = defineProps({
+  data: {
+    type: Array,
+    default: () => []  // 提供默认值
+  }
+})
 // 设置moment语言为中文
 moment.locale('zh-cn');
 
