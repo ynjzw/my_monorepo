@@ -38,6 +38,13 @@ const loadData = async () => {
               {"source": "手段", "target": "效果"},
               {"source": "目的", "target": "问题"},
             ]
+    emotional_data = {
+                        "$count": 100,
+                        "happy": { "$count": 50 },
+                        "angry": { "$count": 50 },
+                        "fear": { "$count": 20 },
+                        "sad": { "$count": 20 }
+                      }
     
   } catch (error) {
     console.error('数据加载失败:', error)

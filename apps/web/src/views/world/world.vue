@@ -75,6 +75,7 @@ onMounted(() => {
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
   var option;
+  
   option = {
     //   backgroundColor: '#1d1626',
       series: [
@@ -90,14 +91,16 @@ onMounted(() => {
           starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa'), linkDatas(110), false),
       ]
   }
-  option && myChart.setOption(option);
+  setInterval(function () { 
+    option && myChart.setOption(option);
+  },1000)
   if (!myChart) return
   
   // 节点点击事件
   myChart.on('click', function (params) {
     // console.log(params.data.value)
     const value=params.data.value
-    router.push(value)
+    router.push('world/world/' + value)
   })
 });
 </script>

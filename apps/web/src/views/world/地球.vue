@@ -8,7 +8,7 @@ import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import {useRouter} from 'vue-router'
 import earth from '@/data/earth.json'; // 本地中国地图数据
-import { extract_triples } from '../api';
+import { extract_triples } from '@/api';
 
 const router = useRouter();
 const mapRef = ref(null);

@@ -1,0 +1,30 @@
+{
+    "$count": 100,
+    "person": { "$count": 50,
+                "pyhsical":{
+                    "$count": 50
+                },
+                "spiritual":{
+                    "$count": 50
+                }
+    },
+    "world": { "$count": 50,
+                "solar":{
+                    "$count": 50,
+                    "earth":{
+                        "$count": 50,
+                        "reality":{
+                            "$count": 50,
+                            "water":{"$count": 50},
+                            "air":{"$count": 50}
+                        },
+                        "virtual":{
+                            "$count": 50,
+                            "internet":{"$count":50}
+                        },
+                        "internation":{"$count":50},
+                        "nation":{"$count":50}
+                    }
+                }
+            }
+}
