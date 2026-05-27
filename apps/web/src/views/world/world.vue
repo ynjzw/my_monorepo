@@ -93,14 +93,14 @@ onMounted(() => {
   }
   setInterval(function () { 
     option && myChart.setOption(option);
-  },1000)
+  },100)
   if (!myChart) return
   
   // 节点点击事件
   myChart.on('click', function (params) {
     // console.log(params.data.value)
     const value=params.data.value
-    router.push('world/world/' + value)
+    router.push(value)
   })
 });
 </script>

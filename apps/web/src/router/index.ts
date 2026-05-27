@@ -34,6 +34,9 @@ const routes = [
     name: 'world',
     path: '/world',
     component: world,
+    children: [
+      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('@/views/hundreds_dots.vue')}
+    ]
   },
   {name: 'China',path: '/China',component: China},
   {name: 'internation',path: '/internation',component: internation},
@@ -47,8 +50,7 @@ const routes = [
   {name: 'ttt',path:'/ttt',component:ttt},
   {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
-  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
-  {name: 'hundreds_dots', path: '/hundreds_dots', component: hundreds_dots}
+  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph}
 ]
 
 // 创建路由实例

@@ -36,7 +36,7 @@ onMounted(async () => {
       left: 'left',
       top: 'bottom',
       text: ['高','低'],
-      inRange: { color: ['#e0ffe0', '#00b050', '#006400']  }, // 绿色渐变
+      inRange: { color: ['#e8f5e9', '#4caf50', '#2e7d32'] }, 
       show: true
     },
     series: [{
@@ -44,7 +44,7 @@ onMounted(async () => {
       type: 'map',
       map: 'earth',
       roam: true,
-      label: { show: true },
+      label: { show: false },
       data: allRegionData // 可填充省份数据
     }]
   });

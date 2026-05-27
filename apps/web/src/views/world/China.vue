@@ -19,14 +19,18 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import Map from './map.vue';
 import Funnel from './funnel.vue';
+import { population_structure } from '@/api/index';
 
 const mapRef = ref(null);
 const currentMapName = ref('china');
 const funnelData = ref([]);
+const fData = ref([]);
 
 // 根据区域生成漏斗图数据
-const generateFunnelData = (regionName, regionLevel) => {
+const generateFunnelData = async (regionName) => {
   // 模拟不同区域的数据
+  fData.value = await population_structure();
+  console.log(fData.value)
   const mockDataMap = {
     'china': [
       { name: '华北地区', value: 85 },
@@ -55,25 +59,25 @@ const generateFunnelData = (regionName, regionLevel) => {
     ];
   }
   
-  return mockDataMap[regionLevel === 'china' ? 'china' : 'default'] || mockDataMap['default'];
+  return mockDataMap;
 };
 
 // 处理地图变更
 const handleMapChange = ({ name, adcode, level }) => {
-  currentMapName.value = name;
-  const newFunnelData = generateFunnelData(name, level);
-  funnelData.value = [...newFunnelData];
+//   currentMapName.value = name;
+//   const newFunnelData = generateFunnelData(name);
+//   funnelData.value = [...newFunnelData];
 };
 
 // 处理区域点击（用于额外逻辑）
 const handleRegionClick = (regionInfo) => {
-  console.log('点击区域详情:', regionInfo);
+  // console.log('点击区域详情:', regionInfo);
   // 可以在这里添加额外的业务逻辑
 };
 
 onMounted(() => {
   // 初始化漏斗图数据
-  funnelData.value = generateFunnelData('中国', 'china');
+  funnelData.value = generateFunnelData('全国');
 });
 
 onUnmounted(() => {

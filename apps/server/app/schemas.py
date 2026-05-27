@@ -61,3 +61,8 @@ class QuestionInput(BaseModel):
 
 class TripleResponse(BaseModel):
     triples: List[Dict[str, str]]
+
+# 评论筛选规则请求体
+class FilterRule(BaseModel):
+    rule: str  # 规则描述，如“包含关键词xxx”或“长度大于10”
+    comment: str  # 评论内容

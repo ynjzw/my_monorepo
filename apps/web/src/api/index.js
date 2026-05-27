@@ -125,3 +125,11 @@ export function extract_triples(text){
         text
     )    
 }
+
+const url_population_structure='/population_structure'
+export function population_structure(year){
+    return request({
+        url:url_population_structure,
+        method:'get'
+    })    
+}

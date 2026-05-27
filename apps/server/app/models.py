@@ -71,7 +71,6 @@ class ImportedData(Base):
             "created_at": self.created_at.strftime("%Y-%m-%d %H:%M:%S") if self.created_at else None
         }
     
-
 class Link(Base):
     # 表的名字:
     __tablename__ = 'link'
@@ -146,3 +145,14 @@ class Structure(Base):
     itemStyle=Column(JSON)
     children=Column(JSON,default=[])
     type = Column(String(255))
+
+class Population(Base):
+    # 表的名字:
+    __tablename__ = 'population_structure'
+    # 表的结构:    
+    id = Column(String(255),primary_key=True)
+    region_name = Column(String(255))
+    population_radio_under_14 = Column(String(255))
+    population_radio_between_15_and_64=Column(String(255))
+    population_radio_above_65=Column(String(255))
+    year = Column(String(255))
