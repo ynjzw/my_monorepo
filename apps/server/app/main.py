@@ -23,6 +23,9 @@ app.add_middleware(
 )
 
 app.include_router(ai_api.app, prefix="/routes/ai_api")
+app.include_router(simple_api.app, prefix="/routes/simple_api")
+app.include_router(upload_api.app, prefix="/routes/upload_api")
+app.include_router(spider_api.app, prefix="/routes/spider_api")
 
 @app.get('/')
 def hello():

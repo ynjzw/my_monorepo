@@ -2,20 +2,6 @@
 import request from '../util/request'
 import axios from 'axios'
 
-const url = '/books'
-export function getBooks(){
-    // return request.get('http://localhost:8000/books')
-    return request({
-        url:url,
-        method:'get'
-    })    
-}
-// export const getBooks=()=>ge('/books')
-
-export function postBook(bookName,bookAuthor){
-    return request.post(url,{'name':bookName,'author':bookAuthor})
-}
-
 const url1='/nodes'
 export function getNodes(){
     // return request.get('http://localhost:8000/books')
@@ -51,6 +37,7 @@ export function getFamily(){
         method:'get'
     })    
 }
+
 
 const url8='/base_nodes'
 export function get_base_nodes(){
@@ -92,7 +79,6 @@ export function get_solar(){
         method:'get'
     })    
 }
-
 
 
 const url_population_structure='/population_structure'

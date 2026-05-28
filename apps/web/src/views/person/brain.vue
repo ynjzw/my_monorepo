@@ -25,25 +25,23 @@ const loadData = async () => {
   isLoading.value = true
   try {    
     rational_data = [
-          {"name": "原因", "value": "原因"},
-          {"name": "手段", "value": "手段"},
-          {"name": "目的", "value": "目的"},
-          {"name": "问题", "value": "问题"},
-          {"name": "效果", "value": "效果"}
+          {"name": "观察", "value": "观察"},
+          {"name": "记忆", "value": "记忆"},
+          {"name": "分析", "value": "分析"},
+          {"name": "推理", "value": "推理"}
         ];
     link = [
-              {"source": "原因", "target": "问题"},
-              {"source": "原因", "target": "效果"},
-              {"source": "手段", "target": "目的"},
-              {"source": "手段", "target": "效果"},
-              {"source": "目的", "target": "问题"},
+              {"source": "观察", "target": "记忆"},
+              {"source": "记忆", "target": "分析"},
+              {"source": "分析", "target": "推理"},
+              {"source": "推理", "target": "观察"}
             ]
     emotional_data = {
                         "$count": 100,
-                        "happy": { "$count": 50 },
-                        "angry": { "$count": 50 },
-                        "fear": { "$count": 20 },
-                        "sad": { "$count": 20 }
+                        "喜": { "$count": 50 },
+                        "怒": { "$count": 50 },
+                        "惧": { "$count": 50 },
+                        "悲": { "$count": 50 }
                       }
     
   } catch (error) {

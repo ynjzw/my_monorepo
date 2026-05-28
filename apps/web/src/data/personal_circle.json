@@ -1,0 +1,20 @@
+{
+    "international social": {
+        "$count":50,
+        "national social":{
+            "$count":50,
+            "local social":{
+                "$count":50,
+                "company/school":{
+                    "$count":50
+                },
+                "family":{
+                    "$count":50,
+                    "self":{
+                        "$count":50
+                    }
+                }
+            }
+        }
+    }
+}
