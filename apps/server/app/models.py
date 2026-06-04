@@ -150,7 +150,7 @@ class Population(Base):
     # 表的名字:
     __tablename__ = 'population_structure'
     # 表的结构:    
-    id = Column(String(255),primary_key=True)
+    id = Column(Integer,primary_key=True)
     region_name = Column(String(255))
     population_radio_under_14 = Column(String(255))
     population_radio_between_15_and_64=Column(String(255))

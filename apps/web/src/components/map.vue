@@ -87,7 +87,7 @@ const renderMap = async (name, adcode) => {
             top: 'bottom',
             text: ['高', '低'],
             inRange: { color: ['#5470c6', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'] },
-            show: true,
+            show: false,
             calculable: true
         },
         series: [{
@@ -102,7 +102,7 @@ const renderMap = async (name, adcode) => {
                 formatter: '{b}'
             },
             emphasis: {
-                label: { show: true },
+                label: { show: false },
                 itemStyle: { areaColor: '#ffd700' }
             },
             data: regionData
@@ -173,7 +173,7 @@ const initChinaMap = async () => {
             top: 'bottom',
             text: ['高', '低'],
             inRange: { color: ['#e0ffe0', '#00b050', '#006400'] },
-            show: true,
+            show: false,
             calculable: true
         },
         series: [{
@@ -188,7 +188,7 @@ const initChinaMap = async () => {
                 formatter: '{b}'
             },
             emphasis: {
-                label: { show: true },
+                label: { show: false },
                 itemStyle: { areaColor: '#ffd700' }
             },
             data: allRegionData

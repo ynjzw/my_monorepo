@@ -19,10 +19,10 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import Map from './map.vue';
 import Funnel from './funnel.vue';
-import { population_structure } from '@/api/index';
+import { population_structure } from '@/api/simple_api';
 
 const mapRef = ref(null);
-const currentMapName = ref('china');
+const currentMapName = ref('全国');
 const funnelData = ref([]);
 const fData = ref([]);
 
@@ -30,15 +30,12 @@ const fData = ref([]);
 const generateFunnelData = async (regionName) => {
   // 模拟不同区域的数据
   fData.value = await population_structure();
-  console.log(fData.value)
+  regionName.includes(fData.value)
   const mockDataMap = {
     'china': [
-      { name: '华北地区', value: 85 },
-      { name: '华东地区', value: 92 },
-      { name: '华南地区', value: 88 },
-      { name: '西南地区', value: 76 },
-      { name: '西北地区', value: 68 },
-      { name: '东北地区', value: 72 }
+      { name: '14岁以下人口比例', value: fData.value[0]['population_radio_under_14'] },
+      { name: '15岁到64岁人口比例', value: fData.value[0]['population_radio_between_15_and_64'] },
+      { name: '65岁以上人口比例', value: fData.value[0]['population_radio_above_65'] }
     ],
     'default': [
       { name: '一级指标', value: 100 },
@@ -64,9 +61,9 @@ const generateFunnelData = async (regionName) => {
 
 // 处理地图变更
 const handleMapChange = ({ name, adcode, level }) => {
-//   currentMapName.value = name;
-//   const newFunnelData = generateFunnelData(name);
-//   funnelData.value = [...newFunnelData];
+  currentMapName.value = name;
+  const newFunnelData = generateFunnelData(name);
+  funnelData.value = [...newFunnelData];
 };
 
 // 处理区域点击（用于额外逻辑）
@@ -82,9 +79,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   // 清理工作
-  if (mapRef.value && mapRef.value.cleanup) {
-    mapRef.value.cleanup();
-  }
+  
 });
 </script>
 

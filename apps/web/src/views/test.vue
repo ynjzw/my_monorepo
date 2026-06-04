@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { get_old_structure, get_new_structure, getLink } from '@/api';
+import { get_old_structure, get_new_structure, getLink } from '@/api/simple_api';
 import structure from '@/components/structure.vue';
 
 const old_structure = ref([])

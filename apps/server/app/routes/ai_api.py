@@ -1,5 +1,5 @@
 from fastapi import APIRouter,FastAPI,Depends,UploadFile,File,HTTPException,Query
-
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from vosk import Model, KaldiRecognizer
 from ollama import chat,ChatResponse
 
@@ -290,6 +290,78 @@ def create_knowledge_base(pdf_input: PdfPathInput):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"创建知识库失败: {str(e)}")
+
+@app.post('/insert_knowledge')
+def insert_knowledge(pdf_input: PdfPathInput):
+    """
+    从PDF文件创建知识库
+    """
+    pdf_path = pdf_input.pdf_path
+    
+    # 检查文件是否存在
+    if not os.path.exists(pdf_path):
+        raise HTTPException(status_code=404, detail=f"文件不存在: {pdf_path}")
+    
+    try:
+        # 读取PDF
+        text = ''
+        with open(pdf_path, 'rb') as file:
+            pdf_reader = PyPDF2.PdfReader(file)
+            for page_num, page in enumerate(pdf_reader.pages):
+                try:
+                    page_text = page.extract_text()
+                    if page_text:
+                        text += page_text
+                    else:
+                        print(f"警告: 第{page_num+1}页无法提取文本")
+                except Exception as e:
+                    print(f"警告: 提取第{page_num+1}页时出错: {e}")
+        
+        if not text.strip():
+            raise HTTPException(status_code=400, detail="PDF文件无法提取任何文本内容")
+        
+        # 分割文本（改进的分割方式）
+        words = text.split()
+        chunks = []
+        chunk_size = 500
+        overlap = 50  # 添加重叠避免上下文丢失
+        
+        for i in range(0, len(words), chunk_size - overlap):
+            chunk = ' '.join(words[i:i + chunk_size])
+            if chunk:  # 只添加非空块
+                chunks.append(chunk)
+        
+        documents = [
+            Document(page_content=chunk, metadata={"source": pdf_path, "chunk_id": i})
+            for i, chunk in enumerate(chunks)
+        ]
+        
+        # 创建向量存储
+        # embeddings = OllamaEmbeddings(
+        #     model="qwen2.5:7b",
+        #     base_url="http://localhost:11434"
+        # )
+        embeddings = HuggingFaceEmbeddings(
+            model_name="paraphrase-multilingual-MiniLM-L12-v2",  # 多语言，约 470MB
+            model_kwargs={'device': 'cpu'}
+        )
+        
+        vector_store = Chroma(
+            persist_directory=CHROMA_DB_PATH,
+            embedding_function=embeddings
+        )
+        vector_store.add_documents(documents)
+        return {
+            "message": f"知识引入完成",
+            "chunks_count": len(chunks),
+            "total_characters": len(text),
+            "persist_directory": CHROMA_DB_PATH
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"引入知识失败: {str(e)}")
 
 @app.post('/use_knowledge')
 def use_knowledge(question_input: QuestionInput):

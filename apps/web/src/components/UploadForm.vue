@@ -52,7 +52,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { uploadFile } from '@/api/index';
+import { uploadFile } from '@/api/upload_api';
 
 const props = defineProps({
   msg: {

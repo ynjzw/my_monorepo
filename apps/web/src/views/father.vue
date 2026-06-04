@@ -25,7 +25,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import CirclePackingChart from '@/components/CirclePackingChart.vue'
-import { getWorld } from '../api'
+import { getWorld } from '@/api/simple_api'
 
 const chartRef = ref(null)
 const currentDepth = ref(0)

@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
-import { chat,speechtotext } from '@/api'
+import { chat,speechtotext } from '@/api/ai_api'
 import { useRouter } from 'vue-router';
 
 // 响应式状态

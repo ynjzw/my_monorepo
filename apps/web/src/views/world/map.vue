@@ -133,7 +133,7 @@ const renderMap = async (name, adcode, level) => {
         left: 'left',
         top: 'bottom',
         text: ['高', '低'],
-        show: true,
+        show: false,
         calculable: true,
         seriesIndex: 0
       },
@@ -261,7 +261,7 @@ const initChinaMap = async () => {
         top: 'bottom',
         text: ['高', '低'],
         inRange: { color: ['#e8f5e9', '#66bb6a', '#2e7d32'] },
-        show: true,
+        show: false,
         calculable: true
       },
       series: [{
@@ -316,16 +316,10 @@ const goBack = () => {
 };
 
 // 清理资源
-const cleanup = () => {
-  if (currentChart) {
-    currentChart.dispose();
-    currentChart = null;
-  }
-};
+
 
 // 暴露方法给父组件
 defineExpose({
-  cleanup,
   initChinaMap,
   goBack
 });
@@ -354,16 +348,11 @@ onMounted(async () => {
   window.addEventListener('resize', handleResize);
   
   // 保存清理函数
-  const originalCleanup = cleanup;
-  cleanup = () => {
-    originalCleanup();
-    window.removeEventListener('resize', handleResize);
-    if (removeKeyboardListener) removeKeyboardListener();
-  };
+  
 });
 
 onUnmounted(() => {
-  cleanup();
+  
 });
 </script>
 

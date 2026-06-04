@@ -48,9 +48,11 @@ const routes = [
   {name: 'main',path:'/main',component:main},
   {name: 'circle',path:'/circle',component:circle},
   {name: 'ttt',path:'/ttt',component:ttt},
-  {name: 'skill_resource_wish', path: '/skill_resource_wish', component: skill_resource_wish},
+  {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph}
+  // {name: 'timeline', path: '/timeline', component: timeline},
+  // {name: 'timeaxis', path: '/timeaxis', component: timeaxis}
 ]
 
 // 创建路由实例
