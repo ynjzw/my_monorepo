@@ -1,19 +1,18 @@
-from fastapi import APIRouter,FastAPI,Depends,UploadFile,File,HTTPException,Query
+from fastapi import APIRouter,HTTPException
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from vosk import Model, KaldiRecognizer
 from ollama import chat,ChatResponse
-
-from schemas import FilterRule,FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse,PdfPathInput,QuestionInput,TripleResponse,TextInput
-
+from pathlib import Path
+from schemas import FilterRule,FilePathInput,QuestionInput,TripleResponse,TextInput
+from . import parse_api 
 from langchain_core.prompts import ChatPromptTemplate
-import PyPDF2
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 import json
-import uvicorn,os,uuid,logging,queue,json,pyttsx3
+import os,logging,queue,json,pyttsx3
 import sounddevice as sd
 
 app=APIRouter()
@@ -218,33 +217,26 @@ def extract_triples(text_input: TextInput):
         raise HTTPException(status_code=500, detail=f"提取三元组失败: {str(e)}")
 
 @app.post('/create_knowledge_base')
-def create_knowledge_base(pdf_input: PdfPathInput):
+def create_knowledge_base(file_path: FilePathInput):
     """
-    从PDF文件创建知识库
+    从文件创建知识库
     """
-    pdf_path = pdf_input.pdf_path
     
     # 检查文件是否存在
-    if not os.path.exists(pdf_path):
-        raise HTTPException(status_code=404, detail=f"文件不存在: {pdf_path}")
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"文件不存在: {file_path}")
+    
     
     try:
-        # 读取PDF
-        text = ''
-        with open(pdf_path, 'rb') as file:
-            pdf_reader = PyPDF2.PdfReader(file)
-            for page_num, page in enumerate(pdf_reader.pages):
-                try:
-                    page_text = page.extract_text()
-                    if page_text:
-                        text += page_text
-                    else:
-                        print(f"警告: 第{page_num+1}页无法提取文本")
-                except Exception as e:
-                    print(f"警告: 提取第{page_num+1}页时出错: {e}")
+        
+        ext = Path(file_path).suffix.lower()
+        if ext == '.pdf':
+            text ,metadata= parse_api.extract_text_from_pdf(file_path)
+        if ext == '.epub':
+            text ,metadata= parse_api.extract_text_from_epub(file_path)
         
         if not text.strip():
-            raise HTTPException(status_code=400, detail="PDF文件无法提取任何文本内容")
+            raise HTTPException(status_code=400, detail="文件无法提取任何文本内容")
         
         # 分割文本（改进的分割方式）
         words = text.split()
@@ -258,16 +250,19 @@ def create_knowledge_base(pdf_input: PdfPathInput):
                 chunks.append(chunk)
         
         documents = [
-            Document(page_content=chunk, metadata={"source": pdf_path, "chunk_id": i})
+            Document(page_content=chunk, metadata=metadata)
             for i, chunk in enumerate(chunks)
         ]
         
         # 创建向量存储
         embeddings = OllamaEmbeddings(
-            model="qwen2.5:7b",
+            model="nomic-embed-text",
             base_url="http://localhost:11434"
         )
-        
+        # embeddings = HuggingFaceEmbeddings(
+        #     model_name="paraphrase-multilingual-MiniLM-L12-v2",  # 多语言，约 470MB
+        #     model_kwargs={'device': 'cpu'}
+        # )
         # 如果已存在，先清理
         import shutil
         if os.path.exists(CHROMA_DB_PATH):
@@ -292,30 +287,18 @@ def create_knowledge_base(pdf_input: PdfPathInput):
         raise HTTPException(status_code=500, detail=f"创建知识库失败: {str(e)}")
 
 @app.post('/insert_knowledge')
-def insert_knowledge(pdf_input: PdfPathInput):
-    """
-    从PDF文件创建知识库
-    """
-    pdf_path = pdf_input.pdf_path
-    
+def insert_knowledge(file_path: FilePathInput):
+        
     # 检查文件是否存在
-    if not os.path.exists(pdf_path):
-        raise HTTPException(status_code=404, detail=f"文件不存在: {pdf_path}")
+    if not os.path.exists(file_path):
+        raise HTTPException(status_code=404, detail=f"文件不存在: {file_path}")
     
     try:
-        # 读取PDF
-        text = ''
-        with open(pdf_path, 'rb') as file:
-            pdf_reader = PyPDF2.PdfReader(file)
-            for page_num, page in enumerate(pdf_reader.pages):
-                try:
-                    page_text = page.extract_text()
-                    if page_text:
-                        text += page_text
-                    else:
-                        print(f"警告: 第{page_num+1}页无法提取文本")
-                except Exception as e:
-                    print(f"警告: 提取第{page_num+1}页时出错: {e}")
+        ext = Path(file_path).suffix.lower()
+        if ext == '.pdf':
+            text ,metadata= parse_api.extract_text_from_pdf(file_path)
+        if ext == '.epub':
+            text ,metadata= parse_api.extract_text_from_epub(file_path)
         
         if not text.strip():
             raise HTTPException(status_code=400, detail="PDF文件无法提取任何文本内容")
@@ -332,19 +315,19 @@ def insert_knowledge(pdf_input: PdfPathInput):
                 chunks.append(chunk)
         
         documents = [
-            Document(page_content=chunk, metadata={"source": pdf_path, "chunk_id": i})
+            Document(page_content=chunk, metadata=metadata)
             for i, chunk in enumerate(chunks)
         ]
         
         # 创建向量存储
-        # embeddings = OllamaEmbeddings(
-        #     model="qwen2.5:7b",
-        #     base_url="http://localhost:11434"
-        # )
-        embeddings = HuggingFaceEmbeddings(
-            model_name="paraphrase-multilingual-MiniLM-L12-v2",  # 多语言，约 470MB
-            model_kwargs={'device': 'cpu'}
+        embeddings = OllamaEmbeddings(
+            model="nomic-embed-text",
+            base_url="http://localhost:11434"
         )
+        # embeddings = HuggingFaceEmbeddings(
+        #     model_name="paraphrase-multilingual-MiniLM-L12-v2",  # 多语言，约 470MB
+        #     model_kwargs={'device': 'cpu'}
+        # )
         
         vector_store = Chroma(
             persist_directory=CHROMA_DB_PATH,

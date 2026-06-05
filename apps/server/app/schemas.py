@@ -50,8 +50,8 @@ class ErrorResponse(BaseModel):
     message: str
     details: Optional[Dict[str, Any]] = None
 
-class PdfPathInput(BaseModel):
-    pdf_path: str
+class FilePathInput(BaseModel):
+    file_path: str
 
 class TextInput(BaseModel):
     text: str

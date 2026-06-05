@@ -2,12 +2,11 @@ from fastapi import APIRouter,FastAPI,Depends,UploadFile,File,HTTPException,Quer
 
 from sqlalchemy import func,desc,text
 from sqlalchemy.orm import Session
-
-from schemas import FilterRule,FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse,PdfPathInput,QuestionInput,TripleResponse,TextInput
+from .parse_api import parse_excel_file,parse_json_file,parse_text_file
+from schemas import FilterRule,FileUploadResponse, FileListResponse,ImportProgressResponse,ErrorResponse,QuestionInput,TripleResponse,TextInput
 from database import get_db,engine
-from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure,Population
+from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure
 from typing import Dict, List, Optional
-from langchain_core.prompts import ChatPromptTemplate
 
 import uvicorn,os,uuid,logging,queue,json,pyttsx3
 import pandas as pd
@@ -62,71 +61,6 @@ def parse_csv_file(table_name,filepath,db:Session):
         return records,total_rows
     except Exception as e:
         print(f"CSV解析错误: {str(e)}")
-        return [],0
-
-def parse_excel_file(filepath):
-    """解析Excel文件"""
-    try:
-        df = pd.read_excel(filepath)
-        records = df.to_dict('records')
-        total_rows = len(df)
-        logger.info("Excel解析成功")
-        return records,total_rows
-    except Exception as e:
-        logger.info(f"Excel解析错误: {str(e)}")
-        return [],0
-
-def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
-    """解析JSON文件"""
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        # 处理不同的JSON结构
-        if isinstance(data, list):
-            data_list = data
-            total_rows = len(data_list)
-        elif isinstance(data, dict):
-            # 如果JSON是对象，尝试找到包含数据的数组
-            for key, value in data.items():
-                if isinstance(value, list):
-                    data_list = value
-                    total_rows = len(data_list)
-                    break
-            else:
-                data_list = [data]
-                total_rows = 1
-        else:
-            data_list = [{"data": data}]
-            total_rows = 1
-        
-        if max_rows:
-            data_list = data_list[:max_rows]
-        
-        return data_list, total_rows
-        
-    except Exception as e:
-        return [],0
-
-def parse_text_file(filepath):
-    """解析文本文件"""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            content = f.read()
-        lines = content.split('\n')
-        data_list = []
-        for i, line in enumerate(lines):
-            if line.strip():  # 跳过空行
-                data_list.append({
-                    'line_number': i + 1,
-                    'content': line.strip()
-                })
-        
-        total_rows = len(data_list)
-        logger.info(f"文本解析成功，共 {total_rows} 行")
-        return data_list, total_rows  # ✅ 返回2个值
-    except Exception as e:
-        logger.info(f"文本解析错误: {str(e)}")
         return [],0
 
 async def import_data_to_db(
