@@ -11,6 +11,15 @@ export function getNodes(){
     })    
 }
 
+const url_liveCycle='/routes/simple_api/liveCycle'
+export function getLiveCycle(){
+    // return request.get('http://localhost:8000/books')
+    return request({
+        url:url_liveCycle,
+        method:'get'
+    })    
+}
+
 const url2='/routes/simple_api/link'
 export function getLink(){
     // return request.get('http://localhost:8000/books')

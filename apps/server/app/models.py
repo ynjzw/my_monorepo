@@ -131,6 +131,18 @@ class Nodes(Base):
     children=Column(JSON,default=[])
     type = Column(String(255))
 
+class liveCycle(Base):
+    # 表的名字:
+    __tablename__ = 'vue_liveCycle'
+    # 表的结构:    
+    name = Column(String(255),primary_key=True)
+    value = Column(String(255))
+    x=Column(Integer)
+    y=Column(Integer)
+    symbol=Column(String(255))
+    symbol_size=Column(Integer)
+    itemStyle=Column(String(255))
+
 class Structure(Base):
     # 表的名字:
     __tablename__ = 'structure'

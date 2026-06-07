@@ -16,7 +16,7 @@ import os,logging,queue,json,pyttsx3
 import sounddevice as sd
 
 app=APIRouter()
-CHROMA_DB_PATH = "./chroma_db"
+CHROMA_DB_PATH = "/home/jack/chroma_db"
 logger=logging.getLogger(__name__)
 def apply_rule(rule: str, comment: str) -> bool:
     """
@@ -287,7 +287,7 @@ def create_knowledge_base(file_path: FilePathInput):
         raise HTTPException(status_code=500, detail=f"创建知识库失败: {str(e)}")
 
 @app.post('/insert_knowledge')
-def insert_knowledge(file_path: FilePathInput):
+def insert_knowledge(file_path: str):
         
     # 检查文件是否存在
     if not os.path.exists(file_path):

@@ -10,7 +10,7 @@ from typing import Dict, List, Optional
 import os
 
 app=APIRouter()
-CHROMA_DB_PATH = "./chroma_db"
+CHROMA_DB_PATH = "/home/jack/chroma_db"
 
 @app.post("/fetch_page")
 def fetch_page(self, url: str, method: str = 'GET', params: Optional[Dict] = None, 

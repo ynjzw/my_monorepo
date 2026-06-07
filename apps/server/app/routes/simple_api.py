@@ -1,7 +1,7 @@
 from fastapi import FastAPI,Depends,APIRouter
 from sqlalchemy.orm import Session
-from database import get_db,engine
-from models import Nodes,UploadFileRecord, ImportedData,Link,family,world,Structure,Population
+from database import get_db
+from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population
 
 
 app=APIRouter()
@@ -14,6 +14,11 @@ def get_datas(db:Session=Depends(get_db)):
 def get_nodes(db:Session=Depends(get_db)):
     nodes = db.query(Nodes).all()
     return nodes
+
+@app.get('/liveCycle')
+def get_liveCycle(db:Session=Depends(get_db)):
+    data = db.query(liveCycle).all()
+    return data
 
 @app.get('/population_structure')
 def get_population_structure(db:Session=Depends(get_db)):

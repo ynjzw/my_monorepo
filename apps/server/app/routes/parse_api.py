@@ -9,6 +9,7 @@ import pandas as pd
 app=APIRouter()
 logger=logging.getLogger(__name__)
 
+@app.post("/extract_text_from_epub")
 def extract_text_from_epub(epub_path: str) -> tuple[str, dict]:
     """从EPUB提取文本和元数据"""
     book = epub.read_epub(epub_path)
@@ -40,6 +41,7 @@ def extract_text_from_epub(epub_path: str) -> tuple[str, dict]:
     
     return full_text, metadata
 
+@app.post("/extract_text_from_pdf")
 def extract_text_from_pdf(pdf_path: str) -> tuple[str, dict]:
     """从PDF提取文本和元数据（你原有的逻辑）"""
     import PyPDF2

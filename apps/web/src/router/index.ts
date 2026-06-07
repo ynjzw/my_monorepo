@@ -20,6 +20,7 @@ import 地球 from '@/views/world/地球.vue'
 import China from '../views/world/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
+import vue_liveCycle from '../views/vue_liveCycle.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -50,9 +51,9 @@ const routes = [
   {name: 'ttt',path:'/ttt',component:ttt},
   {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
-  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph}
+  {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
   // {name: 'timeline', path: '/timeline', component: timeline},
-  // {name: 'timeaxis', path: '/timeaxis', component: timeaxis}
+  {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle}
 ]
 
 // 创建路由实例
