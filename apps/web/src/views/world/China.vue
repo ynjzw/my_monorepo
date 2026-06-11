@@ -1,86 +1,111 @@
-// China.vue - 父组件
 <template>
   <div class="dashboard">
     <div class="map-section">
       <Map 
         ref="mapRef"
-        :currentMapName="currentMapName"
+        
         @map-change="handleMapChange"
         @region-click="handleRegionClick"
       />
-    </div>
-    <div class="funnel-section">
-      <Funnel :data="funnelData" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, onUnmounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import Map from './map.vue';
 import Funnel from './funnel.vue';
 import { population_structure } from '@/api/simple_api';
 
 const mapRef = ref(null);
-const currentMapName = ref('全国');
+const currentMapName = ref('');
 const funnelData = ref([]);
-const fData = ref([]);
+const funnelTitle = ref('人口结构分布图');
+const funnelLoading = ref(false);
 
-// 根据区域生成漏斗图数据
-const generateFunnelData = async (regionName) => {
-  // 模拟不同区域的数据
-  fData.value = await population_structure();
-  regionName.includes(fData.value)
-  const mockDataMap = {
-    'china': [
-      { name: '14岁以下人口比例', value: fData.value[0]['population_radio_under_14'] },
-      { name: '15岁到64岁人口比例', value: fData.value[0]['population_radio_between_15_and_64'] },
-      { name: '65岁以上人口比例', value: fData.value[0]['population_radio_above_65'] }
-    ],
-    'default': [
-      { name: '一级指标', value: 100 },
-      { name: '二级指标', value: 82 },
-      { name: '三级指标', value: 67 },
-      { name: '四级指标', value: 51 },
-      { name: '五级指标', value: 38 }
-    ]
-  };
+// 根据区域名称获取人口结构数据
+const fetchPopulationStructure = async (regionName) => {
+  funnelLoading.value = true;
   
-  // 根据区域名称返回特定数据
-  if (regionName.includes('北京') || regionName.includes('上海') || regionName.includes('广东')) {
-    return [
-      { name: '高端用户', value: 45 },
-      { name: '中端用户', value: 68 },
-      { name: '普通用户', value: 82 },
-      { name: '潜在用户', value: 94 }
+  try {
+    const response = await population_structure();
+    
+    // 查找匹配的区域数据
+    let regionData = null;
+    
+    if (Array.isArray(response) && response.length > 0) {
+      
+        regionData = response.find(item => 
+          item.region_name?.includes(regionName) || 
+          regionName.includes(item.region_name)
+        );
+      
+    }
+    
+    // 生成漏斗图数据
+    if (regionData) {
+      const funnelItems = [];
+      
+      if (regionData.population_radio_under_14 !== undefined) {
+        funnelItems.push({
+          name: '14岁以下人口比例',
+          value: Number(regionData.population_radio_under_14) || 0
+        });
+      }
+      
+      if (regionData.population_radio_between_15_and_64 !== undefined) {
+        funnelItems.push({
+          name: '15-64岁人口比例',
+          value: Number(regionData.population_radio_between_15_and_64) || 0
+        });
+      }
+      
+      if (regionData.population_radio_above_65 !== undefined) {
+        funnelItems.push({
+          name: '65岁以上人口比例',
+          value: Number(regionData.population_radio_above_65) || 0
+        });
+      }
+      
+      if (funnelItems.length > 0) {
+        funnelData.value = funnelItems;
+        funnelTitle.value = `${regionName} - 人口结构分布`;
+        return;
+      }
+    }
+    
+    // 默认数据
+    funnelData.value = [
+      { name: '14岁以下人口比例', value: 18.5 },
+      { name: '15-64岁人口比例', value: 70.2 },
+      { name: '65岁以上人口比例', value: 11.3 }
     ];
+    funnelTitle.value = `${regionName} - 人口结构分布`;
+    
+  } catch (error) {
+    console.error('获取人口结构数据失败:', error);
+    funnelData.value = [];
+    funnelTitle.value = `${regionName} - 数据加载失败`;
+  } finally {
+    funnelLoading.value = false;
   }
-  
-  return mockDataMap;
 };
 
 // 处理地图变更
 const handleMapChange = ({ name, adcode, level }) => {
-  currentMapName.value = name;
-  const newFunnelData = generateFunnelData(name);
-  funnelData.value = [...newFunnelData];
+  // currentMapName.value = name;
+  fetchPopulationStructure(name);
 };
 
-// 处理区域点击（用于额外逻辑）
+// 处理区域点击
 const handleRegionClick = (regionInfo) => {
-  // console.log('点击区域详情:', regionInfo);
-  // 可以在这里添加额外的业务逻辑
+  const { name, adcode, level } = regionInfo;
+  console.log('点击区域:', name, adcode, level);
+  fetchPopulationStructure(name);
 };
 
-onMounted(() => {
-  // 初始化漏斗图数据
-  funnelData.value = generateFunnelData('全国');
-});
+// 初始化加载全国数据
 
-onUnmounted(() => {
-  // 清理工作
-  
-});
 </script>
 
 <style scoped>

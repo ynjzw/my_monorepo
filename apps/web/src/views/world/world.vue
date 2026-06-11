@@ -91,9 +91,10 @@ onMounted(() => {
           starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa'), linkDatas(110), false),
       ]
   }
-  setInterval(function () { 
-    option && myChart.setOption(option);
-  },100)
+  // setInterval(function () { 
+  //   option && myChart.setOption(option);
+  // },100)
+  option && myChart.setOption(option);
   if (!myChart) return
   
   // 节点点击事件

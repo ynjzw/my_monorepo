@@ -1,16 +1,8 @@
-// map.vue - 地图组件（完善版）
 <template>
   <div class="chart-wrapper">
     <div class="map-header">
-      <button 
-        v-if="currentMapName !== 'china'" 
-        @click="initChinaMap" 
-        class="drill-btn"
-      >
-        ← 返回全国地图
-      </button>
       <div class="map-tip">
-        💡 提示：点击地图区域下钻，按 ESC 键返回上一级
+        💡 提示：点击地图上的区域可查看该区域的人口结构数据
       </div>
     </div>
     <div 
@@ -24,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import * as echarts from 'echarts';
 
 const props = defineProps({
@@ -39,8 +31,6 @@ const emit = defineEmits(['map-change', 'region-click']);
 const chartContainer = ref(null);
 let currentChart = null;
 let currentMapName = ref('china');
-let currentAdcode = ref('100000');
-let historyStack = ref([]); // 历史记录栈，用于支持返回
 const loading = ref(false);
 const error = ref('');
 
@@ -58,63 +48,44 @@ const getJson = async (adcode) => {
   }
 };
 
-// 添加上钻功能（键盘ESC）
-const setupKeyboardDrill = () => {
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape' && currentMapName.value !== 'china') {
-      initChinaMap();
-    }
-  };
-  window.addEventListener('keydown', handleKeyDown);
-  return () => window.removeEventListener('keydown', handleKeyDown);
-};
-
-// 渲染地图
-const renderMap = async (name, adcode, level) => {
+// 渲染中国地图
+const renderChinaMap = async () => {
   if (!currentChart) return;
   
   loading.value = true;
   error.value = '';
   
   try {
-    const geoJson = await getJson(adcode);
-    if (!geoJson || !geoJson.features || geoJson.features.length === 0) {
-      alert('无法加载该区域地图数据');
-      return false;
+    const chinaGeoJson = await getJson('100000');
+    if (!chinaGeoJson) {
+      throw new Error('无法加载中国地图数据');
     }
     
-    // 注册新地图
-    const mapName = `map_${adcode}`;
-    echarts.registerMap(mapName, geoJson);
+    echarts.registerMap('china', chinaGeoJson);
     
-    // 准备数据
-    const features = geoJson.features || [];
-    const regionData = features.map(feature => {
+    // 处理 features 数据
+    const features = chinaGeoJson.features || [];
+    const validFeatures = features.filter(feature => {
+      const props = feature.properties;
+      return props && props.name && !props.name.includes('南海');
+    });
+    
+    // 生成区域数据（添加随机数值用于可视化）
+    const regionData = validFeatures.map(feature => {
       const props = feature.properties;
       return {
         name: props.name,
-        value: Math.floor(Math.random() * 60) + 20, // 随机数据20-80
-        adcode: props.adcode,
-        level: props.level
+        value: Math.floor(Math.random() * 70) + 30,
+        adcode: props.adcode ? String(props.adcode) : '',
+        level: props.level || 'province'
       };
     });
     
-    // 动态计算visualMap的配色
-    const visualMapConfig = level === 'country' ? {
-      min: 0,
-      max: 100,
-      inRange: { color: ['#e8f5e9', '#4caf50', '#2e7d32'] }
-    } : {
-      min: 0,
-      max: 100,
-      inRange: { color: ['#e3f2fd', '#2196f3', '#1565c0'] }
-    };
-    
-    // 更新图表配置
+    // 配置地图选项
     currentChart.setOption({
       title: {
         show: true,
-        text: name,
+        text: '中国地图',
         left: 'center',
         top: 10,
         textStyle: { fontSize: 16, fontWeight: 'bold' }
@@ -123,25 +94,26 @@ const renderMap = async (name, adcode, level) => {
         trigger: 'item',
         formatter: (params) => {
           if (params.data) {
-            return `${params.name}<br/>数值：${params.value}<br/>点击查看详情`;
+            return `${params.name}<br/>点击查看人口结构数据`;
           }
           return `${params.name}`;
         }
       },
       visualMap: {
-        ...visualMapConfig,
+        min: 0,
+        max: 100,
         left: 'left',
         top: 'bottom',
         text: ['高', '低'],
+        inRange: { color: ['#e8f5e9', '#66bb6a', '#2e7d32'] },
         show: false,
-        calculable: true,
-        seriesIndex: 0
+        calculable: true
       },
       series: [{
-        name: name,
+        name: '中国地图',
         type: 'map',
-        map: mapName,
-        roam: true,
+        map: 'china',
+        roam: true,  // 允许缩放和平移
         zoom: 1.2,
         scaleLimit: { min: 0.8, max: 3 },
         label: {
@@ -160,199 +132,105 @@ const renderMap = async (name, adcode, level) => {
         },
         data: regionData
       }]
-    }, true);
-    
-    currentMapName.value = name;
-    currentAdcode.value = adcode;
-    
-    // 触发父组件事件
-    emit('map-change', { name, adcode, level });
-    return true;
-  } catch (err) {
-    console.error('渲染地图失败:', err);
-    error.value = '渲染地图失败';
-    return false;
-  } finally {
-    loading.value = false;
-  }
-};
-
-// 点击下钻处理
-const handleMapClick = async (params) => {
-  if (!params.data) return;
-  
-  const { adcode, name, level } = params.data;
-  console.log('点击区域:', { adcode, name, level });
-  
-  // 触发父组件的区域点击事件
-  emit('region-click', { adcode, name, level });
-  
-  // district级别（区县级）不再下钻
-  if (level === 'district') {
-    alert('当前为区县级区域，无法继续下钻');
-    return;
-  }
-  
-  // 保存当前状态到历史栈
-  historyStack.value.push({
-    name: currentMapName.value,
-    adcode: currentAdcode.value
-  });
-  
-  // 检查是否有子区域数据
-  const testData = await getJson(adcode);
-  if (testData && testData.features && testData.features.length > 0) {
-    await renderMap(name, adcode, level);
-  } else {
-    alert('该区域暂无更详细的地图数据');
-    // 如果失败，从历史栈中移除刚才添加的记录
-    historyStack.value.pop();
-  }
-};
-
-// 初始化中国地图
-const initChinaMap = async () => {
-  if (!currentChart) return;
-  
-  loading.value = true;
-  error.value = '';
-  
-  try {
-    // 清空历史栈
-    historyStack.value = [];
-    
-    const chinaGeoJson = await getJson('100000');
-    if (!chinaGeoJson) return;
-    
-    echarts.registerMap('china', chinaGeoJson);
-    
-    const features = chinaGeoJson.features || [];
-    // 过滤掉一些特殊区域（如南海诸岛等）
-    const validFeatures = features.filter(f => 
-      f.properties && f.properties.name && !f.properties.name.includes('南海')
-    );
-    
-    const allRegionData = validFeatures.map(feature => {
-      const props = feature.properties;
-      return {
-        name: props.name,
-        value: Math.floor(Math.random() * 70) + 30, // 随机数据30-100
-        adcode: props.adcode,
-        level: props.level || 'province'
-      };
-    });
-    
-    currentChart.setOption({
-      title: {
-        show: true,
-        text: '中国地图',
-        left: 'center',
-        top: 10,
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}<br/>数值：{c}<br/>点击查看详情'
-      },
-      visualMap: {
-        min: 0,
-        max: 100,
-        left: 'left',
-        top: 'bottom',
-        text: ['高', '低'],
-        inRange: { color: ['#e8f5e9', '#66bb6a', '#2e7d32'] },
-        show: false,
-        calculable: true
-      },
-      series: [{
-        name: '中国地图',
-        type: 'map',
-        map: 'china',
-        roam: true,
-        zoom: 1.2,
-        scaleLimit: { min: 0.8, max: 3 },
-        label: {
-          show: true,
-          fontSize: 10,
-          formatter: '{b}',
-          color: '#333'
-        },
-        emphasis: {
-          label: { show: true, fontWeight: 'bold' },
-          itemStyle: { areaColor: '#ffd700' }
-        },
-        select: {
-          label: { show: true },
-          itemStyle: { areaColor: '#ff9800' }
-        },
-        data: allRegionData
-      }]
     });
     
     currentMapName.value = 'china';
-    currentAdcode.value = '100000';
     
     // 触发父组件事件
     emit('map-change', { name: '中国', adcode: '100000', level: 'country' });
   } catch (err) {
     console.error('初始化中国地图失败:', err);
-    error.value = '初始化地图失败';
+    error.value = '初始化地图失败：' + err.message;
   } finally {
     loading.value = false;
   }
 };
 
-// 返回上一级（如果历史记录存在）
-const goBack = () => {
-  if (historyStack.value.length === 0) {
-    initChinaMap();
-    return;
+// 处理区域点击（只返回区域信息，不下钻）
+const handleRegionClick = (params) => {
+  if (!params.data) return;
+  
+  // 获取点击的区域信息
+  const regionInfo = {
+    name: params.name,
+    adcode: params.data.adcode ? String(params.data.adcode) : '',
+    value: params.data.value,
+    level: params.data.level || 'province'
+  };
+  
+  console.log('点击区域:', regionInfo);
+  
+  // 触发事件，将区域名称返回给父组件
+  emit('region-click', regionInfo);
+  // 同时触发 map-change 事件
+  emit('map-change', { 
+    name: regionInfo.name, 
+    adcode: regionInfo.adcode, 
+    level: regionInfo.level 
+  });
+};
+
+// 初始化图表
+const initChart = () => {
+  if (!chartContainer.value) return;
+  
+  if (currentChart) {
+    currentChart.dispose();
   }
   
-  const prev = historyStack.value.pop();
-  if (prev && prev.adcode !== currentAdcode.value) {
-    renderMap(prev.name, prev.adcode, 'province');
-  }
+  currentChart = echarts.init(chartContainer.value);
+  
+  // 添加点击事件
+  currentChart.on('click', handleRegionClick);
+  
+  // 渲染中国地图
+  renderChinaMap();
 };
 
 // 清理资源
+// const cleanup = () => {
+//   if (currentChart) {
+//     currentChart.off('click', handleRegionClick);
+//     currentChart.dispose();
+//     currentChart = null;
+//   }
+// };
 
+// 窗口适配
+let resizeObserver = null;
 
-// 暴露方法给父组件
-defineExpose({
-  initChinaMap,
-  goBack
-});
-
-let removeKeyboardListener = null;
-
-onMounted(async () => {
-  if (!chartContainer.value) return;
+onMounted(() => {
+  initChart();
   
-  // 初始化图表
-  currentChart = echarts.init(chartContainer.value);
-  
-  // 初始化中国地图
-  await initChinaMap();
-  
-  // 添加下钻点击事件
-  currentChart.on('click', handleMapClick);
-  
-  // 添加上钻功能（键盘）
-  removeKeyboardListener = setupKeyboardDrill();
-  
-  // 窗口适配
+  // 监听窗口大小变化
   const handleResize = () => {
-    currentChart && currentChart.resize();
+    if (currentChart) {
+      currentChart.resize();
+    }
   };
   window.addEventListener('resize', handleResize);
   
   // 保存清理函数
-  
+  // const originalCleanup = cleanup;
+  // cleanup = () => {
+  //   window.removeEventListener('resize', handleResize);
+  //   originalCleanup();
+  // };
 });
 
 onUnmounted(() => {
-  
+    if (handleResize) {
+      window.removeEventListener('resize', handleResize);
+    }
+    if (currentChart) {
+      currentChart.dispose();
+      currentChart = null;
+    }
+});
+
+// 暴露方法给父组件
+defineExpose({
+  refreshMap: renderChinaMap
 });
 </script>
 
@@ -367,35 +245,11 @@ onUnmounted(() => {
 
 .map-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 12px 16px;
   background: #f8f9fa;
   border-bottom: 1px solid #e9ecef;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.drill-btn {
-  background: #4caf50;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.drill-btn:hover {
-  background: #45a049;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.drill-btn:active {
-  transform: translateY(0);
 }
 
 .map-tip {

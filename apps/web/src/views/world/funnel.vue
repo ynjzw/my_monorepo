@@ -1,31 +1,6 @@
-// funnel.vue - 漏斗图组件（完善版）
-<template>
-  <div class="funnel-wrapper">
-    <div class="funnel-header">
-      <h3 class="funnel-title">{{ title }}</h3>
-      <div class="funnel-actions">
-        <button @click="refreshData" class="refresh-btn" title="刷新数据">
-          🔄
-        </button>
-      </div>
-    </div>
-    <div 
-      ref="chartContainer" 
-      class="funnel-container"
-      :class="{ 'loading-overlay': loading }"
-    ></div>
-    <div v-if="loading" class="loading">加载中...</div>
-    <div v-if="error" class="error">{{ error }}</div>
-    <div v-if="!hasData && !loading" class="no-data">
-      <span>暂无数据</span>
-    </div>
-  </div>
-</template>
-
+// funnel.vue - 添加 loading prop
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
-import * as echarts from 'echarts';
-
+// 在 props 中添加 loading
 const props = defineProps({
   data: {
     type: Array,
@@ -34,12 +9,17 @@ const props = defineProps({
   title: {
     type: String,
     default: '数据漏斗图'
+  },
+  loading: {  // 新增 loading prop
+    type: Boolean,
+    default: false
   }
 });
 
+// 在模板中使用 loading 状态
+// 注意：需要在 template 中使用 props.loading 而不是本地的 loading
 const chartContainer = ref(null);
 let chartInstance = null;
-const loading = ref(false);
 const error = ref('');
 
 const hasData = computed(() => {
@@ -258,102 +238,19 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
-.funnel-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.funnel-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e9ecef;
-  background: #fafbfc;
-}
-
-.funnel-title {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.funnel-actions {
-  display: flex;
-  gap: 8px;
-}
-
-.refresh-btn {
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  opacity: 0.7;
-}
-
-.refresh-btn:hover {
-  background: #f0f0f0;
-  opacity: 1;
-  transform: rotate(180deg);
-}
-
-.funnel-container {
-  flex: 1;
-  width: 100%;
-  min-height: 400px;
-  transition: opacity 0.3s ease;
-}
-
-.funnel-container.loading-overlay {
-  opacity: 0.6;
-}
-
-.loading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  z-index: 10;
-  font-size: 14px;
-}
-
-.error {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(220, 53, 69, 0.9);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 8px;
-  z-index: 10;
-  font-size: 14px;
-}
-
-.no-data {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #adb5bd;
-  font-size: 14px;
-  background: #f8f9fa;
-  padding: 20px 30px;
-  border-radius: 8px;
-  text-align: center;
-}
-</style>
+<template>
+  <div class="funnel-wrapper">
+    <div class="funnel-header">
+      <h3 class="funnel-title">{{ title }}</h3>
+    </div>
+    <div 
+      ref="chartContainer" 
+      class="funnel-container"
+      :class="{ 'loading-overlay': props.loading }"
+    ></div>
+    <div v-if="props.loading" class="loading">加载数据中...</div>
+    <div v-if="!hasData && !props.loading" class="no-data">
+      <span>暂无数据</span>
+    </div>
+  </div>
+</template>
