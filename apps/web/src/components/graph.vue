@@ -19,7 +19,7 @@
 <script setup >
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
-import NodeDialog from './NodeDialog.vue'; // 导入Dialog组件
+import NodeDialog from './dialog.vue'; // 导入Dialog组件
 
 const props = defineProps({
   data: {

@@ -6,7 +6,7 @@
 
 <script setup>
 import { ref ,onMounted} from 'vue';
-import graph from '../components/graph1.vue';
+import graph from '../components/graph.vue';
 import {getLiveCycle,getLink} from '@/api/simple_api'
 
 const data=ref([])

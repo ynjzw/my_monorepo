@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import home from '../views/home.vue'
-import test from '../views/test.vue'
+import show_diff_structure from '../views/show_diff_structure.vue'
 import person from '../views/person/person.vue'
 import world from '../views/world/world.vue'
 import nation from '../views/nation.vue'
@@ -24,7 +24,7 @@ import vue_liveCycle from '../views/vue_liveCycle.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
-  {name: 'test',path: '/test',component: test},
+  {name: 'show_diff_structure',path: '/show_diff_structure',component: show_diff_structure},
   {
     name: 'person',
     path: '/person',
