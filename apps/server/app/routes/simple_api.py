@@ -1,7 +1,7 @@
 from fastapi import FastAPI,Depends,APIRouter
 from sqlalchemy.orm import Session
 from database import get_db
-from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population
+from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population,solar
 
 
 app=APIRouter()

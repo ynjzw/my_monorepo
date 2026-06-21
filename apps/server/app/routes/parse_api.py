@@ -72,37 +72,34 @@ def parse_excel_file(filepath):
         logger.info(f"Excel解析错误: {str(e)}")
         return [],0
 
-def parse_json_file(file_path: str, max_rows: int = None) -> tuple:
+@app.post("/parse_json_file")
+def parse_json_file(file_path) :
     """解析JSON文件"""
+
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-        
-        # 处理不同的JSON结构
-        if isinstance(data, list):
-            data_list = data
-            total_rows = len(data_list)
-        elif isinstance(data, dict):
-            # 如果JSON是对象，尝试找到包含数据的数组
-            for key, value in data.items():
-                if isinstance(value, list):
-                    data_list = value
-                    total_rows = len(data_list)
-                    break
-            else:
-                data_list = [data]
-                total_rows = 1
-        else:
-            data_list = [{"data": data}]
-            total_rows = 1
-        
-        if max_rows:
-            data_list = data_list[:max_rows]
-        
-        return data_list, total_rows
-        
+        return {"status": "success", "data": data}
+    except FileNotFoundError:
+        return {"status": "error", "message": f"文件不存在: {file_path}"}
+    except json.JSONDecodeError as e:
+        return {"status": "error", "message": f"JSON解析错误: {str(e)}"}
     except Exception as e:
-        return [],0
+        return {"status": "error", "message": f"服务器错误: {str(e)}"}
+        
+        # # 处理不同的JSON结构
+        # if isinstance(data, list):
+        #     data_list = data
+        # elif isinstance(data, dict):
+        #     # 如果JSON是对象，尝试找到包含数据的数组
+        #     for key, value in data.items():
+        #         if isinstance(value, list):
+        #             data_list = value
+        #             break
+        #     else:
+        #         data_list = [data]
+        # else:
+        #     data_list = [{"data": data}]
 
 def parse_text_file(filepath):
     """解析文本文件"""

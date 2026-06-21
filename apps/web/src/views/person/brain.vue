@@ -21,7 +21,7 @@ const handleError = (error) => {
 }
 
 // 加载数据
-const loadData = async () => {
+const loadData = () => {
   isLoading.value = true
   try {    
     rational_data = [

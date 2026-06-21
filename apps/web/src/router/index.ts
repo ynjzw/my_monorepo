@@ -21,6 +21,7 @@ import China from '../views/world/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
 import vue_liveCycle from '../views/vue_liveCycle.vue'
+import use_circle from '../views/use_circle.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -36,10 +37,12 @@ const routes = [
     path: '/world',
     component: world,
     children: [
-      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('@/views/hundreds_dots.vue')}
+      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
     ]
   },
-  {name: 'China',path: '/China',component: China},
+  {name: 'China',path: '/China',component: China,children: [
+      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
+    ]},
   {name: 'internation',path: '/internation',component: internation},
   {name: '地球',path: '/地球',component: 地球},
   {name: 'nation',path: '/nation',component: nation},
@@ -49,10 +52,11 @@ const routes = [
   {name: 'main',path:'/main',component:main},
   {name: 'circle',path:'/circle',component:circle},
   {name: 'ttt',path:'/ttt',component:ttt},
+  {name: 'hundreds_dots',path: '/hundreds_dots',component: hundreds_dots},
   {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
-  // {name: 'timeline', path: '/timeline', component: timeline},
+  {name: 'use_circle', path: '/use_circle', component: use_circle},
   {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle}
 ]
 

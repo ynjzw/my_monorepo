@@ -80,19 +80,17 @@ onMounted(() => {
         tooltip: { trigger: 'item' },
         series: [{
             type: 'graph',
-            layout: 'circular',
+            layout: 'force',
             data: nodes,
             links: links,
             roam: true,
             label: { show: true, position: 'right', fontSize: 10 },
             force: { 
-                repulsion: 300, 
+                repulsion: 100, 
                 edgeLength: 150,
-                gravity: 0.1,
+                gravity: 0.3,
                 friction: 0.1
-            },
-            lineStyle: { color: '#aaa', curveness: 0.3 },
-            emphasis: { focus: 'adjacency' }
+            }
         }]
     });
     

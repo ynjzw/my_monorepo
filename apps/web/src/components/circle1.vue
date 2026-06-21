@@ -15,12 +15,13 @@
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
+
 const props = defineProps({
   data: {
-    type: Object,
-    default: ()=>{}
+    type: Array,
+    default: () => []  // 提供默认值
   }
-});
+})
 // props & emits
 const data = {
                 "$count": 100,
@@ -65,7 +66,7 @@ const currentDepth = ref(0);
 const error = ref(null);
 const loading = ref(false);
 // 准备数据
-const prepareData = async (rawData) => {
+const prepareData = (rawData) => {
   const dataArr = [];
   let depth = 0;
   const convert = (source, basePath, currentDepth) => {
@@ -95,7 +96,7 @@ const prepareData = async (rawData) => {
       }
     }
   };
-  await convert(rawData, 'root', 0);
+  convert(rawData, 'root', 0);
   // console.log(dataArr,depth)
   return {
     seriesData: dataArr,
@@ -128,7 +129,7 @@ const initChart = () => {
 };
 
 // 创建层级数据
-const stratifyData = async () => {
+const stratifyData = () => {
   return d3
     .stratify()
     .parentId((d) => {
@@ -275,50 +276,37 @@ const bindEvents = () => {
 };
 
 // 下钻功能
-const drillDown = async (targetNodeId) => {
-    displayRoot = stratify();
-    if (targetNodeId != null) {
-      displayRoot = displayRoot.descendants().find(function (node) {
-        return node.data.id === targetNodeId;
-      });
-    }
-    // A trick to prevent d3-hierarchy from visiting parents in this algorithm.
-    displayRoot.parent = null;
-    myChart.setOption({
+const drillDown = (targetNodeId) => {
+  displayRoot.value = stratifyData();
+  
+  let rawData;
+  rawData = happy;
+  const result = prepareData(rawData);
+  seriesData.value = result.seriesData;
+  maxDepth.value = result.maxDepth;
+  emit('data-loaded', result);
+  
+  initChart();
+  if (targetNodeId) {
+    displayRoot.value = displayRoot.value.descendants().find(
+      (node) => node.data.id === targetNodeId
+    );
+  }
+  if (displayRoot.value) {
+    displayRoot.value.parent = null;
+    // 更新当前深度
+    currentDepth.value = displayRoot.value.depth;
+    // 刷新图表
+    myChart.value.setOption({
       dataset: {
-        source: seriesData
+        source: seriesData.value
       }
     });
-  // displayRoot.value = stratifyData();
-  
-  // let rawData;
-  // rawData = happy;
-  // const result = await prepareData(rawData);
-  // seriesData.value = result.seriesData;
-  // maxDepth.value = result.maxDepth;
-  // emit('data-loaded', result);
-  
-  // initChart();
-  // if (targetNodeId) {
-  //   displayRoot.value = displayRoot.value.descendants().find(
-  //     (node) => node.data.id === targetNodeId
-  //   );
-  // }
-  // if (displayRoot.value) {
-  //   displayRoot.value.parent = null;
-  //   // 更新当前深度
-  //   currentDepth.value = displayRoot.value.depth;
-  //   // 刷新图表
-  //   myChart.value.setOption({
-  //     dataset: {
-  //       source: seriesData.value
-  //     }
-  //   });
-  // }
+  }
 };
 
 // 重置视图
-const resetView = async() => {
+const resetView = () => {
   displayRoot.value = stratifyData();
   currentDepth.value = 0;
   myChart.value.setOption({
@@ -334,10 +322,9 @@ const loadData = async () => {
   error.value = null;
   try {
     let rawData;
-    // rawData = props.data;
-    rawData = data
+    rawData = data;
     await new Promise(resolve => setTimeout(resolve, 500));
-    const result = await prepareData(rawData);
+    const result = prepareData(rawData);
     seriesData.value = result.seriesData;
     maxDepth.value = result.maxDepth;
     emit('data-loaded', result);
@@ -382,11 +369,10 @@ let direction = 1; // 1: 增大, -1: 减小
 let innerValue = 20;
 
 onMounted(() => {
-  console.log(props.data)
   loadData();
   window.addEventListener('resize', handleResize);
   const observer = setupResizeObserver();
-  // console.log(eval(Object.keys(data)[2]));
+  console.log(eval(Object.keys(data)[2]));
   
   // 动画：一级节点 value 在 20~50 之间来回变化
   intervalId = setInterval(() => {

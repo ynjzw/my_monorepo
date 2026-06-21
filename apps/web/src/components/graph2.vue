@@ -6,21 +6,29 @@
     ></div>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-if="error" class="error">{{ error }}</div>
+    
+    <!-- 可复用的Dialog组件 -->
+    <NodeDialog 
+      v-model:visible="dialogVisible"
+      :node-data="selectedNode"
+      @close="handleDialogClose"
+    />
   </div>
 </template>
 
 <script setup >
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
+import NodeDialog from './dialog.vue'; // 导入Dialog组件
 
 const props = defineProps({
   data: {
     type: Array,
-    default: () => []  // 提供默认值
+    default: () => []
   },
   link: {
     type: Array,
-    default: () => []  // 提供默认值
+    default: () => []
   },
   layout: {
     type: String,
@@ -32,27 +40,31 @@ const chartContainer = ref(null)
 let myChart = null
 const loading = ref(false)
 const error = ref(null)
+const dialogVisible = ref(false)
+const selectedNode = ref(null)
 
 const emit = defineEmits([
   'chart-ready',
-  'error'
+  'error',
+  'node-click'  // 新增节点点击事件
 ])
+
 const initChart = () => {
   if (!chartContainer.value) return
   
   try {
-    // 如果已存在图表实例，先销毁
     if (myChart) {
       myChart.dispose()
     }
     
-    // 创建新图表实例
     myChart = echarts.init(chartContainer.value)
     
-    // 设置基本选项
+    // 添加点击事件监听
+    myChart.off('click') // 移除之前的监听器避免重复
+    myChart.on('click', handleChartClick)
+    
     updateChartOptions()
     
-    // 监听窗口大小变化
     window.addEventListener('resize', handleResize)
     
     emit('chart-ready', myChart)
@@ -63,16 +75,45 @@ const initChart = () => {
     emit('error', err)
   }
 }
+
+// 处理图表点击事件
+const handleChartClick = (params) => {
+  // 检查是否点击的是节点（seriesName 为 'graph' 且 dataType 为 'node'）
+  if (params.componentType === 'series' && params.seriesName === 'graph' && params.dataType === 'node') {
+    const nodeData = params.data
+    selectedNode.value = {
+      name: nodeData.name,
+      value: nodeData.value,
+      category: nodeData.category,
+      symbolSize: nodeData.symbolSize,
+      itemStyle: nodeData.itemStyle,
+      // 可以添加更多你需要的数据
+      ...nodeData
+    }
+    dialogVisible.value = true
+    emit('node-click', nodeData)
+  }
+}
+
+// 关闭Dialog
+const handleDialogClose = () => {
+  dialogVisible.value = false
+  selectedNode.value = null
+}
+
 watch(
   () => [props.data, props.link, props.layout],
   () => {
     if (myChart && (props.data.length > 0 || props.link.length > 0)) {
       updateChartOptions()
+      // 重新绑定点击事件（因为图表重新渲染后需要重新绑定）
+      myChart.off('click')
+      myChart.on('click', handleChartClick)
     }
   },
-  { deep: true, immediate: true }  // immediate: true 让初始加载时也执行
+  { deep: true, immediate: true }
 )
-// 更新图表选项
+
 const updateChartOptions = () => {
   if (!myChart) return
   
@@ -80,24 +121,32 @@ const updateChartOptions = () => {
     series: [{
       type: 'graph',
       layout: props.layout,
-      draggable:true,    
+      draggable: true,    
       symbolSize: 50,
       roam: true,
       label: {
-        show: true
+        show: true,
+        position: 'right',
+        formatter: '{b}'
       },
-      data: props.data,  // 使用传入的数据
-      //data:[{name:'xxx',value:'xxx',symbolSize:10,Symbol:'rect'}],
-      links: props.link,  // 可以根据需要从props传入
+      data: props.data,
+      links: props.link,
       lineStyle: {
         opacity: 0.9,
         width: 2,
-        curveness: 0
+        curveness: 0,
+        color: '#333'
       },
       force: {
         initLayout: 'circular',
         gravity: 0.1,
         repulsion: 1000
+      },
+      emphasis: {
+        focus: 'adjacency',
+        lineStyle: {
+          width: 3
+        }
       }
     }],
     toolbox: {
@@ -107,16 +156,13 @@ const updateChartOptions = () => {
         saveAsImage: {}
       }
     },
-    itemStyle:{
-      
-    },
     title: {
-      text: 'test',
+      text: '生命周期关系图',
       left: 'center',
       top: 10,
       textStyle: {
         fontSize: 14,
-        color: 'white',
+        color: '#333',
         fontWeight: 'normal'
       }
     }
@@ -124,7 +170,7 @@ const updateChartOptions = () => {
   
   myChart.setOption(option)
 }
-// 组件挂载后初始化
+
 onMounted(() => {
   initChart()
   if (props.data.length > 0 || props.link.length > 0) {
@@ -134,7 +180,15 @@ onMounted(() => {
   }
 })
 
-// 处理窗口大小变化
+// 清理事件监听
+onBeforeUnmount(() => {
+  if (myChart) {
+    myChart.off('click')
+    myChart.dispose()
+  }
+  window.removeEventListener('resize', handleResize)
+})
+
 const handleResize = () => {
   myChart?.resize()
 }
@@ -145,7 +199,7 @@ defineExpose({
 })
 </script>
 
-<style>
+<style scoped>
 .loading {
   text-align: center;
   padding: 20px;
@@ -160,10 +214,10 @@ defineExpose({
 }
 
 .chart-container {
-  width: 800px;
+  width: 100%;
   height: 600px;
-  min-height: 400px; /* 设置最小高度 */
+  min-height: 400px;
   min-width: 400px; 
-  background-color: blanchedalmond;
+  background-color: #f5f5f5;
 }
 </style>

@@ -3,7 +3,6 @@ import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
 const data = {
-                "$count": 100,
                 "金融": { 
                     
                     "银行": {
@@ -41,9 +40,9 @@ const data = {
                     }
                 },
                 "周期": { 
-                    
+                    "$count":90,
                     "钢铁": {
-                        "$count":10,
+                        "$count":40,
                     },
                     "煤炭": {
                         "$count":10,

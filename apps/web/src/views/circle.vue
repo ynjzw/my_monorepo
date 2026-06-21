@@ -16,22 +16,23 @@
     </div>
     
     <!-- 控制面板 -->
-    <div class="control-panel">
+    <!-- <div class="control-panel">
       <button @click="goBack" class="control-btn" :disabled="historyStack.length <= 1">
         ← 返回上一级
       </button>
       <button @click="resetToRoot" class="control-btn">🏠 根节点</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, nextTick, computed } from 'vue'
 import * as echarts from 'echarts'
+import test1 from '@/data/test1.json'
 
 // 模拟数据 - 树形结构
 const mockData = {
-  name: "根节点",
+  name: "11节点",
   value:11,
   children: [
     {
@@ -40,7 +41,7 @@ const mockData = {
       children: [
         { name: "Line", value: 10 },
         { name: "Bar", value: 12 },
-        { name: "Pie", value: 8 }
+        { name: "Pie", value: 1 }
       ]
     },
     {
@@ -56,24 +57,21 @@ const mockData = {
             { name: "Danger", value: 5 }
           ]
         },
-        {
-          "$count":5,
-          "Option1": {
-            "$count":3,
-          },
-          "Option2": {
-            "$count":10,
-          },
-          "Option3": {
-            "$count":10,
-          }
-        },
         { name: "Table", value: 13 }
       ]
     },
     {
       name: "Option",
       value: 30,
+      children: [
+        { name: "Setting", value: 10 },
+        { name: "Preference", value: 10 },
+        { name: "Config", value: 10 }
+      ]
+    },
+    {
+      name: "Option222",
+      value: 10,
       children: [
         { name: "Setting", value: 10 },
         { name: "Preference", value: 10 },
@@ -197,6 +195,13 @@ const createChartOption = (nodes, edges, root) => {
           info += `叶子节点`
         }
         return info
+      }
+    },
+    toolbox: {
+      feature: {
+        dataView: { readOnly: false },
+        restore: {},
+        saveAsImage: {backgroundColor:'pillow'}
       }
     },
     series: [
@@ -352,7 +357,7 @@ onMounted(() => {
 .chart-container {
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #666eea 0%, #c0c1c0 100%);
 }
 
 .loading-overlay,
@@ -399,7 +404,7 @@ onMounted(() => {
 }
 
 .error-overlay button:hover {
-  background: #764ba2;
+  background: pillow;
   transform: translateY(-2px);
 }
 
@@ -420,7 +425,7 @@ onMounted(() => {
 
 .control-btn {
   padding: 6px 15px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #c0c0c0 0%, #c0c0c0 100%);
   color: white;
   border: none;
   border-radius: 20px;

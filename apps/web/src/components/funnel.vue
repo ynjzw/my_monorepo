@@ -7,7 +7,7 @@ const loading = ref(false)
 const props = defineProps({
   data: {
     type: Array,
-    default: () => [{name:'hhhh'}]
+    default: () => []
   },
   title: {
     type: String,
@@ -92,7 +92,7 @@ const updateChart = () => {
         name: '漏斗图',
         type: 'funnel',
         // left: '15%',
-        width: '50%',
+        // width: '50%',
         sort: 'none', // 降序排列
         // gap: 2, // 间距
         label: {
@@ -270,7 +270,7 @@ onUnmounted(() => {
 }
 
 .funnel-container {
-  width: 200px;
+  width: 300px;
   height: 300px;
 }
 </style>

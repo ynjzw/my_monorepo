@@ -1,0 +1,6 @@
+{
+    "person": { "$count": 50
+    },
+    "world": { "$count": 50
+            }
+}

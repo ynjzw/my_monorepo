@@ -7,6 +7,24 @@
         @region-click="handleRegionClick"
       />
     </div>
+    <div>
+    <!-- 标签页导航 -->
+      <div class="tab-nav">
+        <button 
+          v-for="tab in tabs" 
+          :key="tab.name"
+          @click="currentTab = tab.component"
+          :class="{ active: currentTab === tab.component }"
+        >
+          {{ tab.label }}
+        </button>
+      </div> 
+
+      <!-- 核心：动态组件，is 绑定到当前选中的组件 -->
+      <!-- <KeepAlive>
+          <component :is="currentTab" />
+      </KeepAlive> -->
+    </div>
     <div class="funnel-section">
       <Funnel ref="funnelRef" :data="funnelData" :title="funnelTitle"></Funnel>
     </div>
@@ -19,10 +37,16 @@ import Map from '@/components/map.vue';
 import Funnel from '@/components/funnel.vue';
 import { population_structure } from '@/api/simple_api';
 
+const tabs = [
+  { name: 'tabA', label: '人口结构', component: Funnel },
+  { name: 'tabB', label: '收入结构', component: Funnel }
+]
+const currentTab = ref(tabs[0].component)
+
 const mapRef = ref(null);
 const funnelRef = ref(null);
 const currentMapName = ref('');
-const funnelData = ref({});
+const funnelData = ref([]);
 const funnelTitle = ref('人口结构分布图');
 const funnelLoading = ref(false);
 const data = ref([]);
@@ -72,7 +96,7 @@ const fetchPopulationStructure = async (regionName) => {
     
     if (funnelItems.length > 0) {
       funnelData.value = funnelItems;
-      funnelTitle.value = `${regionName} - 人口结构分布`;
+      funnelTitle.value = `${regionName} - 2020年人口结构分布`;
       return;
     }
   }
@@ -96,11 +120,11 @@ const handleRegionClick = (regionInfo) => {
 };
 
 // 初始化加载全国数据
-// onMounted(async ()=>{
-//   data.value = await population_structure()
-//   console.log(data.value);
-  
-// })
+onMounted(async ()=>{
+  // data.value = await population_structure()
+  // console.log(data.value);
+  await fetchPopulationStructure('全国')
+})
 </script>
 
 <style scoped>

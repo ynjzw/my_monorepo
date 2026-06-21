@@ -5,20 +5,25 @@
 </template>
 
 <script setup>
-import { ref ,onMounted} from 'vue';
-import graph from '../components/graph.vue';
+import { ref ,onBeforeUpdate,onDeactivated,onMounted, onUnmounted,onUpdated,onBeforeMount,onActivated,onBeforeUnmount} from 'vue';
+import graph from '../components/graph2.vue';
 import {getLiveCycle,getLink} from '@/api/simple_api'
 
 const data=ref([])
 const link=ref([])
 const layout=ref('circular')
 // 定义图表配置
+onUnmounted({
+    // alert('onUnmounted')
+})
 onMounted(async () => {
-    data.value=await getLiveCycle()
-    link.value=await getLink()
+    // data.value=await getLiveCycle()
+    // link.value=await getLink()
+    // alert('xxx')
     // console.log(data.value[0]);
     // console.log(link.value[0]);
 })
+
 </script>
 <style>
 .xxx{
