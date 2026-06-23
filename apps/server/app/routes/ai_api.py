@@ -173,7 +173,7 @@ def extract_triples(text_input: TextInput):
     """
     try:
         llm = ChatOllama(
-            model="qwen2.5:7b",
+            model="qwen2.5:3b",
             base_url="http://localhost:11434",
             temperature=0,
             num_predict=2048,
@@ -214,6 +214,16 @@ def extract_triples(text_input: TextInput):
             
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"提取三元组失败: {str(e)}")
+
+@app.get('/test_extract_triples')
+def test_extract_triples():
+    """
+    测试函数
+    """
+    test_input = TextInput(text="姚明是著名的篮球运动员，他出生于上海。")
+    result = extract_triples(test_input)
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return result
 
 @app.post('/create_knowledge_base')
 def create_knowledge_base(file_path: FilePathInput):

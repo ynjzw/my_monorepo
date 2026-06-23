@@ -53,9 +53,11 @@ onMounted(() => {
             name: `${i}`,
             value: Math.random() * 100,
             symbolSize: 30,
+            symbol:'rect',
             category: Math.floor(Math.random() * 3),
             itemStyle: {
-                color: colorPalette[Math.floor(Math.random() * colorPalette.length)]
+                color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
+                borderRadius:'10%'
             }
         });
     }

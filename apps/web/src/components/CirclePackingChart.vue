@@ -277,6 +277,13 @@ const createChartOption = () => {
       source: seriesData.value
     },
     tooltip: {},
+    toolbox: {
+      top:20,
+      left:10,
+      feature:{
+        saveAsImage:{}
+      }
+    },
     visualMap: [
       {
         show: false,
@@ -469,7 +476,7 @@ defineExpose({
 <style scoped>
 .circle-packing-container {
   position: relative;
-  width: 1000px;
+  width: 100%;
   height: v-bind(height);
   min-height: 400px;
 }

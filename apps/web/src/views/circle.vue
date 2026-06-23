@@ -201,7 +201,7 @@ const createChartOption = (nodes, edges, root) => {
       feature: {
         dataView: { readOnly: false },
         restore: {},
-        saveAsImage: {backgroundColor:'pillow'}
+        saveAsImage: {backgroundColor:'pink'}
       }
     },
     series: [
@@ -404,7 +404,7 @@ onMounted(() => {
 }
 
 .error-overlay button:hover {
-  background: pillow;
+  background: pink;
   transform: translateY(-2px);
 }
 

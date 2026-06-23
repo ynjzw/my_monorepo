@@ -24,19 +24,19 @@ const handleError = (error) => {
 const loadData = () => {
   isLoading.value = true
   try {    
-    rational_data = [
+    rational_data.value = [
           {"name": "观察", "value": "观察"},
           {"name": "记忆", "value": "记忆"},
           {"name": "分析", "value": "分析"},
-          {"name": "推理", "value": "推理"}
+          {"name": "推理", "value": "推理"},
         ];
-    link = [
+    link.value = [
               {"source": "观察", "target": "记忆"},
               {"source": "记忆", "target": "分析"},
               {"source": "分析", "target": "推理"},
               {"source": "推理", "target": "观察"}
             ]
-    emotional_data = {
+    emotional_data.value = {
                         "$count": 100,
                         "喜": { "$count": 50 },
                         "怒": { "$count": 50 },
