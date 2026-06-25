@@ -21,7 +21,7 @@ const emit = defineEmits([
   'chart-ready',
   'error'
 ])
-
+const seriesData = ref([])
 const chartContainer = ref(null)
 let myChart = null
 const loading = ref(false)
@@ -85,66 +85,6 @@ const updateChartOptions = async () => {
     return
   }
   
-  // 准备数据
-  const seriesData = []
-  
-  // 添加主要的关系图
-  seriesData.push({
-    type: 'graph',
-    layout: props.layout,
-    roam: true,
-    draggable:true,    
-    label: {
-      show: true,
-      position: 'bottom',
-      fontSize: 12
-    },
-    edgeLabel: {
-      fontSize: 10
-    },
-    data: props.data.map(item => ({
-      ...item,
-      symbolSize: item.symbol_size ,
-      itemStyle: item.itemStyle
-      // 确保每个节点有名称
-      // name: item.name || item.id || '未知'
-    })),
-    links: props.link.map(item => ({
-      ...item,
-      symbol: item.symbol || 'arrow'
-      // 确保连接有源和目标
-      // source: link.source || link.from,
-      // target: link.target || link.to
-    })),
-    // links:[{source: '1', target: '2'}],
-    force: {
-      initLayout: 'circular',
-      gravity: 0.1,
-      repulsion: 100,
-      layoutAnimation: true
-    },
-    lineStyle: {
-      color: 'blue',
-      curveness: 0.3,
-      width: 2
-    },
-    // emphasis: {
-    //   focus: 'adjacency'
-    // }
-  })
-  
-  // 如果数据为空，显示空状态
-  if (props.data.length === 0) {
-    seriesData.push({
-      type: 'graph',
-      data: [],
-      links: [],
-      label: {
-        show: false
-      }
-    })
-  }
-  
   const option = {
     title: {
       text: 'ttt',
@@ -155,36 +95,42 @@ const updateChartOptions = async () => {
         fontWeight: 'normal'
       }
     },
-    tooltip: {
-      trigger: 'item',
-      formatter: (params) => {
-        if (params.dataType === 'node') {
-          return `节点: ${params.name}<br/>${params.value ? `值: ${params.value}` : ''}`
-        } else {
-          return `关系: ${params.data.source || ''} → ${params.data.target || ''}`
-        }
-      }
-    },
+    tooltip: {},
     toolbox: {
       top:10,
-      left:'center',
-      feature: {
-        dataView: { readOnly: false },
-        restore: {},
+      left:10,
+      feature: {        
         saveAsImage: {}
       }
     },
-    series: seriesData,
-    animation: true,
-    animationDuration: 500,
-    animationEasing: 'cubicOut'
+    series: [{
+      type: 'graph',
+      layout: props.layout,
+      draggable:true,    
+      symbolSize: 50,
+      roam: true,
+      label: {
+        show: true
+      },
+      data: props.data,  // 使用传入的数据
+      // data:[{name:'xxx',value:'xxx',symbolSize:10,Symbol:'rect'}],
+      links: props.link,  // 可以根据需要从props传入
+      // links:[],
+      lineStyle: {
+        opacity: 0.9,
+        width: 2,
+        curveness: 0
+      },
+      force: {
+        initLayout: 'circular',
+        gravity: 0.1,
+        repulsion: 1000
+      }
+    }],
   }
   
   // 设置选项并立即渲染
-  myChart.setOption(option, { 
-    notMerge: false,
-    lazyUpdate: false
-  })
+  myChart.setOption(option)
   
   // 确保图表渲染完成
   await nextTick()
@@ -215,6 +161,7 @@ watch(() => props.layout, async () => {
 
 // 组件挂载后初始化
 onMounted(async () => {
+  console.log(props.data)
   // 等待DOM完全渲染
   await nextTick()
   // 给容器一点时间获取尺寸
@@ -234,9 +181,10 @@ defineExpose({
   <div class="chart-wrapper">
     <div 
       ref="chartContainer" 
-      class="chart-container"
-      :style="{ width: '100%', height: '100%' }"
-    ></div>
+      class="chart-container"      
+    >
+  </div>
+    
     <div v-if="loading" class="loading">加载中...</div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
@@ -252,8 +200,9 @@ defineExpose({
 .chart-container {
   width: 100%;
   height: 100%;
+  min-width: 400px;
   min-height: 400px; /* 设置最小高度 */
-  background-color: aliceblue;
+  background-color: pink;
   /* border-radius: 50%; */
 }
 

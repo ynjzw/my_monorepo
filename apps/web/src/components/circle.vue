@@ -29,13 +29,14 @@
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
 import * as d3 from 'd3-hierarchy'
+import test from '@/data/test.json'
 
 // Props 定义
 const props = defineProps({
   // 可以传入自定义数据
   data: {
     type: Object,
-    default: null
+    default: test
   },
   // 图表高度
   height: {
@@ -278,15 +279,10 @@ const createChartOption = () => {
     },
     tooltip: {},
     toolbox: {
-      right:20,
-      bottom:20,
-      feature: {
-        dataView: { readOnly: false },
-        restore: {},
-        saveAsImage: {
-          name:'xxx',
-          backgroundColor:'#ffffff'
-        }
+      top:20,
+      left:10,
+      feature:{
+        saveAsImage:{}
       }
     },
     visualMap: [
@@ -296,7 +292,7 @@ const createChartOption = () => {
         max: maxDepth.value,
         dimension: 'depth',
         inRange: {
-          color: ['red', 'yellow']
+          color: ['#006edd', '#e0ffff']
         }
       }
     ],
@@ -432,9 +428,8 @@ const setupResizeObserver = () => {
 
 // 生命周期钩子
 onMounted(() => {
-  if (props.autoLoad) {
-    loadData()
-  }
+  // console.log(test)
+  loadData()
   
   // 设置窗口大小变化监听
   window.addEventListener('resize', handleResize)
@@ -481,8 +476,9 @@ defineExpose({
 <style scoped>
 .circle-packing-container {
   position: relative;
-  width: 1000px;
+  width: 100%;
   height: v-bind(height);
+  min-width: 400px;
   min-height: 400px;
 }
 

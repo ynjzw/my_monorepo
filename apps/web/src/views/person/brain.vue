@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import circle from '@/components/circle.vue';
-import graph from '@/components/graph.vue';
-
+import yyy from '@/components/circle.vue';
+import xxx from '@/components/graph.vue';
+import { get_old_structure, get_new_structure, getLink } from '@/api/simple_api';
 
 const rational_data = ref([])
 const emotional_data = ref({})
@@ -21,21 +21,26 @@ const handleError = (error) => {
 }
 
 // 加载数据
-const loadData = () => {
+const loadData = async () => {
   isLoading.value = true
   try {    
-    rational_data.value = [
-          {"name": "观察", "value": "观察"},
-          {"name": "记忆", "value": "记忆"},
-          {"name": "分析", "value": "分析"},
-          {"name": "推理", "value": "推理"},
-        ];
-    link.value = [
-              {"source": "观察", "target": "记忆"},
-              {"source": "记忆", "target": "分析"},
-              {"source": "分析", "target": "推理"},
-              {"source": "推理", "target": "观察"}
-            ]
+    
+    // rational_data.value = [
+    //       {name: "观察", value: "观察",symbol:'circle',symbolSize:10},
+    //       {name: "记忆", value: "记忆",symbol:'circle',symbolSize:10},
+    //       {name: "分析", value: "分析",symbol:'circle',symbolSize:10},
+    //       {name: "推理", value: "推理",symbol:'circle',symbolSize:10},
+    //     ];
+    // link.value = [
+    //           {source: "观察", target: "记忆"},
+    //           {source: "记忆", target: "分析"},
+    //           {source: "分析", target: "推理"},
+    //           {source: "推理", target: "观察"}
+    //         ]
+    [rational_data.value, link.value] = await Promise.all([
+      get_old_structure(),
+      getLink()
+    ])
     emotional_data.value = {
                         "$count": 100,
                         "喜": { "$count": 50 },
@@ -61,15 +66,15 @@ onMounted(async() => {
     
     <div class="charts-wrapper">
       <div class="chart-item">
-        <graph 
+        <xxx 
           :data="rational_data"
-          :link="link" 
+          :link="link"
           @chart-ready="handleChartReady" 
           @error="handleError"
         />
       </div>
       <div class="chart-item">
-        <circle 
+        <yyy 
           :data="emotional_data" 
           @chart-ready="handleChartReady" 
           @error="handleError"

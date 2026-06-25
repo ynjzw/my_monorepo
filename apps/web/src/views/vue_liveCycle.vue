@@ -1,12 +1,12 @@
 <template>
     <div class="xxx">
-        <graph :data="data" :link="link" :layout="layout" :title="test"></graph>
+        <xxx :data="data" :link="link" :layout="layout" :title="test"></xxx>
     </div>
 </template>
 
 <script setup>
 import { ref ,onMounted} from 'vue';
-import graph from '../components/graph.vue';
+import xxx from '../components/graph.vue';
 import {getLiveCycle,getLink} from '@/api/simple_api'
 
 const data=ref([])

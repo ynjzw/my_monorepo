@@ -49,26 +49,26 @@ onMounted( () => {
         data.push({
             id: data.length + ''
         });
-        var source = Math.round((data.length - 1) * Math.random());
-        var target = Math.round((data.length - 1) * Math.random());
-        if (source !== target) {
-            edges.push({
-            source: source,
-            target: target
-            });
-        }
+        //var source = Math.round((data.length - 1) * Math.random());
+        //var target = Math.round((data.length - 1) * Math.random());
+        //if (source !== target) {
+        //    edges.push({
+        //    source: source,
+        //    target: target
+        //    });
+        //}
         myChart.setOption({
             series: [
             {
                 roam: true,
                 data: data,
-                edges: edges
+                edges: []
             }
             ]
         });
     // console.log('nodes: ' + data.length);
     // console.log('links: ' + data.length);
-    }, 200);
+    }, 1000);
 
     option && myChart.setOption(option);
 })

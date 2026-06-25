@@ -2,7 +2,7 @@
   
     <input v-model="ss"/>
     <button @click="test1()">ss</button>      
-      
+<!--       
     <CirclePackingChart :data="circleData"
       ref="chartRef"
       theme="auto"
@@ -10,12 +10,21 @@
       @chart-ready="handleChartReady"
       @node-click="handleNodeClick"
       @data-loaded="handleDataLoaded"
-      @error="handleError"></CirclePackingChart>
+      @error="handleError"></CirclePackingChart> -->
+
+      <kkk :data="circleData"
+      ref="chartRef"
+      theme="auto"
+      height="400px"
+      @chart-ready="handleChartReady"
+      @node-click="handleNodeClick"
+      @data-loaded="handleDataLoaded"
+      @error="handleError"></kkk>
+
 </template>
 <script setup>
-import circle from '@/components/circle.vue';
 import CirclePackingChart from '../components/CirclePackingChart.vue';
-import test from '@/components/test.vue';
+import kkk from '../components/circle.vue';
 import { onMounted,ref } from 'vue';
 import axios from 'axios';
 const ss=ref('/src/data/test.json')
