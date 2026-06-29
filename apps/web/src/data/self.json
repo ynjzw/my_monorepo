@@ -1,0 +1,32 @@
+{
+    "income":{
+        "$count":100
+    },
+    "pay":{
+        "$count":100,
+        "food":{
+            "$count":10
+        },
+        "verhical":{
+            "$count":10
+        },
+        "clothes":{
+            "$count":10
+        },
+        "house":{
+            "$count":10
+        },
+        "work":{
+            "$count":10
+        },
+        "entertainment":{
+            "$count":10
+        },
+        "medical":{
+            "$count":10
+        }
+    },
+    "savings":{
+        "$count":100
+    }
+}

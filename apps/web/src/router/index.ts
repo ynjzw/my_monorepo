@@ -22,6 +22,7 @@ import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
 import vue_liveCycle from '../views/vue_liveCycle.vue'
 import use_circle from '../views/use_circle.vue'
+import test from '../views/test.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -40,7 +41,9 @@ const routes = [
       {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
     ]
   },
-  {name: 'China',path: '/China',component: China,children: [
+  {
+    name: 'China',path: '/China',component: China,
+    children: [
       {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
     ]},
   {name: 'internation',path: '/internation',component: internation},
@@ -57,7 +60,8 @@ const routes = [
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
   {name: 'use_circle', path: '/use_circle', component: use_circle},
-  {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle}
+  {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle},
+  {name: 'test', path: '/test', component: test}
 ]
 
 // 创建路由实例

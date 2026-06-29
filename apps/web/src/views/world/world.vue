@@ -14,7 +14,8 @@ import {useRouter} from 'vue-router'
 const router = useRouter();
 const loading = ref(false)
 const error = ref(null)
-const roundDatas=(num, size, starname, color)=>{ 
+let count = 0
+const roundDatas=(num, size, starname, color,mark)=>{ 
     const datas = [];
     let i;
     for (i = 0; i < num; i++) {
@@ -22,10 +23,11 @@ const roundDatas=(num, size, starname, color)=>{
             name: 'circle' + i
         });
     }
-    const mark = Math.floor(Math.random() * num);
+    // const mark = Math.floor(Math.random() * num);
+    const validmark=mark%num
 
-    datas[mark] = {
-        name: 'circle' + mark,
+    datas[validmark] = {
+        name: 'circle' + validmark,
         value: starname,
         symbolSize: size,
         itemStyle: {
@@ -39,6 +41,7 @@ const roundDatas=(num, size, starname, color)=>{
     };
     return datas;
 }
+
 const linkDatas = (num) => {
     const ldatas = [];
     let i;
@@ -54,6 +57,7 @@ const linkDatas = (num) => {
     });
     return ldatas;
 }
+
 const starSeries=(circlesize, data, link, flag)=> {
     const star = {
         type: 'graph',
@@ -71,31 +75,41 @@ const starSeries=(circlesize, data, link, flag)=> {
     return star;
 }
 
+const getNum=(num)=>{
+    if(count >= 10){
+        count = 1
+    }  else {
+        count++
+    }
+    return count * num
+}
+
 onMounted(() => { 
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
-  var option;
-  
-  option = {
-    //   backgroundColor: '#1d1626',
+  var option;  
+  let mark = 0
+  setInterval(function () { 
+    option = {
+      backgroundColor: '#1d1626',
       series: [
-          starSeries('0%', roundDatas(1, 40, '太阳', '#ef4136'), linkDatas(1), false),
-          starSeries('15%', roundDatas(30, 15, '水星', '#72baa7'), linkDatas(30), false),
-          starSeries('25%', roundDatas(40, 15, '金星', '#c88400'), linkDatas(40), false),
-          starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF'), linkDatas(50), false),
-          starSeries('45%', roundDatas(60, 15, '火星', '#FF5809'), linkDatas(60), false),
-          starSeries('55%', roundDatas(70, 20, '木星', '#e0861a'), linkDatas(70), false),
-          starSeries('65%', roundDatas(80, 23, '土星', '#33a3dc'), linkDatas(80), false),
-          starSeries('75%', roundDatas(90, 28, '天王星', '#8f4b4a'), linkDatas(90), false),
-          starSeries('85%', roundDatas(100, 30, '海王星', '#afb4db'), linkDatas(100), false),
-          starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa'), linkDatas(110), false),
+          starSeries('0%',  roundDatas(1,  40, '太阳', '#ef4136',mark++), linkDatas(1), false),
+          starSeries('15%', roundDatas(30, 15, '水星', '#72baa7',mark++), linkDatas(30), false),
+          starSeries('25%', roundDatas(40, 15, '金星', '#c88400',mark++), linkDatas(40), false),
+          starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF',mark++), linkDatas(50), false),
+          starSeries('45%', roundDatas(60, 15, '火星', '#FF5809',mark++), linkDatas(60), false),
+          starSeries('55%', roundDatas(70, 20, '木星', '#e0861a',mark++), linkDatas(70), false),
+          starSeries('65%', roundDatas(80, 23, '土星', '#33a3dc',mark++), linkDatas(80), false),
+          starSeries('75%', roundDatas(90, 28, '天王星', '#8f4b4a',mark++), linkDatas(90), false),
+          starSeries('85%', roundDatas(100, 30, '海王星', '#afb4db',mark++), linkDatas(100), false),
+          starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa',mark++), linkDatas(110), false)
+        
       ]
   }
-  // setInterval(function () { 
-  //   option && myChart.setOption(option);
-  // },100)
-  option && myChart.setOption(option);
-  if (!myChart) return
+    option && myChart.setOption(option);
+  },1000)
+//   option && myChart.setOption(option);
+//   if (!myChart) return
   
   // 节点点击事件
   myChart.on('click', function (params) {

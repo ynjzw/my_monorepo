@@ -42,11 +42,10 @@ const loadData = async () => {
       getLink()
     ])
     emotional_data.value = {
-                        "$count": 100,
-                        "喜": { "$count": 50 },
-                        "怒": { "$count": 50 },
-                        "惧": { "$count": 50 },
-                        "悲": { "$count": 50 }
+                        "喜": { "$count": 10 },
+                        "怒": { "$count": 30 },
+                        "惧": { "$count": 10 },
+                        "悲": { "$count": 10 }
                       }
     
   } catch (error) {

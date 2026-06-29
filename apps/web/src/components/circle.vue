@@ -259,6 +259,7 @@ const createChartOption = () => {
       },
       style: {
         fill: api.visual('color')
+        //image:'http://localhost:5173/src/images/xxx.png?t=1782032371436'
       },
       emphasis: {
         style: {
