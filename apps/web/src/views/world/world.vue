@@ -93,7 +93,7 @@ onMounted(() => {
     option = {
       backgroundColor: '#1d1626',
       series: [
-          starSeries('0%',  roundDatas(1,  40, '太阳', '#ef4136',mark++), linkDatas(1), false),
+          starSeries('0%',  roundDatas(1,  40, '太阳', '#ef4136'), linkDatas(1), false),
           starSeries('15%', roundDatas(30, 15, '水星', '#72baa7',mark++), linkDatas(30), false),
           starSeries('25%', roundDatas(40, 15, '金星', '#c88400',mark++), linkDatas(40), false),
           starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF',mark++), linkDatas(50), false),
