@@ -1,0 +1,34 @@
+{
+  "dataset":{
+    "source":[]
+  },
+  "tooltip":{},
+  "toolbox": {
+    "top":10,
+    "left":10,
+    "feature": {        
+      "saveAsImage": {}
+    }
+  },
+  "visualMap": [{
+    "show":false,
+    "min":0,
+    "max":0,
+    "dimension":"depth",
+    "inRange": {        
+      "color": ["#ee6666", "#73c0de", "#3ba272", "#fc8452", "#9a60b4", "#ea7ccc"]
+      
+    }
+  }],
+  "hoverLayerThreshold": "Infinity",
+  "series": {
+    "type": "custom",
+    "renderItem": {},
+    "progressive":0,    
+    "coordinateSystem": "none",
+    "encode": {
+      "tooltip": "value",
+      "itemName": "id"
+    }
+  }
+}

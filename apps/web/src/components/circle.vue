@@ -15,13 +15,6 @@
       <button @click="retryLoad">重试</button>
     </div>
     
-    <!-- 控制面板 -->
-    <div class="control-panel">
-      <button @click="resetView" class="control-btn">
-        重置视图
-      </button>
-      <span class="depth-indicator">当前深度: {{ currentDepth }}</span>
-    </div>
   </div>
 </template>
 
@@ -30,6 +23,8 @@ import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import * as echarts from 'echarts'
 import * as d3 from 'd3-hierarchy'
 import test from '@/data/test.json'
+import c1 from '@/data/circle.json'
+import c2 from '@/data/circle_other.json'
 
 // Props 定义
 const props = defineProps({
@@ -37,6 +32,10 @@ const props = defineProps({
   data: {
     type: Object,
     default: test
+  },
+  file_name:{
+    type:String,
+    default:''
   },
   // 图表高度
   height: {
@@ -75,37 +74,7 @@ const seriesData = ref([])
 const maxDepth = ref(0)
 let displayRoot = null
 
-const Chart = {
-  "$count":50,
-  "Option1": {
-    "$count":10,
-  },
-  "Option2": {
-    "$count":10,
-  },
-  "Option3": {
-    "$count":10,
-  }
-}
-const data = {
-  "$count":50,
-  Chart,
-  "Chart1": { 
-    "$count":10,
-  },
-  "Component": {
-    "$count":10,
-  },
-  "Option1": {
-    "$count":10,
-  },
-  "Option2": {
-    "$count":10,
-  },
-  "Option3": {
-    "$count":10,
-  }
-}
+const data = {}
 
 // 准备数据
 const prepareData = (rawData) => {
@@ -225,9 +194,19 @@ const createChartOption = () => {
           .split(/(?=[A-Z][^A-Z])/g)
           .join('\n')
       : ''
-    
+    // console.log(focus)
     const z2 = api.value('depth') * 2
-    
+    c1['focus']=focus
+    c1['shape']['cx']=node.x
+    c1['shape']['cy']=node.y
+    c1['shape']['r']=node.r
+    c1['z2']=z2
+    c1['textContent']['style']['text']=nodeName
+    c1['textContent']['style']['width']=node.r * 1.3
+    c1['textContent']['style']['fontSize']=node.r * 1.3
+    c1['emphasis']['style']['fontSize']=Math.max(node.r / 3, 12)
+    c1['style']['fill']=api.visual('color')
+    //console.log(c1)
     return {
       type: 'circle',
       focus: focus,
@@ -259,7 +238,7 @@ const createChartOption = () => {
       },
       style: {
         fill: api.visual('color')
-        //image:'http://localhost:5173/src/images/xxx.png?t=1782032371436'
+        // image:'http://localhost:5173/src/images/xxx.png?t=1782032371436'
       },
       emphasis: {
         style: {
@@ -272,8 +251,13 @@ const createChartOption = () => {
         }
       }
     }
+    // return c1
   }
-  
+
+  c2['dataset']['source']=seriesData.value
+  c2['visualMap']['max']=maxDepth.value
+  c2['series']['renderItem']=renderItem
+  // return c2
   return {
     dataset: {
       source: seriesData.value
@@ -283,7 +267,9 @@ const createChartOption = () => {
       top:20,
       left:10,
       feature:{
-        saveAsImage:{}
+        saveAsImage:{
+          name:props.file_name
+        }
       }
     },
     visualMap: [
@@ -293,7 +279,9 @@ const createChartOption = () => {
         max: maxDepth.value,
         dimension: 'depth',
         inRange: {
-          color: ['#006edd', '#e0ffff']
+          // color: ['#006edd', '#e0ffff']
+          color: ['#5470c6', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc']
+        
         }
       }
     ],
@@ -429,7 +417,7 @@ const setupResizeObserver = () => {
 
 // 生命周期钩子
 onMounted(() => {
-  // console.log(test)
+  console.log(props.file_name)
   loadData()
   
   // 设置窗口大小变化监听
@@ -456,6 +444,10 @@ watch(() => props.data, (newData) => {
   if (newData) {
     loadData()
   }
+}, { deep: true })
+
+watch(() => props.file_name, (newData) => {
+  console.log(props.file_name)
 }, { deep: true })
 
 // 监听主题变化

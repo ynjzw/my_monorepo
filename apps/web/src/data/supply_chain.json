@@ -1,0 +1,17 @@
+{
+    "ERP":{
+        "$count":10
+    },
+    "OMS":{
+        "$count":10
+    },
+    "SCM":{
+        "$count":10
+    },
+    "TMS":{
+        "$count":10
+    },
+    "WMS":{
+        "$count":10
+    }
+}

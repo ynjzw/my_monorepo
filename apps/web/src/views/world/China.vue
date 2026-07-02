@@ -7,8 +7,8 @@
         @region-click="handleRegionClick"
       />
     </div>
-    <div>
-    <!-- 标签页导航 -->
+    
+    <div class="funnel-section">
       <div class="tab-nav">
         <button 
           v-for="tab in tabs" 
@@ -19,13 +19,6 @@
           {{ tab.label }}
         </button>
       </div> 
-
-      <!-- 核心：动态组件，is 绑定到当前选中的组件 -->
-      <!-- <KeepAlive>
-          <component :is="currentTab" />
-      </KeepAlive> -->
-    </div>
-    <div class="funnel-section">
       <Funnel ref="funnelRef" :data="funnelData" :title="funnelTitle"></Funnel>
     </div>
   </div>

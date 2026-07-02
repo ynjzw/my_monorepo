@@ -1,0 +1,43 @@
+{
+  "type":"circle",
+  "focus":[],
+  "shape": {
+    "cx": 0,
+    "cy": 0,
+    "r": 0
+  },
+  "transition": ["shape"],
+  "z2": 0,
+  "textContent": {
+    "type":"text",
+    "style": {        
+      "text": "",
+      "fontFamily":"Arial",
+      "width":0,
+      "overflow":"truncate",
+      "fontSize":0
+    },
+    "emphasis": {        
+      "style": {
+        "overflow":null,
+        "fontSize":0
+      }
+    }
+  },
+  "textConfig": {
+        "position": "inside"
+  },
+  "style": {
+        "fill": ""
+  },
+  "emphasis": {        
+    "style": {
+      "fontFamily": "Arial",
+      "fontSize": 12,
+      "shadowBlur": 20,
+      "shadowOffsetX": 3,
+      "shadowOffsetY": 5,
+      "shadowColor": "rgba(0,0,0,0.3)"
+    }
+  }
+}

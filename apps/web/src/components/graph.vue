@@ -100,7 +100,9 @@ const updateChartOptions = async () => {
       top:10,
       left:10,
       feature: {        
-        saveAsImage: {}
+        saveAsImage: {
+          name:props.file_name
+        }
       }
     },
     series: [{
@@ -202,7 +204,7 @@ defineExpose({
   height: 100%;
   min-width: 400px;
   min-height: 400px; /* 设置最小高度 */
-  background-color: pink;
+  /* background-color: pink; */
   /* border-radius: 50%; */
 }
 

@@ -1,0 +1,41 @@
+{
+    "title": {
+      "text": "ttt",
+      "left": "center",
+      "top": 10,
+      "textStyle": {
+        "fontSize": 14,
+        "fontWeight": "normal"
+      }
+    },
+    "tooltip": {},
+    "toolbox": {
+      "top":10,
+      "left":10,
+      "feature": {        
+        "saveAsImage": {}
+      }
+    },
+    "series": [{
+      "type": "graph",
+      "layout": "",
+      "draggable":true,    
+      "symbolSize": 50,
+      "roam": true,
+      "label": {
+        "show": true
+      },
+      "data": [],
+      "links":[],
+      "lineStyle": {
+        "opacity": 0.9,
+        "width": 2,
+        "curveness": 0
+      },
+      "force": {
+        "initLayout": "circular",
+        "gravity": 0.1,
+        "repulsion": 1000
+      }
+    }]
+  }

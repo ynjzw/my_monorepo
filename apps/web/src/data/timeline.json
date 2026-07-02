@@ -1,0 +1,16 @@
+{
+  "baseOption":{
+    "title": {
+      "text": "",
+      "textStyle": {
+        "fontSize": 14,
+        "fontWeight": "normal"
+      }
+    },
+    "timeline":{
+        "data":[],
+        "show": true
+    }
+  },    
+  "options": []
+}
