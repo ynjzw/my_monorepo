@@ -15,6 +15,7 @@
 
     <kkk :data="circleData"
       :file_name="tt"
+      :color="color"
       ref="chartRef"
       theme="auto"
       height="400px"
@@ -33,6 +34,7 @@ import { onMounted,ref } from 'vue';
 import axios from 'axios';
 const ss=ref('/src/data/test.json')
 const tt=ref('')
+const color=ref('')
 const circleData=ref(null)
 const colorN=['#5470c6', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc']
 
@@ -45,7 +47,8 @@ const test1 = async () => {
 }
 
 const active=(tab)=>{
-  console.log(tab)
+  // console.log(tab)
+  color.value=tab
 }
 
 const handleChartReady = (chart) => {

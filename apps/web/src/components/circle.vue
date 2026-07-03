@@ -37,6 +37,10 @@ const props = defineProps({
     type:String,
     default:''
   },
+  color:{
+    type:String,
+    default:''
+  },
   // 图表高度
   height: {
     type: [String, Number],
@@ -73,7 +77,7 @@ const currentDepth = ref(0)
 const seriesData = ref([])
 const maxDepth = ref(0)
 let displayRoot = null
-
+const colorList=ref(['#73c0de', '#5470c6'])
 const data = {}
 
 // 准备数据
@@ -196,16 +200,19 @@ const createChartOption = () => {
       : ''
     // console.log(focus)
     const z2 = api.value('depth') * 2
-    c1['focus']=focus
-    c1['shape']['cx']=node.x
-    c1['shape']['cy']=node.y
-    c1['shape']['r']=node.r
-    c1['z2']=z2
-    c1['textContent']['style']['text']=nodeName
-    c1['textContent']['style']['width']=node.r * 1.3
-    c1['textContent']['style']['fontSize']=node.r * 1.3
-    c1['emphasis']['style']['fontSize']=Math.max(node.r / 3, 12)
-    c1['style']['fill']=api.visual('color')
+    const fontSize = Math.max(Math.min(node.r / 2.5, 16), 8)
+    const textWidth = Math.max(node.r * 1.2, 20)
+
+    // c1['focus']=focus
+    // c1['shape']['cx']=node.x
+    // c1['shape']['cy']=node.y
+    // c1['shape']['r']=node.r
+    // c1['z2']=z2
+    // c1['textContent']['style']['text']=nodeName
+    // c1['textContent']['style']['width']=textWidth
+    // c1['textContent']['style']['fontSize']=fontSize
+    // c1['emphasis']['style']['fontSize']=Math.max(node.r / 3, 12)
+    // c1['style']['fill']=api.visual('color')
     //console.log(c1)
     return {
       type: 'circle',
@@ -254,9 +261,10 @@ const createChartOption = () => {
     // return c1
   }
 
-  c2['dataset']['source']=seriesData.value
-  c2['visualMap']['max']=maxDepth.value
-  c2['series']['renderItem']=renderItem
+  // c2['dataset']['source']=seriesData.value
+  // c2['visualMap']['max']=maxDepth.value
+  // c2['series']['renderItem']=renderItem
+  // c2['visualMap'][0]['inRange']['color']=colorList.value   
   // return c2
   return {
     dataset: {
@@ -279,9 +287,7 @@ const createChartOption = () => {
         max: maxDepth.value,
         dimension: 'depth',
         inRange: {
-          // color: ['#006edd', '#e0ffff']
-          color: ['#5470c6', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc']
-        
+          color: colorList.value        
         }
       }
     ],
@@ -396,6 +402,31 @@ const retryLoad = () => {
   loadData()
 }
 
+const hexToRgb=(hex) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+
+const rgbToHex=(r, g, b) => {
+  const clamp = (v) => Math.min(255, Math.max(0, Math.round(v)));
+  return '#' + [r, g, b].map(v => clamp(v).toString(16).padStart(2, '0')).join('');
+}
+
+const calculateHex=(hex) => {
+    const rgb = hexToRgb(hex)
+    if (!rgb) return '#ffffff'
+    // 变亮50
+    return rgbToHex(
+      Math.min(rgb.r + 80, 255),
+      Math.min(rgb.g + 80, 255),
+      Math.min(rgb.b + 80, 255)
+    )
+}
+
 // 更新图表尺寸
 const handleResize = () => {
   if (myChart) {
@@ -417,7 +448,7 @@ const setupResizeObserver = () => {
 
 // 生命周期钩子
 onMounted(() => {
-  console.log(props.file_name)
+  // console.log(props.file_name)
   loadData()
   
   // 设置窗口大小变化监听
@@ -446,8 +477,23 @@ watch(() => props.data, (newData) => {
   }
 }, { deep: true })
 
+watch(() => props.color, (newColor) => {
+  if (newColor) {
+    // 重新生成颜色列表
+    const baseColor = newColor
+    const lightColor = calculateHex(baseColor)
+    colorList.value = [baseColor, lightColor]
+    
+    // 强制重新渲染图表
+    if (myChart && seriesData.value.length > 0) {
+      const option = createChartOption()
+      myChart.setOption(option, true)  // true 表示不合并，完全替换
+    }
+  }
+}, { immediate: true })
+
 watch(() => props.file_name, (newData) => {
-  console.log(props.file_name)
+  // console.log(props.file_name)
 }, { deep: true })
 
 // 监听主题变化
