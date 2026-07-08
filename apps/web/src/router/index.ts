@@ -15,12 +15,14 @@ import timeaxis from '../components/timeaxis.vue'
 import brain from '../views/person/brain.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
 import stock_sector from '../views/stock_sector.vue'
-import ttt from '../views/ttt.vue'
+import use_tree from '../views/use_tree.vue'
+import use_echarts from '../views/use_echarts.vue'
 import 地球 from '@/views/world/地球.vue'
 import China from '../views/world/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
 import vue_liveCycle from '../views/vue_liveCycle.vue'
+import use_graph from '../views/use_graph.vue'
 import use_circle from '../views/use_circle.vue'
 import test from '../views/test.vue'
 // 定义路由表
@@ -54,14 +56,16 @@ const routes = [
   {name: 'internet',path:'/internet',component:internet},
   {name: 'main',path:'/main',component:main},
   {name: 'circle',path:'/circle',component:circle},
-  {name: 'ttt',path:'/ttt',component:ttt},
+  {name: 'use_tree',path:'/use_tree',component:use_tree},
   {name: 'hundreds_dots',path: '/hundreds_dots',component: hundreds_dots},
   {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
   {name: 'use_circle', path: '/use_circle', component: use_circle},
   {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle},
-  {name: 'test', path: '/test', component: test}
+  {name: 'test', path: '/test', component: test},
+  {name: 'use_echarts', path: '/use_echarts', component: use_echarts},
+  {name: 'use_graph', path: '/use_graph', component: use_graph}
 ]
 
 // 创建路由实例

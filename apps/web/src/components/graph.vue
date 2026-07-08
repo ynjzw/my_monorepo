@@ -109,7 +109,7 @@ const updateChartOptions = async () => {
       type: 'graph',
       layout: props.layout,
       draggable:true,    
-      symbolSize: 50,
+      symbolSize: 100,
       roam: true,
       label: {
         show: true
@@ -163,7 +163,7 @@ watch(() => props.layout, async () => {
 
 // 组件挂载后初始化
 onMounted(async () => {
-  console.log(props.data)
+  // console.log(props.data)
   // 等待DOM完全渲染
   await nextTick()
   // 给容器一点时间获取尺寸
@@ -204,7 +204,7 @@ defineExpose({
   height: 100%;
   min-width: 400px;
   min-height: 400px; /* 设置最小高度 */
-  /* background-color: pink; */
+  background-color: white; 
   /* border-radius: 50%; */
 }
 

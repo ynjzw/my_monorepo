@@ -148,7 +148,8 @@ def load_nodes_csv(data_list: List[dict], db: Session):
                 'symbol': row.get('symbol') or 'circle',
                 'symbol_size': int(row.get('symbol_size') or 20),
                 'children': json.loads(row.get('children') or '[]'),
-                'type':row.get('type', '')
+                'type':row.get('type', ''),
+                'id':row.get('id')
             }
             
             # 验证必要字段

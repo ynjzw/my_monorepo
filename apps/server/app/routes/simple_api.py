@@ -64,3 +64,8 @@ def get_family(db:Session=Depends(get_db)):
 def get_world(db:Session=Depends(get_db)):
     data = db.query(world).all()
     return data
+
+@app.get('/supply_chain')
+def get_supply_chain(db:Session=Depends(get_db)):
+    data = db.query(Nodes).filter(Nodes.type=='供应链').all()
+    return data

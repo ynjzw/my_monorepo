@@ -1,0 +1,6 @@
+name,value,symbol,symbol_size,type,id
+资源调配,ERP,image:///src/images/supply_chain/erp.png?t=*,10,供应链,101
+仓储管理,OMS,image:///src/images/supply_chain/oms.png?t=*,10,供应链,102
+物流运输,SCM,image:///src/images/supply_chain/scm.png?t=*,10,供应链,103
+订单处理,TMS,image:///src/images/supply_chain/tms.png?t=*,10,供应链,104
+全局协同,WMS,image:///src/images/supply_chain/wms.png?t=*,10,供应链,105

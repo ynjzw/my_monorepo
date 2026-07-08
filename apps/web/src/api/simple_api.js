@@ -97,3 +97,11 @@ export function population_structure(year){
         method:'get'
     })    
 }
+
+const url_supply_chain='/routes/simple_api/supply_chain'
+export function get_supply_chain(){
+    return request({
+        url:url_supply_chain,
+        method:'get'
+    })    
+}

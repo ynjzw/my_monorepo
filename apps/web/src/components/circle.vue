@@ -201,7 +201,9 @@ const createChartOption = () => {
     // console.log(focus)
     const z2 = api.value('depth') * 2
     const fontSize = Math.max(Math.min(node.r / 2.5, 16), 8)
+    // const fontSize = 8
     const textWidth = Math.max(node.r * 1.2, 20)
+    // const textWidth = 20
 
     // c1['focus']=focus
     // c1['shape']['cx']=node.x
@@ -213,7 +215,7 @@ const createChartOption = () => {
     // c1['textContent']['style']['fontSize']=fontSize
     // c1['emphasis']['style']['fontSize']=Math.max(node.r / 3, 12)
     // c1['style']['fill']=api.visual('color')
-    //console.log(c1)
+    // console.log(node.x,node.y,node.r)
     return {
       type: 'circle',
       focus: focus,
@@ -229,14 +231,17 @@ const createChartOption = () => {
         style: {
           text: nodeName,
           fontFamily: 'Arial',
-          width: node.r * 1.3,
-          overflow: 'truncate',
-          fontSize: node.r / 3
+          // width: node.r * 1.3,
+          width: textWidth ,
+          // overflow: 'truncate',
+          // fontSize: node.r / 3
+          fontSize: fontSize
         },
         emphasis: {
           style: {
             overflow: null,
-            fontSize: Math.max(node.r / 3, 12)
+            // fontSize: Math.max(node.r / 3, 12)
+            fontSize:fontSize
           }
         }
       },
