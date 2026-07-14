@@ -25,6 +25,7 @@ import vue_liveCycle from '../views/vue_liveCycle.vue'
 import use_graph from '../views/use_graph.vue'
 import use_circle from '../views/use_circle.vue'
 import test from '../views/test.vue'
+import roadOfBrilliant from '../views/roadOfBrilliant.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -65,7 +66,8 @@ const routes = [
   {name: 'vue_liveCycle', path: '/vue_liveCycle', component: vue_liveCycle},
   {name: 'test', path: '/test', component: test},
   {name: 'use_echarts', path: '/use_echarts', component: use_echarts},
-  {name: 'use_graph', path: '/use_graph', component: use_graph}
+  {name: 'use_graph', path: '/use_graph', component: use_graph},
+  {name: 'roadOfBrilliant', path: '/roadOfBrilliant', component: roadOfBrilliant}
 ]
 
 // 创建路由实例

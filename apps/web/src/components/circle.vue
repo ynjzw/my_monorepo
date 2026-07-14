@@ -201,21 +201,9 @@ const createChartOption = () => {
     // console.log(focus)
     const z2 = api.value('depth') * 2
     const fontSize = Math.max(Math.min(node.r / 2.5, 16), 8)
-    // const fontSize = 8
+    
     const textWidth = Math.max(node.r * 1.2, 20)
-    // const textWidth = 20
-
-    // c1['focus']=focus
-    // c1['shape']['cx']=node.x
-    // c1['shape']['cy']=node.y
-    // c1['shape']['r']=node.r
-    // c1['z2']=z2
-    // c1['textContent']['style']['text']=nodeName
-    // c1['textContent']['style']['width']=textWidth
-    // c1['textContent']['style']['fontSize']=fontSize
-    // c1['emphasis']['style']['fontSize']=Math.max(node.r / 3, 12)
-    // c1['style']['fill']=api.visual('color')
-    // console.log(node.x,node.y,node.r)
+    
     return {
       type: 'circle',
       focus: focus,
@@ -263,14 +251,8 @@ const createChartOption = () => {
         }
       }
     }
-    // return c1
   }
 
-  // c2['dataset']['source']=seriesData.value
-  // c2['visualMap']['max']=maxDepth.value
-  // c2['series']['renderItem']=renderItem
-  // c2['visualMap'][0]['inRange']['color']=colorList.value   
-  // return c2
   return {
     dataset: {
       source: seriesData.value

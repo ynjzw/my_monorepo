@@ -24,6 +24,9 @@ const treeRef = ref(null)
 
 const myTreeData = {
   name: '我',
+  symbol:'image:///src/images/supply_chain/erp.png?t=*',
+  value:100,
+  symbolSize: 100,
   children: [
     { name: '爸爸', value: 10 , children: [
       { name: '爷爷', value: 10 },

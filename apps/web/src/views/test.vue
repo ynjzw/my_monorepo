@@ -18,8 +18,8 @@ onMounted(async()=>{
     graphData.value=await getWorld()
     nodesData.value=await getNodes()
     data1['series'][0]['data']=graphData.value
-    data1['series'][1]['data']=nodesData.value
-    console.log(data1)
+    // data1['series'][1]['data']=nodesData.value
+    // console.log(data1)
 })
 </script>
 

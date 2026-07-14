@@ -1,5 +1,14 @@
 <template>
-  <div ref="chartContainer" class="tree-chart" ></div>
+  <div class="chart-wrapper">
+    <div 
+      ref="chartContainer" 
+      class="chart-container"      
+    >
+  </div>
+    
+    <div v-if="loading" class="loading">加载中...</div>
+    <div v-if="error" class="error">{{ error }}</div>
+  </div>
 </template>
 
 <script setup>
@@ -91,7 +100,7 @@ const buildTreeOption = (data) => {
         orient: 'BT',
         // 节点样式
         // symbol: 'circle',
-        // symbolSize: 10,
+        // symbolSize: 100,
         itemStyle: {
           color: 'pink',
           borderColor: '#fff',
@@ -278,10 +287,40 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.tree-chart {
+.chart-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.chart-container {
   width: 100%;
   height: 100%;
   min-width: 400px;
-  min-height: 400px;
+  min-height: 400px; /* 设置最小高度 */
+  background-color: white; 
+  /* border-radius: 50%; */
+}
+
+.loading, .error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.error {
+  color: #f56c6c;
+  border: 1px solid #f56c6c;
+}
+
+.loading {
+  color: #909399;
+  border: 1px solid #909399;
 }
 </style>
