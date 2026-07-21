@@ -264,8 +264,10 @@ def load_link_csv(data_list: List[dict], db: Session):
             data = {
                 'source': row.get('source', ''),
                 'value': row.get('value', ''),
-                'symbol': row.get('symbol') or 'arrow',
-                'target':row.get('target', '')
+                'symbol': row.get('symbol'),
+                'lineStyle': row.get('lineStyle'),
+                'target':row.get('target', ''),
+                'id':row.get('id')
             }
             
             # 验证必要字段

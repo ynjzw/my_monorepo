@@ -66,101 +66,55 @@ onMounted(() => {
             symbol:'circle'
         });
     }
-    // for (let j = 1; j <= 2; j++) {
-        // for (let i = 1; i <= Math.pow(10,j); i++) {
-    //         nodes.push({
-    //             id: `${j*100+i}`,
-    //             name: diff[j-1],
-    //             x:i%10*100 +Math.random()*100,
-    //             y:j*100 + Math.random()*i%10*10,
-    //             value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
-    //             symbolSize: 50- j*10,
-    //             symbol:'circle',
-    //             itemStyle: {
-    //                 color: colorPalette[i%10]
-    //             }
-    //         });
-    //     }
-    // }
+    for (let j = 1; j <= 2; j++) {
+        for (let i = 1; i <= Math.pow(10,j); i++) {
+            nodes.push({
+                id: `${j*100+i}`,
+                name: diff[j-1],
+                x:i%10*100 +Math.random()*100,
+                y:j*100 + Math.random()*i%10*10,
+                value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
+                symbolSize: 50- j*10,
+                symbol:'circle',
+                itemStyle: {
+                    color: colorPalette[i%10]
+                }
+            });
+        }
+    }
     
-    // nodes.push({
-    //     id: '1001',
-    //     name: '国家',
-    //     x:500,
-    //     y:-200,
-    //     value: '国家',
-    //     symbolSize: 101,
-    //     symbol:'circle',
-    //     itemStyle: {
-    //         color: 'purple',
-    //     }
-    // });
+    nodes.push({
+        id: '1001',
+        name: '国家',
+        x:500,
+        y:-200,
+        value: '国家',
+        symbolSize: 101,
+        symbol:'circle',
+        itemStyle: {
+            color: 'purple',
+        }
+    });
     links = [];
-    for (let i = 0; i < 100 ; i++) {
+    
+        
+    for (let i = 0; i < 10 ; i++) {
+        // 每个节点只连接后面1-3个节点
         links.push({ 
-            source: nodes[i%10].id, 
-            target: nodes[i].id ,
-            // symbol:['arrow','none'],
+            source: nodes[i].id, 
+            target: nodes[nodes.length - 1].id ,
+            symbol:['none','arrow'],
             label: {
                 show: false,
-                fontSize:20
+                fontSize:20,
+                color:nodes[i].itemStyle.color
             },
             lineStyle: {
-                width: 2,
-                type:'dashed'
+                color: nodes[i].itemStyle.color,
+                width: 2
             }
         });
     }
-    // for (let i = 0; i < Math.pow(10,2); i++) {
-    // // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: `${200+i}`, 
-    //         target: `${100+i%10}`,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20
-    //         },
-    //         lineStyle: {
-    //             width: 2,
-    //             color: colorPalette[i%10]
-    //         }
-    //     });
-    // }
-    // for (let i = 1; i <= 10; i++) {
-    // // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: `${200+i*10}`, 
-    //         target: `${110}`,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20
-    //         },
-    //         lineStyle: {
-    //             width: 2,
-    //             color: colorPalette[0]
-    //         }
-    //     });
-    // }
-        
-    // for (let i = 0; i < 10 ; i++) {
-    //     // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: nodes[i].id, 
-    //         target: nodes[nodes.length - 1].id ,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20,
-    //             color:nodes[i].itemStyle.color
-    //         },
-    //         lineStyle: {
-    //             color: nodes[i].itemStyle.color,
-    //             width: 2
-    //         }
-    //     });
-    // }
     
     // 设置图表配置
     chart.setOption({

@@ -47,7 +47,7 @@ const loadData = async () => {
                         "惧": { "$count": 10 },
                         "悲": { "$count": 10 }
                       }
-    
+    console.log('rational_data:', rational_data.value)
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {

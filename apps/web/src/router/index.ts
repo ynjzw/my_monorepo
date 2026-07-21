@@ -26,6 +26,12 @@ import use_graph from '../views/use_graph.vue'
 import use_circle from '../views/use_circle.vue'
 import test from '../views/test.vue'
 import roadOfBrilliant from '../views/roadOfBrilliant.vue'
+import testPage from '../views/testPage.vue'
+import economy from '../views/world/economy.vue'
+import entertainment from '../views/world/entertainment.vue'
+import finance from '../views/world/finance.vue'
+import politics from '../views/world/politics.vue'
+import atom2social from '../views/atom2social.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -67,7 +73,12 @@ const routes = [
   {name: 'test', path: '/test', component: test},
   {name: 'use_echarts', path: '/use_echarts', component: use_echarts},
   {name: 'use_graph', path: '/use_graph', component: use_graph},
-  {name: 'roadOfBrilliant', path: '/roadOfBrilliant', component: roadOfBrilliant}
+  {name: 'roadOfBrilliant', path: '/roadOfBrilliant', component: roadOfBrilliant},
+  {name: 'testPage', path: '/testPage', component: testPage},
+  {name: 'economy', path: '/economy', component: economy},
+  {name: 'entertainment', path: '/entertainment', component: entertainment},
+  {name: 'finance', path: '/finance', component: finance},
+  {name: 'atom2social', path: '/atom2social', component: atom2social}
 ]
 
 // 创建路由实例

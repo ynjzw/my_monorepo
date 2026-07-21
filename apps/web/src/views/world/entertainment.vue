@@ -57,20 +57,37 @@ onMounted(() => {
     const diff=['xxx','yyy','zzz','xzy']
     // 生成100个节点
     nodes = [];
-    for (let i = 1; i <= Math.pow(10,2); i++) {
-        nodes.push({
-            id: `${i}`,
-            name: `${i}`,
-            value: 'xxx',
-            symbolSize: 10,
-            symbol:'circle'
-        });
-    }
+    nodes.push({
+        id: '0',
+        name: '政府',
+        x:500,
+        y:-10,
+        value: '政府',
+        symbolSize: 50,
+        symbol:'circle',
+        itemStyle: {
+            color: colorPalette[0]
+        }
+    });
+
+    nodes.push({
+        id: '1',
+        name: '广电总局',
+        x:500,
+        y:-5,
+        value: '广电总局',
+        symbolSize: 30,
+        symbol:'circle',
+        itemStyle: {
+            color: colorPalette[0]
+        }
+    });
+    
     // for (let j = 1; j <= 2; j++) {
-        // for (let i = 1; i <= Math.pow(10,j); i++) {
+    //     for (let i = 1; i <= Math.pow(10,j); i++) {
     //         nodes.push({
     //             id: `${j*100+i}`,
-    //             name: diff[j-1],
+    //             name: `${j*100+i}`,
     //             x:i%10*100 +Math.random()*100,
     //             y:j*100 + Math.random()*i%10*10,
     //             value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
@@ -96,21 +113,8 @@ onMounted(() => {
     //     }
     // });
     links = [];
-    for (let i = 0; i < 100 ; i++) {
-        links.push({ 
-            source: nodes[i%10].id, 
-            target: nodes[i].id ,
-            // symbol:['arrow','none'],
-            label: {
-                show: false,
-                fontSize:20
-            },
-            lineStyle: {
-                width: 2,
-                type:'dashed'
-            }
-        });
-    }
+    
+        
     // for (let i = 0; i < Math.pow(10,2); i++) {
     // // 每个节点只连接后面1-3个节点
     //     links.push({ 
@@ -143,7 +147,7 @@ onMounted(() => {
     //         }
     //     });
     // }
-        
+
     // for (let i = 0; i < 10 ; i++) {
     //     // 每个节点只连接后面1-3个节点
     //     links.push({ 
@@ -161,7 +165,19 @@ onMounted(() => {
     //         }
     //     });
     // }
-    
+    links.push({ 
+        source: '0', 
+        target: '1',
+        symbol:['none','arrow'],
+        label: {
+            show: false,
+            fontSize:20
+        },
+        lineStyle: {
+            width: 2,
+            color: colorPalette[0]
+        }
+    });
     // 设置图表配置
     chart.setOption({
         title: { 
@@ -174,12 +190,12 @@ onMounted(() => {
         series: [
             {
             type: 'graph',
-            layout: 'force',
+            layout: 'none',
             data: nodes,
             links: links,
             roam: true,
             draggable:true,
-            label: { show: false, position: 'bottom', fontSize: 12 },
+            label: { show: true, position: 'bottom', fontSize: 12 },
             force: { 
                 repulsion: 100, 
                 edgeLength: 150,

@@ -28,26 +28,26 @@ request.interceptors.response.use(
   (response) => {
       // console.log("request.js打印返回信息" , response);
     // 简化返回数据
-    if (response.status == "200") {
-      return Promise.resolve(response.data);
-    }
+    // if (response.status == "200") {
+    //   return Promise.resolve(response.data);
+    // }
   },
   // 错误执行
   (error) => {
     console.log("错误信息", error);
-    if (error.response.status) {
-      switch (error.response.status) {
-        case 404:
-          console.log("请求路径找不到！");
-          break;
-        case 500:
-          console.log("服务器内部报错！");
-          break;
-        // 还可以自己添加其他状态码
-        default:
-          break;
-      }
-    }
+    // if (error.response.status) {
+    //   switch (error.response.status) {
+    //     case 404:
+    //       console.log("请求路径找不到！");
+    //       break;
+    //     case 500:
+    //       console.log("服务器内部报错！");
+    //       break;
+    //     // 还可以自己添加其他状态码
+    //     default:
+    //       break;
+    //   }
+    // }
     return Promise.reject(new Error(error.message));
   }
 );

@@ -80,6 +80,7 @@ class Link(Base):
     target = Column(String(255))
     value = Column(String(255))
     symbol=Column(JSON,default=[])
+    lineStyle=Column(JSON,default={})
 
 class world(Base):
     # 表的名字:

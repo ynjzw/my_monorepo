@@ -10,7 +10,7 @@ const isLoading = ref(true)
 
 // 处理图表就绪
 const handleChartReady = (chart) => {
-  console.log('图表已就绪:', chart)
+  // console.log('图表已就绪:', chart)
   // 可以在这里对图表进行额外配置
 }
 
@@ -24,16 +24,17 @@ const loadData = async () => {
   isLoading.value = true
   try {
     // 并行加载数据
-    const [old_structureData, new_structureData, linkData] = await Promise.all([
-      get_old_structure(),
-      get_new_structure(),
-      getLink()
-    ])
     
-    old_structure.value = old_structureData
-    new_structure.value = new_structureData
-    link.value = linkData
-    console.log(linkData,new_structure,old_structure)
+    // const [old_structureData, new_structureData, linkData] = await Promise.all([
+    //   get_old_structure(),
+    //   get_new_structure(),
+    //   getLink()
+    // ])
+    
+    old_structure.value = await get_old_structure();
+    new_structure.value = await get_new_structure();
+    link.value = await getLink();
+    console.log('sssss',link.value,new_structure.value,old_structure.value)
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {
