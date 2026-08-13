@@ -26,6 +26,7 @@ request.interceptors.request.use(
 // 返回响应数据拦截
 request.interceptors.response.use(
   (response) => {
+    return Promise.resolve(response.data);
       // console.log("request.js打印返回信息" , response);
     // 简化返回数据
     // if (response.status == "200") {

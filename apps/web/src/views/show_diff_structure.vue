@@ -25,16 +25,16 @@ const loadData = async () => {
   try {
     // 并行加载数据
     
-    // const [old_structureData, new_structureData, linkData] = await Promise.all([
-    //   get_old_structure(),
-    //   get_new_structure(),
-    //   getLink()
-    // ])
+    const [old_structureData, new_structureData, linkData] = await Promise.all([
+      get_old_structure(),
+      get_new_structure(),
+      getLink()
+    ])
     
-    old_structure.value = await get_old_structure();
-    new_structure.value = await get_new_structure();
-    link.value = await getLink();
-    console.log('sssss',link.value,new_structure.value,old_structure.value)
+    old_structure.value = old_structureData;
+    new_structure.value = new_structureData;
+    link.value = linkData;
+    // console.log(link.value,new_structure.value,old_structure.value)
   } catch (error) {
     console.error('数据加载失败:', error)
   } finally {

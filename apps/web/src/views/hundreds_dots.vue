@@ -55,112 +55,115 @@ onMounted(() => {
     // 初始化图表
     chart = echarts.init(mapRef.value);
     const diff=['xxx','yyy','zzz','xzy']
+    const size=[50,10]
     // 生成100个节点
     nodes = [];
-    for (let i = 1; i <= Math.pow(10,2); i++) {
-        nodes.push({
-            id: `${i}`,
-            name: `${i}`,
-            value: 'xxx',
-            symbolSize: 10,
-            symbol:'circle'
+    // for (let i = 1; i <= Math.pow(10,2); i++) {
+    //     nodes.push({
+    //         id: `${i}`,
+    //         name: `${i}`,
+    //         value: 'xxx',
+    //         symbolSize: 10,
+    //         symbol:'circle'
+    //     });
+    // }
+    for (let j = 1; j <= 2; j++) {
+        for (let i = 1; i <= Math.pow(10,j); i++) {
+            nodes.push({
+                id: `${j*100+i}`,
+                name: diff[j-1],
+                x:i%10*100 +Math.random()*100,
+                y:j*100 + Math.random()*i%10*10,
+                value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
+                // symbolSize: 50- j*10,
+                symbolSize:size[j-1],
+                symbol:'circle',
+                itemStyle: {
+                    color: colorPalette[i%10]
+                }
+            });
+        }
+    }
+    
+    nodes.push({
+        id: '1001',
+        name: '国家',
+        x:500,
+        y:-200,
+        value: '国家',
+        symbolSize: 101,
+        symbol:'circle',
+        itemStyle: {
+            color: 'purple',
+        }
+    });
+    links = [];
+    // for (let i = 0; i < 100 ; i++) {
+    //     links.push({ 
+    //         source: nodes[i%10].id, 
+    //         target: nodes[i].id ,
+    //         // symbol:['arrow','none'],
+    //         label: {
+    //             show: false,
+    //             fontSize:20
+    //         },
+    //         lineStyle: {
+    //             width: 2,
+    //             type:'dashed'
+    //         }
+    //     });
+    // }
+    for (let i = 0; i < Math.pow(10,2); i++) {
+    // 每个节点只连接后面1-3个节点
+        links.push({ 
+            source: `${200+i}`, 
+            target: `${100+i%10}`,
+            symbol:['none','arrow'],
+            label: {
+                show: false,
+                fontSize:20
+            },
+            lineStyle: {
+                width: 1,
+                color: colorPalette[i%10]
+            }
         });
     }
-    // for (let j = 1; j <= 2; j++) {
-        // for (let i = 1; i <= Math.pow(10,j); i++) {
-    //         nodes.push({
-    //             id: `${j*100+i}`,
-    //             name: diff[j-1],
-    //             x:i%10*100 +Math.random()*100,
-    //             y:j*100 + Math.random()*i%10*10,
-    //             value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
-    //             symbolSize: 50- j*10,
-    //             symbol:'circle',
-    //             itemStyle: {
-    //                 color: colorPalette[i%10]
-    //             }
-    //         });
-    //     }
-    // }
-    
-    // nodes.push({
-    //     id: '1001',
-    //     name: '国家',
-    //     x:500,
-    //     y:-200,
-    //     value: '国家',
-    //     symbolSize: 101,
-    //     symbol:'circle',
-    //     itemStyle: {
-    //         color: 'purple',
-    //     }
-    // });
-    links = [];
-    for (let i = 0; i < 100 ; i++) {
+    for (let i = 1; i <= 10; i++) {
+    // 每个节点只连接后面1-3个节点
         links.push({ 
-            source: nodes[i%10].id, 
-            target: nodes[i].id ,
-            // symbol:['arrow','none'],
+            source: `${200+i*10}`, 
+            target: `${110}`,
+            symbol:['none','arrow'],
             label: {
                 show: false,
                 fontSize:20
             },
             lineStyle: {
                 width: 2,
-                type:'dashed'
+                color: colorPalette[0]
             }
         });
     }
-    // for (let i = 0; i < Math.pow(10,2); i++) {
-    // // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: `${200+i}`, 
-    //         target: `${100+i%10}`,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20
-    //         },
-    //         lineStyle: {
-    //             width: 2,
-    //             color: colorPalette[i%10]
-    //         }
-    //     });
-    // }
-    // for (let i = 1; i <= 10; i++) {
-    // // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: `${200+i*10}`, 
-    //         target: `${110}`,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20
-    //         },
-    //         lineStyle: {
-    //             width: 2,
-    //             color: colorPalette[0]
-    //         }
-    //     });
-    // }
         
-    // for (let i = 0; i < 10 ; i++) {
-    //     // 每个节点只连接后面1-3个节点
-    //     links.push({ 
-    //         source: nodes[i].id, 
-    //         target: nodes[nodes.length - 1].id ,
-    //         symbol:['none','arrow'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20,
-    //             color:nodes[i].itemStyle.color
-    //         },
-    //         lineStyle: {
-    //             color: nodes[i].itemStyle.color,
-    //             width: 2
-    //         }
-    //     });
-    // }
+    for (let i = 0; i < 10 ; i++) {
+        // 每个节点只连接后面1-3个节点
+        links.push({ 
+            source: nodes[i].id, 
+            target: nodes[nodes.length - 1].id ,
+            symbol:['none','arrow'],
+            symbolSize:20,
+            label: {
+                show: false,
+                fontSize:20,
+                color:nodes[i].itemStyle.color
+            },
+            lineStyle: {
+                color: nodes[i].itemStyle.color,
+                width: 5
+            }
+        });
+    }
     
     // 设置图表配置
     chart.setOption({
@@ -174,7 +177,7 @@ onMounted(() => {
         series: [
             {
             type: 'graph',
-            layout: 'force',
+            layout: 'none',
             data: nodes,
             links: links,
             roam: true,

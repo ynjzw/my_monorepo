@@ -32,6 +32,8 @@ import entertainment from '../views/world/entertainment.vue'
 import finance from '../views/world/finance.vue'
 import politics from '../views/world/politics.vue'
 import atom2social from '../views/atom2social.vue'
+import cash_flow from '../views/cash_flow.vue'
+import floors from '../views/floors.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -78,7 +80,9 @@ const routes = [
   {name: 'economy', path: '/economy', component: economy},
   {name: 'entertainment', path: '/entertainment', component: entertainment},
   {name: 'finance', path: '/finance', component: finance},
-  {name: 'atom2social', path: '/atom2social', component: atom2social}
+  {name: 'atom2social', path: '/atom2social', component: atom2social},
+  {name: 'cash_flow', path: '/cash_flow', component: cash_flow},
+  {name: 'floors', path: '/floors', component: floors}
 ]
 
 // 创建路由实例

@@ -74,13 +74,10 @@ export function get_old_structure(){
 
 const new_structure_url='/routes/simple_api/new_structure'
 export function get_new_structure(){
-    
-    let a=request({
+    return request({
         url:new_structure_url,
         method:'get'
     })    
-    console.log('new_structure_url',a)
-    return a
 }
 
 
