@@ -1,0 +1,2 @@
+{"ts": "2026-08-22T17:12:18.888835", "session_id": "s-20260822-171218-7258", "step": null, "event": "session_start", "payload": {"agent_name": "AI助手", "agent_type": "SimpleAgent"}}
+{"ts": "2026-08-22T17:12:18.889230", "session_id": "s-20260822-171218-7258", "step": null, "event": "message_written", "payload": {"role": "user", "content": "你好!请介绍一下自己"}}

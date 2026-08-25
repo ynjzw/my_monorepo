@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "langgraph_agent": "./app/routes/langgraph_agent.py:graph"
+  },
+  "env": ".env"
+}
