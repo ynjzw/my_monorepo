@@ -33,6 +33,7 @@ import finance from '../views/world/finance.vue'
 import politics from '../views/world/politics.vue'
 import atom2social from '../views/atom2social.vue'
 import cash_flow from '../views/cash_flow.vue'
+import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
 // 定义路由表
 const routes = [
@@ -82,7 +83,8 @@ const routes = [
   {name: 'finance', path: '/finance', component: finance},
   {name: 'atom2social', path: '/atom2social', component: atom2social},
   {name: 'cash_flow', path: '/cash_flow', component: cash_flow},
-  {name: 'floors', path: '/floors', component: floors}
+  {name: 'floors', path: '/floors', component: floors},
+  {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs}
 ]
 
 // 创建路由实例

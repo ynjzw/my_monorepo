@@ -1,6 +1,8 @@
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict
+from fastapi import APIRouter
 
+app=APIRouter()
 # Step 1: 定义 State
 class SimpleState(TypedDict):
     message: str
@@ -32,9 +34,8 @@ def route_after_greet(state: SimpleState) -> str:
     # 如果 LLM 请求使用工具
     if "test" in last_message:
         return "test"
-    
-    # 否则结束
-    return END
+    else:
+        return "process"
 
 
 # Step 3: 构建图
@@ -45,7 +46,8 @@ builder.add_conditional_edges(
     "greet",              # 源节点
     route_after_greet,    # 路由函数
     {
-        "test": "test"
+        "test": "test",
+        "process": "process"
     }
 )
 # 添加节点
@@ -65,7 +67,7 @@ graph = builder.compile()
 
 # Step 5: 运行
 result = graph.invoke({
-    "message": "世界",
+    "message": "test",
     "processed": False
 })
 

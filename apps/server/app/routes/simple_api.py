@@ -26,8 +26,8 @@ def get_population_structure(db:Session=Depends(get_db)):
     return data
 
 @app.get('/base_nodes')
-def get_base_nodes(db:Session=Depends(get_db)):
-    data = db.query(Nodes).filter(Nodes.type=='基础需求').all()
+def get_base_nodes(node_type: str ,db:Session=Depends(get_db)):
+    data = db.query(Nodes).filter(Nodes.type==node_type).all()
     return data
 
 @app.get('/maslow_needs')

@@ -11,7 +11,7 @@ import { get_base_nodes,get_maslow_needs } from '@/api/simple_api';
 onMounted(async() => {
   var chartDom = document.getElementById('main');
   var myChart = echarts.init(chartDom);
-  const maslow_needs = await get_maslow_needs();
+  const maslow_needs = await get_base_nodes('马斯洛需求');
   var option;
   option = {
     title: {

@@ -2,7 +2,7 @@ from fastapi import FastAPI,Depends,UploadFile,File,HTTPException,Query
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import logging,uvicorn
-from routes import ai_api,upload_api,simple_api,spider_api,parse_api
+from routes import ai_api,upload_api,simple_api,spider_api,parse_api,langgraph_agent
 
 logger=logging.getLogger(__name__)
 
@@ -27,6 +27,7 @@ app.include_router(simple_api.app, prefix="/routes/simple_api")
 app.include_router(upload_api.app, prefix="/routes/upload_api")
 app.include_router(spider_api.app, prefix="/routes/spider_api")
 app.include_router(parse_api.app, prefix="/routes/parse_api")
+app.include_router(langgraph_agent.app, prefix="/routes/langgraph_agent")
 
 @app.get('/')
 def hello():

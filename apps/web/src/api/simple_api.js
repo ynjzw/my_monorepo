@@ -49,10 +49,13 @@ export function getFamily(){
 
 
 const url8='/routes/simple_api/base_nodes'
-export function get_base_nodes(){
+export function get_base_nodes(node_type){
     return request({
         url:url8,
-        method:'get'
+        method:'get',
+        params: {
+            node_type: node_type
+        }
     })    
 }
 
