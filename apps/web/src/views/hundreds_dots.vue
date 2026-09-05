@@ -1,5 +1,4 @@
 <template>
-    <button @click="eraseLink">eraseLink</button>
   <div class="map" >      
      <div ref="mapRef" class="map-container" ></div>
   </div>
@@ -52,147 +51,66 @@ const updateChartData = () => {
 };
 
 onMounted(() => {
-    // 初始化图表
     chart = echarts.init(mapRef.value);
-    const diff=['xxx','yyy','zzz','xzy']
-    const size=[50,10]
-    // 生成100个节点
-    nodes = [];
-    // for (let i = 1; i <= Math.pow(10,2); i++) {
-    //     nodes.push({
-    //         id: `${i}`,
-    //         name: `${i}`,
-    //         value: 'xxx',
-    //         symbolSize: 10,
-    //         symbol:'circle'
-    //     });
-    // }
-    for (let j = 1; j <= 2; j++) {
-        for (let i = 1; i <= Math.pow(10,j); i++) {
-            nodes.push({
-                id: `${j*100+i}`,
-                name: diff[j-1],
-                x:i%10*100 +Math.random()*100,
-                y:j*100 + Math.random()*i%10*10,
-                value: diff[j-1] + ':' + (Math.random() + j*10).toFixed(2),
-                // symbolSize: 50- j*10,
-                symbolSize:size[j-1],
-                symbol:'circle',
-                itemStyle: {
-                    color: colorPalette[i%10]
-                }
-            });
-        }
-    }
+    let idx = 1;
     
-    nodes.push({
-        id: '1001',
-        name: '国家',
-        x:500,
-        y:-200,
-        value: '国家',
-        symbolSize: 101,
-        symbol:'circle',
-        itemStyle: {
-            color: 'purple',
-        }
-    });
-    links = [];
-    // for (let i = 0; i < 100 ; i++) {
-    //     links.push({ 
-    //         source: nodes[i%10].id, 
-    //         target: nodes[i].id ,
-    //         // symbol:['arrow','none'],
-    //         label: {
-    //             show: false,
-    //             fontSize:20
-    //         },
-    //         lineStyle: {
-    //             width: 2,
-    //             type:'dashed'
-    //         }
-    //     });
-    // }
-    for (let i = 0; i < Math.pow(10,2); i++) {
-    // 每个节点只连接后面1-3个节点
-        links.push({ 
-            source: `${200+i}`, 
-            target: `${100+i%10}`,
-            symbol:['none','arrow'],
-            label: {
-                show: false,
-                fontSize:20
-            },
-            lineStyle: {
-                width: 1,
-                color: colorPalette[i%10]
-            }
-        });
-    }
-    for (let i = 1; i <= 10; i++) {
-    // 每个节点只连接后面1-3个节点
-        links.push({ 
-            source: `${200+i*10}`, 
-            target: `${110}`,
-            symbol:['none','arrow'],
-            label: {
-                show: false,
-                fontSize:20
-            },
-            lineStyle: {
-                width: 2,
-                color: colorPalette[0]
-            }
-        });
-    }
-        
-    for (let i = 0; i < 10 ; i++) {
-        // 每个节点只连接后面1-3个节点
-        links.push({ 
-            source: nodes[i].id, 
-            target: nodes[nodes.length - 1].id ,
-            symbol:['none','arrow'],
-            symbolSize:20,
-            label: {
-                show: false,
-                fontSize:20,
-                color:nodes[i].itemStyle.color
-            },
-            lineStyle: {
-                color: nodes[i].itemStyle.color,
-                width: 5
-            }
-        });
-    }
+    // 初始化中心节点
+    const data = [{
+        id: '0',
+        x: chart.getWidth() / 2,
+        y: chart.getHeight() / 2,
+        symbolSize: 20,
+        itemStyle: { color: colorPalette[0] }
+    }];
     
-    // 设置图表配置
-    chart.setOption({
-        title: { 
-            text: 'ttt' ,
-            textStyle: {
-                color: 'pink'
-            }
-        },
-        // tooltip: { trigger: 'item' },
-        series: [
-            {
+    // 初始 option
+    const option = {
+        series: [{
             type: 'graph',
             layout: 'none',
-            data: nodes,
-            links: links,
-            roam: true,
-            draggable:true,
-            label: { show: false, position: 'bottom', fontSize: 12 },
-            force: { 
-                repulsion: 100, 
-                edgeLength: 150,
-                gravity: 0.3,
-                friction: 0.1
-            }
-        }
-        ]
-    });
+            data: data,
+            links: []  // 初始无连线
+        }]
+    };
+    chart.setOption(option);
     
+    // 启动定时器
+    intervalId = setInterval(() => {
+        const currentData = chart.getOption().series[0].data;
+        
+        // 1. 添加新节点（每轮增加10个）
+        for (let j = 1; j <= idx*10; j++) {
+            currentData.push({
+                id: `node_${Date.now()}_${j}`,
+                x: (Math.random() * 2 - 1)*100 + chart.getWidth()/2,
+                y: chart.getHeight() / 2 + 30 + Math.random() * 10,
+                symbolSize: 3,
+                
+            });
+        }
+        
+        
+        if(idx % 3 === 0) {
+            // 2. 更新所有节点的位置（下沉效果）
+            currentData.forEach((node, index) => {
+                if(index < idx / 3 * 10){
+                    node.y = node.y - 50;
+                    node.symbolSize = node.symbolSize + 3;
+                    if (node.y < chart.getHeight() / 4 && node.itemStyle == null) {
+                        node.itemStyle = {
+                            color: colorPalette[Math.floor(Math.random() * colorPalette.length)]    
+                        }
+                    }
+                } 
+                
+            });
+        }
+        // 3. 只更新 data，不重置整个 option
+        chart.setOption({
+            series: [{ data: currentData }]
+        });
+        idx++;
+    }, 3000);
 });
 
 // 组件销毁时清理定时器和图表

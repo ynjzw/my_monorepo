@@ -7,10 +7,10 @@
 completion_models:
   default_completion_model:
     model_provider: openai
-    model: qwen-plus
+    model: deepseek-r1:1.5b
     auth_method: api_key # or azure_managed_identity
-    api_key: sk-2a79e0665f56436681939addf9465ef1 # set this in the generated .env file, or remove if managed identity
-    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    api_key: ollama # set this in the generated .env file, or remove if managed identity
+    api_base: http://localhost:11434/v1
     retry:
       type: exponential_backoff
     max_retries: 3
@@ -18,11 +18,11 @@ completion_models:
 
 embedding_models:
   default_embedding_model:
-    model_provider: openai
-    model: text-embedding-v1
+    model_provider: ollama
+    model: nomic-embed-text:latest
     auth_method: api_key
-    api_key: sk-2a79e0665f56436681939addf9465ef1
-    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    api_key: ollama
+    api_base: http://localhost:11434
     retry:
       type: exponential_backoff
     max_retries: 3

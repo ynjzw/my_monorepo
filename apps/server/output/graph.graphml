@@ -1,0 +1,1764 @@
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="edge" attr.name="weight" attr.type="double" />
+  <graph edgedefault="undirected">
+    <node id="CHARLES DICKENS" />
+    <node id="A CHRISTMAS CAROL" />
+    <node id="ARTHUR RACKHAM" />
+    <node id="J. B. LIPPINCOTT COMPANY" />
+    <node id="PROJECT GUTENBERG" />
+    <node id="SUSANNE SHELL" />
+    <node id="JANET BLENKINSHIP" />
+    <node id="ONLINE DISTRIBUTED PROOFREADING TEAM" />
+    <node id="PHILADELPHIA" />
+    <node id="NEW YORK" />
+    <node id="GREAT BRITAIN" />
+    <node id="EBENEZER SCROOGE" />
+    <node id="BOB CRATCHIT" />
+    <node id="PETER CRATCHIT" />
+    <node id="DECEMBER 24, 2007" />
+    <node id="UNITED STATES" />
+    <node id="WWW.GUTENBERG.ORG" />
+    <node id="WWW.PGDP.NET" />
+    <node id="EBOOK #24022" />
+    <node id="JACOB MARLEY" />
+    <node id="TINY TIM" />
+    <node id="FRED" />
+    <node id="BELLE" />
+    <node id="FAN" />
+    <node id="MR. FEZZIWIG" />
+    <node id="GHOST OF CHRISTMAS PAST" />
+    <node id="GHOST OF CHRISTMAS PRESENT" />
+    <node id="GHOST OF CHRISTMAS YET TO COME" />
+    <node id="SCROOGE AND MARLEY" />
+    <node id="LONDON" />
+    <node id="CORNHILL" />
+    <node id="STAVE ONE--MARLEY'S GHOST" />
+    <node id="STAVE TWO--THE FIRST OF THE THREE SPIRITS" />
+    <node id="STAVE THREE--THE SECOND OF THE THREE SPIRITS" />
+    <node id="STAVE FOUR--THE LAST OF THE SPIRITS" />
+    <node id="STAVE FIVE--THE END OF IT" />
+    <node id="DECEMBER, 1843" />
+    <node id="THE FRONTISPIECE" />
+    <node id="CHRISTMAS EVE" />
+    <node id="FEZZIWIG" />
+    <node id="STAVE TWO" />
+    <node id="SCROOGE" />
+    <node id="STAVE ONE" />
+    <node id="JOE" />
+    <node id="MRS. FEZZIWIG" />
+    <node id="TIM" />
+    <node id="STAVE THREE" />
+    <node id="MARLEY" />
+    <node id="MARLEY'S GHOST" />
+    <node id="ST. PAUL'S CHURCHYARD" />
+    <node id="HAMLET" />
+    <node id="WAREHOUSE" />
+    <node id="DOG-DAYS" />
+    <node id="CHRISTMAS" />
+    <node id="STREET" />
+    <node id="CLERK" />
+    <node id="SCROOGE'S NEPHEW" />
+    <node id="COUNTING-HOUSE" />
+    <node id="SAMUEL NAMARA" />
+    <node id="ALHAMIA PRISON" />
+    <node id="FIRUZABAD" />
+    <node id="MEGGIE TAZBAH" />
+    <node id="DURKE BATAGLANI" />
+    <node id="AURELIA" />
+    <node id="QUINTARA" />
+    <node id="NEPHEW" />
+    <node id="SCROOGE AND MARLEY'S" />
+    <node id="NEW YEAR" />
+    <node id="THE CLERK" />
+    <node id="CHRISTMAS CAROL" />
+    <node id="LORD MAYOR" />
+    <node id="MANSION HOUSE" />
+    <node id="ST. DUNSTAN" />
+    <node id="CITY OF LONDON" />
+    <node id="CAMDEN TOWN" />
+    <node id="LIVERY" />
+    <node id="CORPORATION" />
+    <node id="LUMBER-ROOM" />
+    <node id="FIREPLACE" />
+    <node id="BELLS" />
+    <node id="DUTCH TILES" />
+    <node id="CAIN" />
+    <node id="ABEL" />
+    <node id="PHARAOH'S DAUGHTER" />
+    <node id="QUEEN OF SHEBA" />
+    <node id="BELSHAZZAR" />
+    <node id="APOSTLES" />
+    <node id="ANGELIC MESSENGERS" />
+    <node id="SCRIPTURES" />
+    <node id="PROPHET'S ROD" />
+    <node id="GRUEL" />
+    <node id="CRIMSON FIRE-GUARD" />
+    <node id="WINE-MERCHANT'S CELLAR" />
+    <node id="SCROOGE'S CHAMBER" />
+    <node id="GHOST" />
+    <node id="WARD" />
+    <node id="JACOB" />
+    <node id="THREE SPIRITS" />
+    <node id="BOARDING SCHOOL" />
+    <node id="MARKET-TOWN" />
+    <node id="MERRY CHRISTMAS" />
+    <node id="ROBIN CRUSOE" />
+    <node id="FRIDAY" />
+    <node id="VALENTINE" />
+    <node id="ORSON" />
+    <node id="SULTAN'S GROOM" />
+    <node id="GENII" />
+    <node id="ALI BABA" />
+    <node id="THE GHOST" />
+    <node id="SCHOOLMASTER" />
+    <node id="POSTBOY" />
+    <node id="DICK WILKINS" />
+    <node id="DICK" />
+    <node id="MISS FEZZIWIG" />
+    <node id="FEZZIWIG'S WAREHOUSE" />
+    <node id="FIDDLER" />
+    <node id="HOUSEMAID" />
+    <node id="BAKER" />
+    <node id="COOK" />
+    <node id="MILKMAN" />
+    <node id="BOY FROM OVER THE WAY" />
+    <node id="GIRL FROM NEXT DOOR BUT ONE" />
+    <node id="TWENTY COUPLE" />
+    <node id="SIR ROGER DE COVERLEY" />
+    <node id="THE SECOND SPIRIT" />
+    <node id="CHRISTMAS MORNING" />
+    <node id="CITY STREETS" />
+    <node id="BOYS" />
+    <node id="CHRISTMAS DAY" />
+    <node id="SEVENTH DAY" />
+    <node id="MRS. CRATCHIT" />
+    <node id="BELINDA CRATCHIT" />
+    <node id="CHRISTMAS PRESENT" />
+    <node id="SUBURBS OF THE TOWN" />
+    <node id="CRATCHIT FAMILY" />
+    <node id="MARTHA CRATCHIT" />
+    <node id="THE FASHIONABLE PARKS" />
+    <node id="MASTER PETER" />
+    <node id="MISS BELINDA" />
+    <node id="THE YOUNG CRATCHITS" />
+    <node id="CHRISTMAS DINNER" />
+    <node id="THE GHOST OF CHRISTMAS YET TO COME" />
+    <node id="THE FEAST" />
+    <node id="TIRUZIA" />
+    <node id="KROHAARA" />
+    <node id="CASHION" />
+    <node id="PAWNBROKER'S" />
+    <node id="MILLINER'S" />
+    <node id="SONG" />
+    <node id="TOAST" />
+    <node id="LAMPLIGHTER" />
+    <node id="THE SPIRIT" />
+    <node id="MINERS" />
+    <node id="LIGHTHOUSE KEEPERS" />
+    <node id="SCROOGE'S NIECE" />
+    <node id="TOPPER" />
+    <node id="SCROOGE'S NIECE'S SISTERS" />
+    <node id="SCROOGE'S CLERK" />
+    <node id="THE DESSERT" />
+    <node id="THE LAMP" />
+    <node id="BLIND MAN'S BUFF" />
+    <node id="HOW, WHEN, AND WHERE" />
+    <node id="WHITECHAPEL" />
+    <node id="CHRISTMAS PARTY" />
+    <node id="UNCLE SCROOGE" />
+    <node id="TWELFTH-NIGHT PARTY" />
+    <node id="CHRISTMAS HOLIDAYS" />
+    <node id="HOSPITAL" />
+    <node id="GAOL" />
+    <node id="'CHANGE" />
+    <node id="GHOST OF THE FUTURE" />
+    <node id="CHRISTMAS-TIME" />
+    <node id="OLD JOE" />
+    <node id="MRS. DILBER" />
+    <node id="THE LAUNDRESS" />
+    <node id="THE UNDERTAKER'S MAN" />
+    <node id="THE PHANTOM" />
+    <node id="LAUNDRESS" />
+    <node id="UNDERTAKER'S MAN" />
+    <node id="THE WOMAN" />
+    <node id="CAROLINE" />
+    <node id="CAROLINE'S HUSBAND" />
+    <node id="THE HALF-DRUNKEN WOMAN" />
+    <node id="DEATH OF SCROOGE'S CREDITOR" />
+    <node id="TOWN" />
+    <node id="SPIRIT" />
+    <node id="MOTHER" />
+    <node id="CHILDREN" />
+    <node id="DEBT" />
+    <node id="EMILY CRATCHIT" />
+    <node id="CRATCHIT HOUSE" />
+    <node id="MR. SCROOGE'S NEPHEW" />
+    <node id="CHURCHYARD" />
+    <node id="OFFICE" />
+    <node id="STAVE FIVE" />
+    <node id="CHRISTMAS TIME" />
+    <node id="POULTERER" />
+    <node id="SUNDAY CLOTHES" />
+    <node id="TURKEY" />
+    <node id="JOE MILLER" />
+    <node id="POULTERER'S MAN" />
+    <node id="THE CRATCHIT FAMILY" />
+    <node id="FRED'S HOUSE" />
+    <node id="NIECE BY MARRIAGE" />
+    <node id="STREETS" />
+    <node id="KITCHENS" />
+    <node id="WINDOWS" />
+    <node id="DINING-ROOM" />
+    <node id="TABLE" />
+    <node id="FOOTSTOOL" />
+    <node id="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" />
+    <node id="FULL PROJECT GUTENBERG LICENSE" />
+    <node id="PGLAF" />
+    <node id="GUTENBERG TRADMARK" />
+    <node id="PROJECT GUTENBERG LICENSE" />
+    <node id="PARAGRAPH 1.E" />
+    <node id="PARAGRAPH 1.E.1" />
+    <node id="GUTENBERG.ORG" />
+    <node id="COPYRIGHT HOLDER" />
+    <node id="PLAIN VANILLA ASCII" />
+    <node id="EBOOK" />
+    <node id="U.S. COPYRIGHT LAW" />
+    <node id="PROJECT GUTENBERG&#8482; LICENSE" />
+    <node id="PROJECT GUTENBERG VOLUNTEERS" />
+    <node id="PROJECT GUTENBERG EMPLOYEES" />
+    <node id="PROJECT GUTENBERG&#8482;" />
+    <node id="PARAGRAPH 1.E.8" />
+    <node id="ROYALTY PAYMENTS" />
+    <node id="FULL REFUND" />
+    <node id="PARAGRAPH 1.E.9" />
+    <node id="SECTION 3" />
+    <node id="SECTION 4" />
+    <node id="PARAGRAPH 1.F.1" />
+    <node id="ELECTRONIC WORK" />
+    <node id="PHYSICAL MEDIUM" />
+    <node id="TAX RETURNS" />
+    <node id="2001" />
+    <node id="VOLUNTEERS" />
+    <node id="DONATIONS" />
+    <node id="LEGAL FEES" />
+    <node id="AGENT" />
+    <node id="EMPLOYEE" />
+    <node id="INFRINGEMENT" />
+    <node id="MICHAEL S. HART" />
+    <node id="MISSISSIPPI" />
+    <node id="MONTCLAIR" />
+    <node id="INTERNAL REVENUE SERVICE" />
+    <edge source="CHARLES DICKENS" target="A CHRISTMAS CAROL">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="CHARLES DICKENS" target="EBENEZER SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHARLES DICKENS" target="TINY TIM">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="ARTHUR RACKHAM">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="J. B. LIPPINCOTT COMPANY">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="PROJECT GUTENBERG">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="DECEMBER 24, 2007">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="WWW.GUTENBERG.ORG">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="WWW.PGDP.NET">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="STAVE ONE--MARLEY'S GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="STAVE TWO--THE FIRST OF THE THREE SPIRITS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="STAVE THREE--THE SECOND OF THE THREE SPIRITS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="STAVE FOUR--THE LAST OF THE SPIRITS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="STAVE FIVE--THE END OF IT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="EBENEZER SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="TINY TIM">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="DECEMBER, 1843">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="GHOST OF CHRISTMAS PRESENT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="SCROOGE'S NEPHEW">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="A CHRISTMAS CAROL" target="SCROOGE'S NIECE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="J. B. LIPPINCOTT COMPANY" target="PHILADELPHIA">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="J. B. LIPPINCOTT COMPANY" target="NEW YORK">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="J. B. LIPPINCOTT COMPANY" target="GREAT BRITAIN">
+      <data key="d0">5.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="SUSANNE SHELL">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="JANET BLENKINSHIP">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="ONLINE DISTRIBUTED PROOFREADING TEAM">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="DECEMBER 24, 2007">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="UNITED STATES">
+      <data key="d0">42.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="WWW.GUTENBERG.ORG">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="EBOOK #24022">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION">
+      <data key="d0">50.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="FULL PROJECT GUTENBERG LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="GUTENBERG TRADMARK">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="GUTENBERG.ORG">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="PROJECT GUTENBERG LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="U.S. COPYRIGHT LAW">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="PROJECT GUTENBERG&#8482; LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="PROJECT GUTENBERG VOLUNTEERS">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="PROJECT GUTENBERG EMPLOYEES">
+      <data key="d0">14.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="VOLUNTEERS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="DONATIONS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG" target="MICHAEL S. HART">
+      <data key="d0">30.0</data>
+    </edge>
+    <edge source="ONLINE DISTRIBUTED PROOFREADING TEAM" target="WWW.PGDP.NET">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="BOB CRATCHIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="JACOB MARLEY">
+      <data key="d0">21.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="FRED">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="BELLE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="FAN">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="MR. FEZZIWIG">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="GHOST OF CHRISTMAS PAST">
+      <data key="d0">30.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="GHOST OF CHRISTMAS PRESENT">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="GHOST OF CHRISTMAS YET TO COME">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="THE FRONTISPIECE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="CHRISTMAS CAROL">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="COUNTING-HOUSE">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="LONDON">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="GHOST">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="CHRISTMAS EVE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="THREE SPIRITS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="MARLEY'S GHOST">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="SCROOGE">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="SCHOOLMASTER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="BOARDING SCHOOL">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="POSTBOY">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="CHRISTMAS">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="FEZZIWIG">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="DICK WILKINS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="WAREHOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="DICK">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="THE GHOST OF CHRISTMAS YET TO COME">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="CHRISTMAS DAY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="MRS. CRATCHIT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="SCROOGE'S CLERK">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="TOWN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="EBENEZER SCROOGE" target="DEBT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="PETER CRATCHIT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="TINY TIM">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CORNHILL">
+      <data key="d0">15.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CHRISTMAS EVE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="SCROOGE">
+      <data key="d0">85.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="MRS. CRATCHIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="BELINDA CRATCHIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="GHOST OF CHRISTMAS PRESENT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CRATCHIT FAMILY">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="MARTHA CRATCHIT">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CHRISTMAS DAY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CHRISTMAS DINNER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="CRATCHIT HOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="MR. SCROOGE'S NEPHEW">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="THE CRATCHIT FAMILY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="OFFICE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="EMILY CRATCHIT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="BOB CRATCHIT" target="LONDON">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="THE FASHIONABLE PARKS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="CRATCHIT FAMILY">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="CHRISTMAS DAY">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="PAWNBROKER'S">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="EMILY CRATCHIT">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="PETER CRATCHIT" target="TINY TIM">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="DECEMBER 24, 2007" target="EBOOK #24022">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="UNITED STATES" target="PROJECT GUTENBERG LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="UNITED STATES" target="PGLAF">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="UNITED STATES" target="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="UNITED STATES" target="INTERNAL REVENUE SERVICE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="WWW.GUTENBERG.ORG" target="FULL PROJECT GUTENBERG LICENSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="WWW.GUTENBERG.ORG" target="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION">
+      <data key="d0">30.0</data>
+    </edge>
+    <edge source="WWW.GUTENBERG.ORG" target="PROJECT GUTENBERG LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="WWW.GUTENBERG.ORG" target="PROJECT GUTENBERG&#8482;">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="CHRISTMAS CAROL">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="SCROOGE">
+      <data key="d0">29.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="LONDON">
+      <data key="d0">17.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="COUNTING-HOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="CHRISTMAS EVE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="THREE SPIRITS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="THE SECOND SPIRIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="CHRISTMAS-TIME">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="JACOB MARLEY" target="GHOST OF CHRISTMAS YET TO COME">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="TINY TIM" target="CHRISTMAS DAY">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="TINY TIM" target="MARTHA CRATCHIT">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="TINY TIM" target="MASTER PETER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="TINY TIM" target="MISS BELINDA">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="TINY TIM" target="CRATCHIT FAMILY">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="TINY TIM" target="MRS. CRATCHIT">
+      <data key="d0">28.0</data>
+    </edge>
+    <edge source="TINY TIM" target="CHRISTMAS DINNER">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="TINY TIM" target="SCROOGE">
+      <data key="d0">58.0</data>
+    </edge>
+    <edge source="TINY TIM" target="THE GHOST OF CHRISTMAS YET TO COME">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="TINY TIM" target="SONG">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="TINY TIM" target="GHOST OF CHRISTMAS PRESENT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="TINY TIM" target="EMILY CRATCHIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="TINY TIM" target="CRATCHIT HOUSE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="TINY TIM" target="CHRISTMAS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="TINY TIM" target="LONDON">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="FRED" target="SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="FRED" target="CHRISTMAS">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="FRED" target="SCROOGE'S NEPHEW">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FRED" target="LONDON">
+      <data key="d0">14.0</data>
+    </edge>
+    <edge source="FRED" target="CHRISTMAS PARTY">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="FRED" target="UNCLE SCROOGE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FRED" target="SCROOGE AND MARLEY'S">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="FRED" target="CHRISTMAS DINNER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FRED" target="DINING-ROOM">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BELLE" target="SCROOGE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BELLE" target="CHRISTMAS CAROL">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FAN" target="SCROOGE">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="FAN" target="THE GHOST">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="FAN" target="BOARDING SCHOOL">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="FAN" target="SCHOOLMASTER">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="FAN" target="CHRISTMAS">
+      <data key="d0">21.0</data>
+    </edge>
+    <edge source="FAN" target="GHOST">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FAN" target="GHOST OF CHRISTMAS PAST">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="FAN" target="POSTBOY">
+      <data key="d0">5.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="SCROOGE">
+      <data key="d0">51.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="CHRISTMAS EVE">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="BOARDING SCHOOL">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="MERRY CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="CHRISTMAS CAROL">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PAST" target="GHOST OF CHRISTMAS PRESENT">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="THE FRONTISPIECE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="MARLEY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS EVE">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS MORNING">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CITY STREETS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS PRESENT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="LAMPLIGHTER">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="BLIND MAN'S BUFF">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="HOW, WHEN, AND WHERE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="UNCLE SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="TWELFTH-NIGHT PARTY">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS HOLIDAYS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="HOSPITAL">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="GAOL">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="GHOST OF CHRISTMAS YET TO COME">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS PRESENT" target="CHRISTMAS CAROL">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="SCROOGE">
+      <data key="d0">40.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="CRATCHIT HOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="CHURCHYARD">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="STAVE FIVE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="GHOST OF CHRISTMAS YET TO COME" target="CHRISTMAS EVE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE AND MARLEY" target="LONDON">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="SCROOGE AND MARLEY" target="SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE AND MARLEY" target="MARLEY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="LONDON" target="SCROOGE">
+      <data key="d0">115.0</data>
+    </edge>
+    <edge source="LONDON" target="MARLEY">
+      <data key="d0">22.0</data>
+    </edge>
+    <edge source="LONDON" target="WAREHOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="LONDON" target="STREET">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="COUNTING-HOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="LONDON" target="WARD">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="CITY STREETS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="LONDON" target="SUBURBS OF THE TOWN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="CRATCHIT FAMILY">
+      <data key="d0">17.0</data>
+    </edge>
+    <edge source="LONDON" target="CHRISTMAS DINNER">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="WHITECHAPEL">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="UNCLE SCROOGE">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="LONDON" target="SCROOGE'S NEPHEW">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="SCROOGE AND MARLEY'S">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LONDON" target="CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CORNHILL" target="CHRISTMAS EVE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CORNHILL" target="CLERK">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="STAVE ONE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="SCROOGE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="SCROOGE'S NEPHEW">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="CHRISTMAS CAROL">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="CLERK">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="COUNTING-HOUSE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="MARLEY'S GHOST">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="SCROOGE'S CHAMBER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="FEZZIWIG">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="GHOST">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="FEZZIWIG'S WAREHOUSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="TWENTY COUPLE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS EVE" target="CHRISTMAS DAY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="STAVE TWO">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="MRS. FEZZIWIG">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="WAREHOUSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="DICK">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="MISS FEZZIWIG">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="HOUSEMAID">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="COOK">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="BOY FROM OVER THE WAY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="GIRL FROM NEXT DOOR BUT ONE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="SIR ROGER DE COVERLEY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="FIDDLER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG" target="SCROOGE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="STAVE ONE">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MARLEY">
+      <data key="d0">58.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ST. PAUL'S CHURCHYARD">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="HAMLET">
+      <data key="d0">0.0</data>
+    </edge>
+    <edge source="SCROOGE" target="WAREHOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="DOG-DAYS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="SCROOGE" target="STREET">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CLERK">
+      <data key="d0">29.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SCROOGE'S NEPHEW">
+      <data key="d0">48.0</data>
+    </edge>
+    <edge source="SCROOGE" target="COUNTING-HOUSE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="NEPHEW">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SCROOGE AND MARLEY'S">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="SCROOGE" target="NEW YEAR">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE CLERK">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS CAROL">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="LORD MAYOR">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ST. DUNSTAN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CITY OF LONDON">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CORPORATION">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="LUMBER-ROOM">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE" target="FIREPLACE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="BELLS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="DUTCH TILES">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CAIN">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ABEL">
+      <data key="d0">5.0</data>
+    </edge>
+    <edge source="SCROOGE" target="BELSHAZZAR">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="GRUEL">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="WINE-MERCHANT'S CELLAR">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MARLEY'S GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SCROOGE'S CHAMBER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="JACOB">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THREE SPIRITS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="BOARDING SCHOOL">
+      <data key="d0">26.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MARKET-TOWN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MERRY CHRISTMAS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="GHOST">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ALI BABA">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ROBIN CRUSOE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="VALENTINE">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="ORSON">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SULTAN'S GROOM">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="FRIDAY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SCHOOLMASTER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="DICK">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE SECOND SPIRIT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS MORNING">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CITY STREETS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS DAY">
+      <data key="d0">38.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SEVENTH DAY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS DINNER">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CRATCHIT FAMILY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE SPIRIT">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="SCROOGE" target="SCROOGE'S NIECE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="WHITECHAPEL">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS PARTY">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="SCROOGE" target="'CHANGE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="GHOST OF THE FUTURE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS-TIME">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MRS. DILBER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE LAUNDRESS">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE UNDERTAKER'S MAN">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE PHANTOM">
+      <data key="d0">30.0</data>
+    </edge>
+    <edge source="SCROOGE" target="OLD JOE">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="THE WOMAN">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CAROLINE">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CAROLINE'S HUSBAND">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHURCHYARD">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="MRS. CRATCHIT">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="OFFICE">
+      <data key="d0">15.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS PRESENT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CHRISTMAS TIME">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE" target="POULTERER">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="SCROOGE" target="TURKEY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE" target="JOE MILLER">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE" target="CAMDEN TOWN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="POULTERER'S MAN">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE" target="FRED'S HOUSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="STREETS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="KITCHENS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="WINDOWS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="SCROOGE" target="DINING-ROOM">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SCROOGE" target="TABLE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="STAVE ONE" target="JOE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="STAVE ONE" target="MARLEY'S GHOST">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MRS. FEZZIWIG" target="SIR ROGER DE COVERLEY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MRS. FEZZIWIG" target="FIDDLER">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="TIM" target="STAVE THREE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="MARLEY" target="SCROOGE AND MARLEY'S">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="MARLEY" target="CITY OF LONDON">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MARLEY" target="CORPORATION">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MARLEY" target="BELLS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="MARLEY" target="PROPHET'S ROD">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MARLEY" target="WINE-MERCHANT'S CELLAR">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="MARLEY" target="CHRISTMAS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MARLEY'S GHOST" target="SCROOGE'S CHAMBER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MARLEY'S GHOST" target="COUNTING-HOUSE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="WAREHOUSE" target="DICK WILKINS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="NEPHEW">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="CLERK">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="SCROOGE'S NEPHEW">
+      <data key="d0">29.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="THE CLERK">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="THE GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="THE SPIRIT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="MINERS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="LIGHTHOUSE KEEPERS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="GHOST">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="SCROOGE'S NIECE">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="CRATCHIT FAMILY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="STAVE FIVE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="CHRISTMAS DINNER">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CHRISTMAS" target="CHRISTMAS PARTY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CLERK" target="COUNTING-HOUSE">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="CLERK" target="CAMDEN TOWN">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE'S NEPHEW" target="SCROOGE'S NIECE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE'S NEPHEW" target="CHRISTMAS DINNER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SCROOGE'S NEPHEW" target="UNCLE SCROOGE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="COUNTING-HOUSE" target="CHRISTMAS CAROL">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="ALHAMIA PRISON">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="FIRUZABAD">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="MEGGIE TAZBAH">
+      <data key="d0">12.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="DURKE BATAGLANI">
+      <data key="d0">12.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="TIRUZIA">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="SAMUEL NAMARA" target="AURELIA">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="ALHAMIA PRISON" target="TIRUZIA">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="ALHAMIA PRISON" target="FIRUZABAD">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FIRUZABAD" target="MEGGIE TAZBAH">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FIRUZABAD" target="DURKE BATAGLANI">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FIRUZABAD" target="AURELIA">
+      <data key="d0">2.0</data>
+    </edge>
+    <edge source="FIRUZABAD" target="QUINTARA">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FIRUZABAD" target="TIRUZIA">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="MEGGIE TAZBAH" target="DURKE BATAGLANI">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="MEGGIE TAZBAH" target="TIRUZIA">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="MEGGIE TAZBAH" target="AURELIA">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="DURKE BATAGLANI" target="TIRUZIA">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="DURKE BATAGLANI" target="AURELIA">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="AURELIA" target="QUINTARA">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="AURELIA" target="CASHION">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="QUINTARA" target="KROHAARA">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="SCROOGE AND MARLEY'S" target="THE CLERK">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="SCROOGE AND MARLEY'S" target="CHRISTMAS DAY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="NEW YEAR" target="CHRISTMAS DAY">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="NEW YEAR" target="CHRISTMAS TIME">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="CHRISTMAS CAROL" target="THE SECOND SPIRIT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LORD MAYOR" target="MANSION HOUSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="LORD MAYOR" target="CITY OF LONDON">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CITY OF LONDON" target="LIVERY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CITY OF LONDON" target="CORPORATION">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="LUMBER-ROOM" target="CRIMSON FIRE-GUARD">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FIREPLACE" target="DUTCH TILES">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FIREPLACE" target="GRUEL">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="CAIN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="ABEL">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="PHARAOH'S DAUGHTER">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="QUEEN OF SHEBA">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="BELSHAZZAR">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="APOSTLES">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="ANGELIC MESSENGERS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="DUTCH TILES" target="SCRIPTURES">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="JACOB" target="THREE SPIRITS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="BOARDING SCHOOL" target="FRIDAY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="BOARDING SCHOOL" target="SCHOOLMASTER">
+      <data key="d0">30.0</data>
+    </edge>
+    <edge source="BOARDING SCHOOL" target="POSTBOY">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="ROBIN CRUSOE" target="FRIDAY">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="VALENTINE" target="ORSON">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SULTAN'S GROOM" target="GENII">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG'S WAREHOUSE" target="FIDDLER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FEZZIWIG'S WAREHOUSE" target="BOY FROM OVER THE WAY">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG'S WAREHOUSE" target="GIRL FROM NEXT DOOR BUT ONE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="FEZZIWIG'S WAREHOUSE" target="TWENTY COUPLE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FIDDLER" target="SIR ROGER DE COVERLEY">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="HOUSEMAID" target="BAKER">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="COOK" target="MILKMAN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="CHRISTMAS MORNING" target="BOYS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CITY STREETS" target="BOYS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="SEVENTH DAY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="CRATCHIT FAMILY">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="MARTHA CRATCHIT">
+      <data key="d0">11.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="MRS. CRATCHIT">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="MASTER PETER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="MISS BELINDA">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="THE YOUNG CRATCHITS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="THE FEAST">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="TOAST">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="SONG">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="SUNDAY CLOTHES">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="POULTERER">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="TURKEY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS DAY" target="THE CRATCHIT FAMILY">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MRS. CRATCHIT" target="BELINDA CRATCHIT">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MRS. CRATCHIT" target="CRATCHIT FAMILY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MRS. CRATCHIT" target="MARTHA CRATCHIT">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="MRS. CRATCHIT" target="MASTER PETER">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="MRS. CRATCHIT" target="MISS BELINDA">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="BELINDA CRATCHIT" target="CRATCHIT FAMILY">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CHRISTMAS PRESENT" target="CHRISTMAS TIME">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CRATCHIT FAMILY" target="THE FASHIONABLE PARKS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CRATCHIT FAMILY" target="MARTHA CRATCHIT">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="CRATCHIT FAMILY" target="CHRISTMAS DINNER">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="CRATCHIT FAMILY" target="POULTERER">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="CRATCHIT FAMILY" target="EMILY CRATCHIT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="MARTHA CRATCHIT" target="MILLINER'S">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DINNER" target="SCROOGE'S NIECE">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="CHRISTMAS DINNER" target="SCROOGE'S NIECE'S SISTERS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CHRISTMAS DINNER" target="THE LAMP">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="SCROOGE'S NIECE" target="THE DESSERT">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="SCROOGE'S NIECE" target="TOPPER">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="TOPPER" target="SCROOGE'S NIECE'S SISTERS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="OLD JOE" target="MRS. DILBER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="OLD JOE" target="THE LAUNDRESS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="OLD JOE" target="THE UNDERTAKER'S MAN">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="OLD JOE" target="LAUNDRESS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="OLD JOE" target="UNDERTAKER'S MAN">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="OLD JOE" target="THE WOMAN">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="MRS. DILBER" target="THE LAUNDRESS">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="MRS. DILBER" target="THE UNDERTAKER'S MAN">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="THE LAUNDRESS" target="THE UNDERTAKER'S MAN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="THE PHANTOM" target="THE WOMAN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="THE PHANTOM" target="DEATH OF SCROOGE'S CREDITOR">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="LAUNDRESS" target="UNDERTAKER'S MAN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CAROLINE" target="CAROLINE'S HUSBAND">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CAROLINE" target="DEATH OF SCROOGE'S CREDITOR">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CAROLINE" target="TOWN">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="CAROLINE'S HUSBAND" target="THE HALF-DRUNKEN WOMAN">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="CAROLINE'S HUSBAND" target="DEATH OF SCROOGE'S CREDITOR">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="CAROLINE'S HUSBAND" target="DEBT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="SPIRIT" target="MOTHER">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="SPIRIT" target="DEBT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="MOTHER" target="CHILDREN">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="MOTHER" target="DEBT">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="EMILY CRATCHIT" target="CRATCHIT HOUSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FRED'S HOUSE" target="NIECE BY MARRIAGE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="NIECE BY MARRIAGE" target="FOOTSTOOL">
+      <data key="d0">6.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="FULL PROJECT GUTENBERG LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="PGLAF">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="GUTENBERG TRADMARK">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="PROJECT GUTENBERG LICENSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="PROJECT GUTENBERG&#8482; LICENSE">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="PROJECT GUTENBERG&#8482;">
+      <data key="d0">31.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="SECTION 3">
+      <data key="d0">8.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="2001">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="MISSISSIPPI">
+      <data key="d0">18.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="MONTCLAIR">
+      <data key="d0">16.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="MICHAEL S. HART">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LITERARY ARCHIVE FOUNDATION" target="INTERNAL REVENUE SERVICE">
+      <data key="d0">19.0</data>
+    </edge>
+    <edge source="PGLAF" target="PROJECT GUTENBERG LICENSE">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="PARAGRAPH 1.E">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="PARAGRAPH 1.E.1">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="GUTENBERG.ORG">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="COPYRIGHT HOLDER">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="PLAIN VANILLA ASCII">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG LICENSE" target="EBOOK">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E" target="PARAGRAPH 1.E.1">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E.1" target="PROJECT GUTENBERG&#8482; LICENSE">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="GUTENBERG.ORG" target="EBOOK">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="U.S. COPYRIGHT LAW" target="PROJECT GUTENBERG VOLUNTEERS">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="U.S. COPYRIGHT LAW" target="PROJECT GUTENBERG EMPLOYEES">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG&#8482; LICENSE" target="PROJECT GUTENBERG&#8482;">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG VOLUNTEERS" target="PARAGRAPH 1.F.1">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG EMPLOYEES" target="PARAGRAPH 1.F.1">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG&#8482;" target="ELECTRONIC WORK">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG&#8482;" target="DONATIONS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG&#8482;" target="INFRINGEMENT">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="PROJECT GUTENBERG&#8482;" target="MICHAEL S. HART">
+      <data key="d0">20.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E.8" target="ROYALTY PAYMENTS">
+      <data key="d0">10.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E.8" target="FULL REFUND">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E.8" target="SECTION 4">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="ROYALTY PAYMENTS" target="TAX RETURNS">
+      <data key="d0">1.0</data>
+    </edge>
+    <edge source="FULL REFUND" target="ELECTRONIC WORK">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="FULL REFUND" target="PHYSICAL MEDIUM">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="PARAGRAPH 1.E.9" target="SECTION 3">
+      <data key="d0">9.0</data>
+    </edge>
+    <edge source="LEGAL FEES" target="AGENT">
+      <data key="d0">7.0</data>
+    </edge>
+    <edge source="LEGAL FEES" target="EMPLOYEE">
+      <data key="d0">1.0</data>
+    </edge>
+  </graph>
+</graphml>
