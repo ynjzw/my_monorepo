@@ -35,6 +35,7 @@ import atom2social from '../views/atom2social.vue'
 import cash_flow from '../views/cash_flow.vue'
 import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
+import use_timeline from '../views/use_timeline.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -84,7 +85,10 @@ const routes = [
   {name: 'atom2social', path: '/atom2social', component: atom2social},
   {name: 'cash_flow', path: '/cash_flow', component: cash_flow},
   {name: 'floors', path: '/floors', component: floors},
-  {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs}
+  {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs},
+  {name: 'timeline', path: '/timeline', component: timeline},
+  // {name: 'timeaxis', path: '/timeaxis', component: timeaxis},
+  {name: 'use_timeline', path: '/use_timeline', component: use_timeline}
 ]
 
 // 创建路由实例

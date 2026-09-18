@@ -5,7 +5,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import axios from 'axios'
 import request from './util/request'
-
+import '@mysten/dapp-kit-core/web'
 
 const pinia = createPinia()
 

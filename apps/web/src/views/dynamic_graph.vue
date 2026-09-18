@@ -39,7 +39,7 @@ onMounted( () => {
                 // initLayout: 'circular'
                 // gravity: 0
                 repulsion: 100,
-                edgeLength: 5
+                // edgeLength: 5
             },
             edges: edges
             }
@@ -47,7 +47,8 @@ onMounted( () => {
     };
     setInterval(function () {
         data.push({
-            id: data.length + ''
+            id: data.length + '',
+            symbolSize:Math.random()*10
         });
         //var source = Math.round((data.length - 1) * Math.random());
         //var target = Math.round((data.length - 1) * Math.random());

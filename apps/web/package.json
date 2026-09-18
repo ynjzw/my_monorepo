@@ -4,12 +4,15 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --clearScreen false",
+    "dev": "vite --clearScreen true",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.ts\""
   },
   "dependencies": {
+    "@mysten/dapp-kit-core": "^1.6.23",
+    "@mysten/sui": "^2.29.0",
+    "@nanostores/vue": "^1.1.0",
     "@repo/ui": "workspace:*",
     "@vitejs/plugin-vue": "^6.0.3",
     "axios": "^1.13.2",

@@ -10,79 +10,84 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'; // 添加 ref 导入
-import * as echarts from 'echarts';
+import { ref, watch, onMounted, onBeforeUnmount } from 'vue'
+import * as echarts from 'echarts'
 
 const props = defineProps({
-  title_list: {
-    type: Array
-  },
-  option_list: {
-    type: Array
-  }
+  title_list: { type: Array },
+  option_list: { type: Array }
 })
-const emit = defineEmits(['chart-ready','data-loaded', 'error', 'node-click']);
 
-// 响应式变量
-const chartContainer = ref(null);
-const myChart = ref(null);
-const error = ref(null);
-const loading = ref(false);
+const emit = defineEmits(['ready', 'data-loaded', 'error', 'click'])
 
-// 初始化图表
-const initChart = () => {
-  if (!chartContainer.value) return;
-  if (myChart.value) {
-    myChart.value.dispose();
+const chartContainer = ref(null)
+const myChart = ref(null)
+const error = ref(null)
+const loading = ref(false)
+
+const buildOption = () => {
+  if (!props.title_list?.length || !props.option_list?.length) {
+    error.value = '暂无数据'
+    return null
   }
-  
-  myChart.value = echarts.init(chartContainer.value);
-  var option;
-  
-  // 检查是否有数据
-  if (props.option_list ) {
-    option = {
-      baseOption: {
-          timeline: {
-              show: true,
-              axisType: 'category',
-              autoPlay: false,
-              playInterval: 1500,
-              data: props.title_list
-          },
-          title: {
-              text: 'vue 生命周期举例演示'
-          },
-          // 其他基础配置
+  error.value = null
+  return {
+    baseOption: {
+      timeline: {
+        show: true,
+        axisType: 'category',
+        autoPlay: false,
+        playInterval: 1500,
+        data: props.title_list
       },
-      options: props.option_list
-    }
-    myChart.value.setOption(option);
-    emit('data-loaded');
-  } else {
-    error.value = '暂无数据';
+      title: { text: 'vue 生命周期举例演示' }
+    },
+    options: props.option_list
   }
 }
 
-// 监听数据变化
-watch(() => props.option_list, (newData) => {
-  if (newData && myChart.value) {
-    myChart.value.setOption(newData, true); // true 表示不合并，完全替换
+const initChart = () => {
+  if (!chartContainer.value) return
+  if (myChart.value) myChart.value.dispose()
+  myChart.value = echarts.init(chartContainer.value)
+
+  // 绑定 click
+  myChart.value.on('click', (params) => emit('click', params))
+
+  const option = buildOption()
+  if (option) {
+    myChart.value.setOption(option)
+    emit('ready', myChart.value)
+    emit('data-loaded')
   }
-}, { deep: true });
+}
+
+watch(
+  () => [props.title_list, props.option_list],
+  () => {
+    if (!myChart.value) return
+    const option = buildOption()
+    if (option) {
+      myChart.value.setOption(option, true)
+      emit('data-loaded')
+    }
+  },
+  { deep: true }
+)
+
+const handleResize = () => myChart.value?.resize()
 
 onMounted(() => {
-  initChart();
-});
+  initChart()
+  window.addEventListener('resize', handleResize)
+})
 
-// 窗口大小自适应
-window.addEventListener('resize', () => {
-  if (myChart.value) {
-    myChart.value.resize();
-  }
-});
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+  myChart.value?.dispose()
+  myChart.value = null
+})
 </script>
-
 <style scoped>
 .chart-wrapper {
   width: 100%;
@@ -91,7 +96,7 @@ window.addEventListener('resize', () => {
 }
 .chart-container {
   width: 100%;
-  height: 600px;
+  height: 100%;
 }
 .loading, .error {
   position: absolute;

@@ -23,10 +23,9 @@ import { ref } from 'vue'
 const treeRef = ref(null)
 
 const myTreeData = {
-  name: '我',
-  symbol:'image:///src/images/supply_chain/erp.png?t=*',
+  name: '我',  
   value:100,
-  symbolSize: 100,
+  symbolSize: 10,
   children: [
     { name: '爸爸', value: 10 , children: [
       { name: '爷爷', value: 10 },

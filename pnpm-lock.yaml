@@ -32,6 +32,15 @@ importers:
 
   apps/web:
     dependencies:
+      '@mysten/dapp-kit-core':
+        specifier: ^1.6.23
+        version: 1.6.23(@mysten/sui@2.29.0)(typescript@5.5.4)
+      '@mysten/sui':
+        specifier: ^2.29.0
+        version: 2.29.0(typescript@5.5.4)
+      '@nanostores/vue':
+        specifier: ^1.1.0
+        version: 1.1.0(nanostores@1.5.3)(vue@3.5.27)
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -121,6 +130,28 @@ importers:
         version: 5.5.4
 
 packages:
+
+  /@0no-co/graphql.web@1.3.4(graphql@17.0.2):
+    resolution: {integrity: sha512-imSwulOeDQodRy/olQmVEo2PiY6ntjkZ9eiGdw6lMYylh/tay9b7MusyJBmEnkL8GiKRKr6ltr+D42mY5bd8Bg==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+    dependencies:
+      graphql: 17.0.2
+    dev: false
+
+  /@0no-co/graphqlsp@1.17.5(graphql@17.0.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-wsygfTO3pdkz4idDw8BxdMdgB9AB8nuJDJTUwYy87BiZEZRXS4bEfn4oNl9VtxTo6j2lzX/gED+IvOgxsSy2Jg==}
+    peerDependencies:
+      graphql: ^15.5.0 || ^16.0.0 || ^17.0.0
+      typescript: ^5.0.0 || ^6.0.0
+    dependencies:
+      '@gql.tada/internal': 1.2.2(graphql@17.0.2)(typescript@5.5.4)
+      graphql: 17.0.2
+      typescript: 5.5.4
+    dev: false
 
   /@aashutoshrathi/word-wrap@1.2.6:
     resolution: {integrity: sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==}
@@ -429,6 +460,12 @@ packages:
       '@floating-ui/utils': 0.2.10
     dev: false
 
+  /@floating-ui/core@1.8.0:
+    resolution: {integrity: sha512-0CIZ5itps/8x7BG8dEIhs53BvCUH2PCoogtakwRTut+Arm58sJooJ0AuZhLw2HJYIR5cMLNPBSS728sPho2khQ==}
+    dependencies:
+      '@floating-ui/utils': 0.2.12
+    dev: false
+
   /@floating-ui/dom@1.7.5:
     resolution: {integrity: sha512-N0bD2kIPInNHUHehXhMke1rBGs1dwqvC9O9KYMyyjK7iXt7GAhnro7UlcuYcGdS/yYOlq0MAVgrow8IbWJwyqg==}
     dependencies:
@@ -436,8 +473,58 @@ packages:
       '@floating-ui/utils': 0.2.10
     dev: false
 
+  /@floating-ui/dom@1.8.0:
+    resolution: {integrity: sha512-yXSrzeHZBTZadLOlfyhCkJHNeLJnHRnRInwdZ40L7ZiaAtrBwoYlsDrX3v5zB1Utk7CLfzcOVnVVWoXEky7Ceg==}
+    dependencies:
+      '@floating-ui/core': 1.8.0
+      '@floating-ui/utils': 0.2.12
+    dev: false
+
   /@floating-ui/utils@0.2.10:
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+    dev: false
+
+  /@floating-ui/utils@0.2.12:
+    resolution: {integrity: sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==}
+    dev: false
+
+  /@gql.tada/cli-utils@1.9.3(@0no-co/graphqlsp@1.17.5)(graphql@17.0.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-P1TiXErpJwIi73sei5fzwGA/SOeCaIHFWFR4RdZPLwqxZzQN0T6MAUivzXBgKCORL67rvYnLaaPoWeqWq/61ug==}
+    peerDependencies:
+      '@0no-co/graphqlsp': ^1.16.0
+      '@gql.tada/svelte-support': 1.0.3
+      '@gql.tada/vue-support': 1.0.3
+      graphql: ^15.5.0 || ^16.0.0 || ^17.0.0
+      typescript: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@gql.tada/svelte-support':
+        optional: true
+      '@gql.tada/vue-support':
+        optional: true
+    dependencies:
+      '@0no-co/graphqlsp': 1.17.5(graphql@17.0.2)(typescript@5.5.4)
+      '@gql.tada/internal': 1.2.2(graphql@17.0.2)(typescript@5.5.4)
+      graphql: 17.0.2
+      typescript: 5.5.4
+    dev: false
+
+  /@gql.tada/internal@1.2.2(graphql@17.0.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-4lZcElPP6MC8Ct8KN70LR2WQsHjbAsyAmTGG09VsOPhx738UFIYaL0S1XiI2pqq2tj/sDs/y3b9jvKoWGL7iuQ==}
+    peerDependencies:
+      graphql: ^15.5.0 || ^16.0.0 || ^17.0.0
+      typescript: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@0no-co/graphql.web': 1.3.4(graphql@17.0.2)
+      graphql: 17.0.2
+      typescript: 5.5.4
+    dev: false
+
+  /@graphql-typed-document-node/core@3.2.0(graphql@17.0.2):
+    resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      graphql: 17.0.2
     dev: false
 
   /@humanwhocodes/config-array@0.11.14:
@@ -477,6 +564,162 @@ packages:
   /@jridgewell/sourcemap-codec@1.5.5:
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
+  /@lit-labs/scoped-registry-mixin@1.0.4:
+    resolution: {integrity: sha512-gYeotwRwluD7RsFgU0eP48WgBMg6fIF5RXzbrjs/gwsPiJiFtal90s+x/LHIHqQ2VkubsyP+m+QAfgmOnsNhUg==}
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit: 3.3.3
+    dev: false
+
+  /@lit-labs/ssr-dom-shim@1.6.0:
+    resolution: {integrity: sha512-VHb0ALPMTlgKjM6yIxxoQNnpKyUKLD04VzeQdsiXkMqkvYlAHxq9glGLmgbb889/1GsohSOAjvQYoiBppXFqrQ==}
+    dev: false
+
+  /@lit/reactive-element@2.1.2:
+    resolution: {integrity: sha512-pbCDiVMnne1lYUIaYNN5wrwQXDtHaYtg7YEFPeW+hws6U47WeFvISGUWekPGKWOP1ygrs0ef0o1VJMk1exos5A==}
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.6.0
+    dev: false
+
+  /@lit/task@1.0.3:
+    resolution: {integrity: sha512-1gJGJl8WON+2j0y9xfcD+XsS1rvcy3XDgsIhcdUW++yTR8ESjZW6o7dn8M8a4SZM8NnJe6ynS2cKWwsbfLOurg==}
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+    dev: false
+
+  /@mysten/bcs@2.1.1:
+    resolution: {integrity: sha512-IDYomoQ6+yvOIClBHmNdScttv+h/HbGGHLEdUmGQptR3YdqqLM5vJD28wf2QP/UXCEBkCoG7TOT6pFNw8ExYmA==}
+    dependencies:
+      '@mysten/utils': 0.4.1
+      '@scure/base': 2.4.0
+    dev: false
+
+  /@mysten/dapp-kit-core@1.6.23(@mysten/sui@2.29.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-iMj9H56vY/WO+rN9NUb/FJKya40xdtJdLpOT2Y2+skqCyfwSB/y9DJeNoFKx6D/+xzI8QUBRVAasgbHMQ+T42w==}
+    peerDependencies:
+      '@mysten/sui': ^2.29.0
+    dependencies:
+      '@floating-ui/dom': 1.8.0
+      '@lit-labs/scoped-registry-mixin': 1.0.4
+      '@lit/task': 1.0.3
+      '@mysten/slush-wallet': 1.1.23(@mysten/sui@2.29.0)(typescript@5.5.4)
+      '@mysten/sui': 2.29.0(typescript@5.5.4)
+      '@mysten/utils': 0.4.1
+      '@mysten/wallet-standard': 0.21.22(@mysten/sui@2.29.0)
+      '@nanostores/lit': 0.2.3(lit@3.3.3)(nanostores@1.5.3)
+      '@wallet-standard/ui': 1.0.3
+      '@wallet-standard/ui-registry': 1.1.1
+      '@webcomponents/scoped-custom-element-registry': 0.0.10
+      lit: 3.3.3
+      nanostores: 1.5.3
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
+  /@mysten/slush-wallet@1.1.23(@mysten/sui@2.29.0)(typescript@5.5.4):
+    resolution: {integrity: sha512-ukJrrZB5FP7FNKIWr9tzpq29UWsIQZPb6PgDkZup+Z6X43yGsKGn6VDQEVFoLlL77sHgBaasCDkyeDe8ndFP2A==}
+    peerDependencies:
+      '@mysten/sui': ^2.29.0
+    dependencies:
+      '@mysten/sui': 2.29.0(typescript@5.5.4)
+      '@mysten/utils': 0.4.1
+      '@mysten/wallet-standard': 0.21.22(@mysten/sui@2.29.0)
+      '@mysten/window-wallet-core': 0.2.2(typescript@5.5.4)
+      valibot: 1.4.2(typescript@5.5.4)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
+  /@mysten/sui@2.29.0(typescript@5.5.4):
+    resolution: {integrity: sha512-k7q22+AFQ5SZXOH+a28M1J8iFVbMcWro9mt0Bb7GI1HZNsxJIyQT5Q3iZdrAM0hTwM4XQvzm5Y0f32f0nfiGxw==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@graphql-typed-document-node/core': 3.2.0(graphql@17.0.2)
+      '@mysten/bcs': 2.1.1
+      '@mysten/utils': 0.4.1
+      '@noble/curves': 2.4.0
+      '@noble/hashes': 2.4.0
+      '@protobuf-ts/grpcweb-transport': 2.11.1
+      '@protobuf-ts/runtime': 2.11.1
+      '@protobuf-ts/runtime-rpc': 2.11.1
+      '@scure/base': 2.4.0
+      '@scure/bip32': 2.4.0
+      '@scure/bip39': 2.4.0
+      gql.tada: 1.11.3(graphql@17.0.2)(typescript@5.5.4)
+      graphql: 17.0.2
+      poseidon-lite: 0.3.0
+      valibot: 1.4.2(typescript@5.5.4)
+    transitivePeerDependencies:
+      - '@gql.tada/svelte-support'
+      - '@gql.tada/vue-support'
+      - typescript
+    dev: false
+
+  /@mysten/utils@0.4.1:
+    resolution: {integrity: sha512-gffLJ84CbqG/CcOPuVlwXIRu37tFn0BtUx7CQtbLwJzWjUE7FU2Gq8BXWjzxImnvufcyLTaNWtCPG6wq22Zhog==}
+    dependencies:
+      '@scure/base': 2.4.0
+    dev: false
+
+  /@mysten/wallet-standard@0.21.22(@mysten/sui@2.29.0):
+    resolution: {integrity: sha512-Q14BeG1LDHD+74PTZd+nsIlRubRq1m/as7QTlzr8/fAp98c/ZQWvnjsQgJcosXbbOsz+OAL8/xnOVC/2qKyCwA==}
+    peerDependencies:
+      '@mysten/sui': ^2.29.0
+    dependencies:
+      '@mysten/sui': 2.29.0(typescript@5.5.4)
+      '@wallet-standard/core': 1.1.2
+    dev: false
+
+  /@mysten/window-wallet-core@0.2.2(typescript@5.5.4):
+    resolution: {integrity: sha512-cjhtlTxqKWIYdikBAzCVkcpig0LiD0UDQgqKq5P80/qt5d36hOFnx32lkpbWa6VWIU7eSdLnvIF01cJEP8EXvA==}
+    dependencies:
+      '@mysten/utils': 0.4.1
+      jose: 6.2.12
+      valibot: 1.4.2(typescript@5.5.4)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
+
+  /@nanostores/lit@0.2.3(lit@3.3.3)(nanostores@1.5.3):
+    resolution: {integrity: sha512-hIUKzdNrgKXkXCsppzQxmYYYMTn96cncijWhzcYZKn3Yimqj7B6YK94qN/KObjBNEe0xR3JLgMo96ew5fVtW2w==}
+    peerDependencies:
+      lit: ^2.6.0 || ^3.0.0
+      nanostores: '>=0.7 < 1.0.0 || ^1.0.0'
+    dependencies:
+      lit: 3.3.3
+      nanostores: 1.5.3
+    dev: false
+
+  /@nanostores/vue@1.1.0(nanostores@1.5.3)(vue@3.5.27):
+    resolution: {integrity: sha512-14eY8/YA0AbtWkAjk8zHKxbjcuPubF+M7y9afQzg2b5VqRJcashwA0100vprau13BTBSynUmU6ZsU6x03YidjA==}
+    engines: {node: ^20.0.0 || >=22.0.0}
+    peerDependencies:
+      '@nanostores/logger': ^0.4.0 || ^1.0.0
+      '@vue/devtools-api': '>=7.6.2'
+      nanostores: ^0.11.3 || ^1.0.0
+      vue: '>=3.3.1'
+    peerDependenciesMeta:
+      '@nanostores/logger':
+        optional: true
+      '@vue/devtools-api':
+        optional: true
+    dependencies:
+      nanostores: 1.5.3
+      vue: 3.5.27(typescript@5.5.4)
+    dev: false
+
+  /@noble/curves@2.4.0:
+    resolution: {integrity: sha512-P4/62zrgfH33CneE3Dn4WhJVA22YUU0eR51wKIan4NVRvwsA0YnPTwWGpNbpuacSujmSFLvyzpyuR30+fbq2Ew==}
+    engines: {node: '>= 20.19.0'}
+    dependencies:
+      '@noble/hashes': 2.4.0
+    dev: false
+
+  /@noble/hashes@2.4.0:
+    resolution: {integrity: sha512-X5XaVWZIBCT7HHZGm5I7ZQXDwLG+bGXuSrMQAW+7Zvl87h1kmc1ZB1VSRJcpUfoUrGQp4Fkoxm5kZ+Ms+aW+eA==}
+    engines: {node: '>= 20.19.0'}
+    dev: false
+
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -494,6 +737,23 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+
+  /@protobuf-ts/grpcweb-transport@2.11.1:
+    resolution: {integrity: sha512-1W4utDdvOB+RHMFQ0soL4JdnxjXV+ddeGIUg08DvZrA8Ms6k5NN6GBFU2oHZdTOcJVpPrDJ02RJlqtaoCMNBtw==}
+    dependencies:
+      '@protobuf-ts/runtime': 2.11.1
+      '@protobuf-ts/runtime-rpc': 2.11.1
+    dev: false
+
+  /@protobuf-ts/runtime-rpc@2.11.1:
+    resolution: {integrity: sha512-4CqqUmNA+/uMz00+d3CYKgElXO9VrEbucjnBFEjqI4GuDrEQ32MaI3q+9qPBvIGOlL4PmHXrzM32vBPWRhQKWQ==}
+    dependencies:
+      '@protobuf-ts/runtime': 2.11.1
+    dev: false
+
+  /@protobuf-ts/runtime@2.11.1:
+    resolution: {integrity: sha512-KuDaT1IfHkugM2pyz+FwiY80ejWrkH1pAtOBOZFuR6SXEFTsnb/jiQWQ1rCIrcKx2BtyxnxW6BWwsVSA/Ie+WQ==}
+    dev: false
 
   /@rolldown/pluginutils@1.0.0-beta.53:
     resolution: {integrity: sha512-vENRlFU4YbrwVqNDZ7fLvy+JR1CRkyr01jhSiDpE1u6py3OMzQfztQU2jxykW3ALNxO4kSlqIDeYyD0Y9RcQeQ==}
@@ -587,6 +847,24 @@ packages:
     requiresBuild: true
     optional: true
 
+  /@scure/base@2.4.0:
+    resolution: {integrity: sha512-thZ1TuJwFwBblOhgsjDKvvGirBxNp+wSvY/DR6tJBJOTDhdAAcHJ8Vbr2eFnqaxeca4+t0i9KBf+uHYGWwZORg==}
+    dev: false
+
+  /@scure/bip32@2.4.0:
+    resolution: {integrity: sha512-i3DS0CptAocyvqE4n3SUkpzeQK4vJMFwWLofTwRiiKo2aWojBOfyMCgfKw9HVpO6fSY5AK86sHS/Uzn8kK9Few==}
+    dependencies:
+      '@noble/curves': 2.4.0
+      '@noble/hashes': 2.4.0
+      '@scure/base': 2.4.0
+    dev: false
+
+  /@scure/bip39@2.4.0:
+    resolution: {integrity: sha512-82dxFbZUYboyOf0AXiydsQrFQ5Q4h9mX+O2UkE91ROYmsc0BKMGZLwDmy96Jpa2+vrtoxomjUhy1RPIgH/r2nA==}
+    dependencies:
+      '@noble/hashes': 2.4.0
+    dev: false
+
   /@sxzz/popperjs-es@2.11.8:
     resolution: {integrity: sha512-wOwESXvvED3S8xBmcPWHs2dUuzrE4XiZeFu7e1hROIJkm02a49N120pmOXxY33sBb6hArItm5W5tcg1cBtV+HQ==}
     dev: false
@@ -611,6 +889,10 @@ packages:
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: false
+
+  /@types/trusted-types@2.0.7:
+    resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
     dev: false
 
   /@types/web-bluetooth@0.0.20:
@@ -972,6 +1254,100 @@ packages:
       - vue
     dev: false
 
+  /@wallet-standard/app@1.1.1:
+    resolution: {integrity: sha512-WDGwoByhP5gwHH01r5EaLgQdLVkACPCdOMQhmhn8rsm10h/siSgTorShzBxrn0ExSPof+Lu+C3TfgqBrPa1xoQ==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+    dev: false
+
+  /@wallet-standard/base@1.1.1:
+    resolution: {integrity: sha512-gggIHTtxicF9XFMQ12DkfS6NAG92Ak795JeSA7f2whAQ6Y3AkMWWuCMxSZXG2NIPN42kEaZSNVjqMsJRaJRxMQ==}
+    engines: {node: '>=22'}
+    dev: false
+
+  /@wallet-standard/core@1.1.2:
+    resolution: {integrity: sha512-QcVLGDkFtsWjTpkej2jx4FyP2cu+qOAW/lVnvlWjyhCkSEje6z+vEKURV5v+7L6IXjbze5pyFBe24yrPyoUuyw==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/app': 1.1.1
+      '@wallet-standard/base': 1.1.1
+      '@wallet-standard/errors': 0.1.2
+      '@wallet-standard/features': 1.1.1
+      '@wallet-standard/wallet': 1.1.1
+    dev: false
+
+  /@wallet-standard/errors@0.1.2:
+    resolution: {integrity: sha512-oEzKUqJefKby6wcIvaJgrSEe/uNn/rnqkJ0P/85K+h0i5Tdo9E3L22VWq/j5K1e8hHMnZd6LgaIr8m/Wn7X/Ng==}
+    engines: {node: '>=22'}
+    hasBin: true
+    dependencies:
+      chalk: 5.6.2
+      commander: 13.1.0
+    dev: false
+
+  /@wallet-standard/features@1.1.1:
+    resolution: {integrity: sha512-aCWYmVeSCGViyEU5k7GMoW8zxE4Gs+C1s1Pp2XLesvSNlnZ4PMES9HUnTB3hl0b3RVj7C61yze3IWyrncqg4MA==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+    dev: false
+
+  /@wallet-standard/ui-compare@1.0.3:
+    resolution: {integrity: sha512-AXst7auT0+5eIaj8MyUXZLopKWN2HwqiQNTVgcF80u9X9a/fsiiHi8tlY0dc/y/AIOM654cMpvpJqsJEZNV9pg==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+      '@wallet-standard/ui-core': 1.0.1
+      '@wallet-standard/ui-registry': 1.1.1
+    dev: false
+
+  /@wallet-standard/ui-core@1.0.1:
+    resolution: {integrity: sha512-LFmsSjMw3wXfZgZ5eAFGdIJ1512dGTWIEeoPDKsc6mHf7cMU18tvtpe4bOL76lT9Qh1Gc+4+kdtwSkTuJ9L+jw==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+    dev: false
+
+  /@wallet-standard/ui-features@1.0.3:
+    resolution: {integrity: sha512-3YgxBoDXZCsaSyCNMph7i7G57ap+C6Y+l3HmTEQKigzTGxPUJ2mvqpTPwdj8D2cVkTKBzu8/78wweV7I9eG1rA==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+      '@wallet-standard/errors': 0.1.2
+      '@wallet-standard/ui-core': 1.0.1
+      '@wallet-standard/ui-registry': 1.1.1
+    dev: false
+
+  /@wallet-standard/ui-registry@1.1.1:
+    resolution: {integrity: sha512-vJDZ/K2xwIqkxiyWUhPb6s62bTMRbYPj0MCJa9lYsqHGZgMbKBI3ZjLJK5MzWow2VxoOfuR77HuJng+HDWt1hA==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+      '@wallet-standard/errors': 0.1.2
+      '@wallet-standard/ui-core': 1.0.1
+    dev: false
+
+  /@wallet-standard/ui@1.0.3:
+    resolution: {integrity: sha512-H2QJTR5m3PeHi06q8kj4TiRf3U+fEe6W+jw+hztPkjTRBVDeCIrwRhbdgAyI8yaGc7dBhzGYqhUQ9ecYj7x0rQ==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/ui-compare': 1.0.3
+      '@wallet-standard/ui-core': 1.0.1
+      '@wallet-standard/ui-features': 1.0.3
+    dev: false
+
+  /@wallet-standard/wallet@1.1.1:
+    resolution: {integrity: sha512-8WiRPaKk/wNNRZhB2eVhpR/JW7/aqTCMoZhgVUCujuzDmxxmGvsosMxdCG4NAdYkoyozAHCX8/xLtlWUn5mNdQ==}
+    engines: {node: '>=22'}
+    dependencies:
+      '@wallet-standard/base': 1.1.1
+    dev: false
+
+  /@webcomponents/scoped-custom-element-registry@0.0.10:
+    resolution: {integrity: sha512-wP4LF28aysE2Pq3NQRNQxko7Q0vOOwcoOSMg8FFI4S6z76UuXkYIc5ndC31dJMwso1/vSteL75LW2CEKedAJbA==}
+    dev: false
+
   /acorn-jsx@5.3.2(acorn@8.11.3):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -1086,6 +1462,11 @@ packages:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
+  /chalk@5.6.2:
+    resolution: {integrity: sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: false
+
   /claygl@1.3.0:
     resolution: {integrity: sha512-+gGtJjT6SSHD2l2yC3MCubW/sCV40tZuSs5opdtn79vFSGUgp/lH139RNEQ6Jy078/L0aV8odCw8RSrUcMfLaQ==}
     dev: false
@@ -1104,6 +1485,11 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: false
+
+  /commander@13.1.0:
+    resolution: {integrity: sha512-/rFeCpNJQbhSZjGVwO9RFV3xPqbnERS8MmIQzCtD/zl6gpJuV/bMLuN92oG3F7d8oDEHHRrujSXNUr8fpjntKw==}
+    engines: {node: '>=18'}
     dev: false
 
   /commander@2.20.3:
@@ -1633,8 +2019,30 @@ packages:
     engines: {node: '>= 0.4'}
     dev: false
 
+  /gql.tada@1.11.3(graphql@17.0.2)(typescript@5.5.4):
+    resolution: {integrity: sha512-5JCI4j2f0nug8ILaCQys/yjOP78QqqjVUf47OQsME63rZfemsHT3e5vcfbHsnZiG6vxyqpKUJArtXEVwSefUhw==}
+    hasBin: true
+    peerDependencies:
+      typescript: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+    dependencies:
+      '@0no-co/graphql.web': 1.3.4(graphql@17.0.2)
+      '@0no-co/graphqlsp': 1.17.5(graphql@17.0.2)(typescript@5.5.4)
+      '@gql.tada/cli-utils': 1.9.3(@0no-co/graphqlsp@1.17.5)(graphql@17.0.2)(typescript@5.5.4)
+      '@gql.tada/internal': 1.2.2(graphql@17.0.2)(typescript@5.5.4)
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - '@gql.tada/svelte-support'
+      - '@gql.tada/vue-support'
+      - graphql
+    dev: false
+
   /graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
+
+  /graphql@17.0.2:
+    resolution: {integrity: sha512-FRWbddMxfkjiB7z+aQDWIR+E34xo9I8c9mtK2RPv8PmMzKRvrdsreHL/Ui/TmwHJfhHChEtsFPyMHKI+xuarQQ==}
+    engines: {node: ^22.0.0 || ^24.0.0 || ^25.0.0 || >=26.0.0}
+    dev: false
 
   /has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
@@ -1722,6 +2130,10 @@ packages:
   /isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
+  /jose@6.2.12:
+    resolution: {integrity: sha512-9NiFmJEex0sy2Dk58j2UGBSHgUs2ypF9eZSu4L6vjOX3Dp96Sw1F3uL+H+D1sx02jZZdzUT0HgvCy59CuvXcWw==}
+    dev: false
+
   /jquery@4.0.0:
     resolution: {integrity: sha512-TXCHVR3Lb6TZdtw1l3RTLf8RBWVGexdxL6AC8/e0xZKEpBflBsjh9/8LXw+dkNFuOyW9B7iB3O1sP7hS0Kiacg==}
     dev: false
@@ -1761,6 +2173,28 @@ packages:
     dependencies:
       prelude-ls: 1.2.1
       type-check: 0.4.0
+
+  /lit-element@4.2.2:
+    resolution: {integrity: sha512-aFKhNToWxoyhkNDmWZwEva2SlQia+jfG0fjIWV//YeTaWrVnOxD89dPKfigCUspXFmjzOEUQpOkejH5Ly6sG0w==}
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.6.0
+      '@lit/reactive-element': 2.1.2
+      lit-html: 3.3.3
+    dev: false
+
+  /lit-html@3.3.3:
+    resolution: {integrity: sha512-el8M6jK2o3RXBnrSHX3ZKrsN8zEV63pSExTO1wYJz7QndGYZ8353e2a5PPX+qHe2aGayfnchQmkAojaWAREOIA==}
+    dependencies:
+      '@types/trusted-types': 2.0.7
+    dev: false
+
+  /lit@3.3.3:
+    resolution: {integrity: sha512-fycuvZg/hkpozL00lm1pEJH5nN/lr9ZXd6mJI2HSN4+Bzc+LDNdEApJ6HFbPkdFNHLvOplIIuJvxkS4XUxqirw==}
+    dependencies:
+      '@lit/reactive-element': 2.1.2
+      lit-element: 4.2.2
+      lit-html: 3.3.3
+    dev: false
 
   /locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
@@ -1877,6 +2311,11 @@ packages:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
 
+  /nanostores@1.5.3:
+    resolution: {integrity: sha512-rQLB6eV4f2AW/n3L0JmwCROpaisYy9EDEADvEFSd1C/qG8hB6O5TPlh9A791JRbJr4CnMQBzptDcvD9OR1+6WA==}
+    engines: {node: ^20.0.0 || >=22.0.0}
+    dev: false
+
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
@@ -1981,6 +2420,10 @@ packages:
       '@vue/devtools-api': 7.7.9
       typescript: 5.5.4
       vue: 3.5.27(typescript@5.5.4)
+    dev: false
+
+  /poseidon-lite@0.3.0:
+    resolution: {integrity: sha512-ilJj4MIve4uBEG7SrtPqUUNkvpJ/pLVbndxa0WvebcQqeIhe+h72JR4g0EvwchUzm9sOQDlOjiDNmRAgxNZl4A==}
     dev: false
 
   /postcss@8.4.35:
@@ -2242,6 +2685,17 @@ packages:
   /uuid@13.0.0:
     resolution: {integrity: sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==}
     hasBin: true
+    dev: false
+
+  /valibot@1.4.2(typescript@5.5.4):
+    resolution: {integrity: sha512-gjdCvJ6d3RyHAneqxMYMW9QMCwYMb3jpOO0IyHZV1bnRHFBHrX3VkIILt5XYR0WhwHiH7Mty8ovuPZ/O3gamrg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 5.5.4
     dev: false
 
   /vis-data@8.0.3(uuid@13.0.0)(vis-util@6.0.0):
