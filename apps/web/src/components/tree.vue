@@ -26,7 +26,12 @@ const props = defineProps({
   theme: {
     type: String,
     default: 'auto' // 'light' | 'dark' | 'default'
-  }
+  },
+  //树图朝向
+  orient: {
+    type: String,
+    default: 'TB' // 'TB' | 'BT' | 'LR' | 'RL'
+  },
 })
 
 // ============ Emits ============
@@ -90,47 +95,47 @@ const buildTreeOption = (data) => {
     series: [
       {
         type: 'tree',
-        draggable:true,
         data: [treeData],
         // 布局配置
         top: '8%',
         left: '7%',
         bottom: '5%',
         right: '20%',
-        orient: 'BT',
+        orient: props.orient,
+        edgeShape: 'polyline',
         // 节点样式
         // symbol: 'circle',
         // symbolSize: 100,
         itemStyle: {
-          color: 'pink',
+          // color: 'pink',
           borderColor: '#fff',
           borderWidth: 2
         },
         
         // 标签配置
         label: {
-          position: 'left',
+          position: 'bottom',
           verticalAlign: 'middle',
           align: 'right',
-          fontSize: 12,
-          color: 'yellow' ,
-          fontWeight: 500
+          // fontSize: 12,
+          // color: 'yellow' ,
+          // fontWeight: 500
         },
         
         // 叶子节点标签
         leaves: {
           label: {
-            position: 'right',
+            position: 'bottom',
             verticalAlign: 'middle',
             align: 'left',
-            fontSize: 12,
-            color: 'blue' 
+            // fontSize: 12,
+            // color: 'blue' 
           }
         },
         
         // 连线样式
         lineStyle: {
-          color: 'red',
+          // color: 'red',
           width: 2,
           curveness: 0.5
         },
@@ -149,15 +154,15 @@ const buildTreeOption = (data) => {
         initialTreeDepth: 2,
         
         // 动画
-        animationDuration: 550,
-        animationDurationUpdate: 750,
-        animationEasing: 'cubicOut',
-        animationEasingUpdate: 'cubicOut',
+        // animationDuration: 550,
+        // animationDurationUpdate: 750,
+        // animationEasing: 'cubicOut',
+        // animationEasingUpdate: 'cubicOut',
         
         // 标签布局（防止重叠）
-        labelLayout: {
-          hideOverlap: true
-        }
+        // labelLayout: {
+        //   hideOverlap: true
+        // }
       }
     ]
   }

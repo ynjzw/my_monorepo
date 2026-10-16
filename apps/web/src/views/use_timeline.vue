@@ -4,8 +4,8 @@
       <div class="chart-item">
         <timeline
           ref="treeRef"
-          :title_list="titleList"
-          :option_list="optionList"
+          :title_list="title1"
+          :option_list="option"
           @click="handleNodeClick"
           @ready="onChartReady"
         />
@@ -16,32 +16,19 @@
 
 <script setup>
 import timeline from '@/components/timeline.vue'
+import {titleList, optionList} from '@/data/data.js'
 import { ref } from 'vue'
 
 const treeRef = ref(null)
 
 // 时间轴标题
-const titleList = ['sss', 'vvv']
+const title1 = titleList
 const images = ['cell', 'tissue'] // 对应的图片文件名数组
 
 // 每个时间点对应的 option
-const optionList = titleList.map((title, i) => ({
-  title: { text: title },
-  series: [
-    {
-      type: 'graph',
-      layout: 'force',
-      symbolSize: 400,
-      roam: true,
-      data: [
-        {
-          name: images[i],
-          symbol: 'image:///src/images/'+images[i]+'.png?t=*'
-        }
-      ],
-      links: []
-    }
-  ]
+const option = title1.map((title0, i) => ({
+  title: { text: title0 },
+  series: optionList[i],
 }))
 
 const handleNodeClick = (params) => {

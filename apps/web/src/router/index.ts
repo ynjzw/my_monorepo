@@ -36,6 +36,7 @@ import cash_flow from '../views/cash_flow.vue'
 import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
 import use_timeline from '../views/use_timeline.vue'
+import circle_in from '../views/circle_in&out.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
@@ -87,7 +88,7 @@ const routes = [
   {name: 'floors', path: '/floors', component: floors},
   {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs},
   {name: 'timeline', path: '/timeline', component: timeline},
-  // {name: 'timeaxis', path: '/timeaxis', component: timeaxis},
+  {name: 'circle_in', path: '/circle_in', component: circle_in},
   {name: 'use_timeline', path: '/use_timeline', component: use_timeline}
 ]
 

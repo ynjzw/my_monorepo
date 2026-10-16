@@ -8,6 +8,7 @@
                 :data="myTreeData"
                 height="400px"
                 theme="auto"
+                orient="BT"
                 @click="handleNodeClick"
                 @ready="onChartReady"
             />

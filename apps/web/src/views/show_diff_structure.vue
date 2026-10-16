@@ -2,8 +2,29 @@
 import { onMounted, ref } from 'vue';
 import { get_old_structure, get_new_structure, getLink } from '@/api/simple_api';
 import structure from '@/components/structure.vue';
+import tree from '@/components/tree.vue';
 
-const old_structure = ref([])
+const old_structure = {
+  name: '高层',  
+  symbolSize: 10,
+  children: [
+    { name: '中层1', value: 10 , children: [
+      { name: '基层11', value: 10 },
+      { name: '基层12', value: 10 },
+      { name: '基层13', value: 10 }
+    ]},
+    { name: '中层2', value: 10, children: [
+      { name: '基层21', value: 10 },
+      { name: '基层22', value: 10 },
+      { name: '基层23', value: 10 }
+    ]},
+    { name: '中层3', value: 10, children: [
+      { name: '基层31', value: 10 },
+      { name: '基层32', value: 10 },
+      { name: '基层33', value: 10 }
+    ]}
+  ]
+}
 const new_structure = ref([])
 const link = ref([])
 const isLoading = ref(true)
@@ -25,13 +46,11 @@ const loadData = async () => {
   try {
     // 并行加载数据
     
-    const [old_structureData, new_structureData, linkData] = await Promise.all([
-      get_old_structure(),
+    const [ new_structureData, linkData] = await Promise.all([      
       get_new_structure(),
       getLink()
     ])
     
-    old_structure.value = old_structureData;
     new_structure.value = new_structureData;
     link.value = linkData;
     // console.log(link.value,new_structure.value,old_structure.value)
@@ -52,10 +71,10 @@ onMounted(() => {
     <div v-if="isLoading" class="loading">加载数据中...</div>
     <div v-else class="charts-wrapper">
       <div class="chart-item">
-        <structure 
+        <tree 
           :data="old_structure" 
-          :link="link"
-          layout="none"
+          height="400px"
+          theme="auto"
           @chart-ready="handleChartReady" 
           @error="handleError"
         />

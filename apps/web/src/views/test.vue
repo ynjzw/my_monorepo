@@ -3,7 +3,6 @@
         <div class="test2" ref="chartContainer2" ></div>
     </div>
     
-    <graph :data="nodesData" :layout="layout" ></graph>
 </template>
 <script setup>
 import data from '@/data/self.json'
@@ -17,67 +16,74 @@ const chartContainer2 = ref(null)
 const layout = ref('force')
 let myChart1 = null
 let myChart2 = null
-const nodesData=ref(null)
-const graphData=ref(null)
+let nodesData=ref(null)
+let graphData=ref(null)
+let nodes = []
 onMounted(async()=>{
     // console.log(data['pay']['$count']-data['income']['$count'])
     graphData.value=await getWorld()
     nodesData.value=await getNodes()
+    for (let j = 1; j <= 2; j++) {
+        nodes.push({
+            id: j,
+            name: `Node ${j}`,
+        });
+    }
     // data1['series'][0]['data']=graphData.value
     // data1['series'][1]['data']=nodesData.value
     // console.log(data1)
-    myChart1 = echarts.init(chartContainer1.value)
-    myChart2 = echarts.init(chartContainer2.value)
-    const option = {
-    title: {
-      text: 'ttt',
-      left: 'center',
-      top: 10,
-      textStyle: {
-        fontSize: 14,
-        fontWeight: 'normal'
-      }
-    },
-    toolbox: {
-      top:10,
-      left:10
+  //   myChart1 = echarts.init(chartContainer1.value)
+  //   myChart2 = echarts.init(chartContainer2.value)
+  //   const option = {
+  //   title: {
+  //     text: 'ttt',
+  //     left: 'center',
+  //     top: 10,
+  //     textStyle: {
+  //       fontSize: 14,
+  //       fontWeight: 'normal'
+  //     }
+  //   },
+  //   toolbox: {
+  //     top:10,
+  //     left:10
       
-    },
-    series: [{
-      type: 'graph',
-      layout: 'force',
-      draggable:true,    
-      symbolSize: 100,
-      roam: true,
-      label: {
-        show: true
-      },
-      data: nodesData.value,  // 使用传入的数据
-      // data:[{name:'xxx',value:'xxx',symbolSize:10,Symbol:'rect'}],
-    //   links: props.link,  // 可以根据需要从props传入
-      links:[],
-      lineStyle: {
-        opacity: 0.9,
-        width: 2,
-        curveness: 0
-      },
-      force: {
-        initLayout: 'circular',
-        gravity: 0.1,
-        repulsion: 1000
-      }
-    }],
-  }
+  //   },
+  //   series: [{
+  //     type: 'graph',
+  //     layout: 'force',
+  //     draggable:true,    
+  //     symbolSize: 100,
+  //     roam: true,
+  //     label: {
+  //       show: true
+  //     },
+  //     data: [],  // 使用传入的数据
+  //     // data:[{name:'xxx',value:'xxx',symbolSize:10,Symbol:'rect'}],
+  //   //   links: props.link,  // 可以根据需要从props传入
+  //     links:[],
+  //     lineStyle: {
+  //       opacity: 0.9,
+  //       width: 2,
+  //       curveness: 0
+  //     },
+  //     force: {
+  //       initLayout: 'circular',
+  //       gravity: 0.1,
+  //       repulsion: 1000
+  //     }
+  //   }],
+  // }
   
   // 设置选项并立即渲染
-  myChart1.setOption(option)
-  myChart2.setOption(option)
+  // myChart1.setOption(option)
+  // myChart2.setOption(option)
 })
 </script>
 
 <style>
 .test1{
-    width: 800px;
+    width: 400px;
     height: 400px;
     background-color: yellow;
     border-radius: 50%;
@@ -86,7 +92,7 @@ onMounted(async()=>{
     align-items: center; 
 }
 .test2{
-    width: 600px;
+    width: 100px;
     height: 100px;
     background-color: pink;
     border-radius: 50%;
