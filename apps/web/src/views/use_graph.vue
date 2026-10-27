@@ -1,4 +1,19 @@
 <template>
+  <div>
+        <button>addNode</button>
+        <radio>
+            <option value="force">force</option>
+            <option value="circular">circular</option>
+        </radio>
+        <el-form>
+            <el-form-item label="节点数量">
+                <el-input v-model="nodeCount" type="number" min="1" />
+            </el-form-item>
+            <el-form-item label="边数量">
+                <el-input v-model="edgeCount" type="number" min="0" />
+            </el-form-item>
+        </el-form>
+    
     <div class="container">    
       <div class="charts-wrapper">
         <div class="chart-item">
@@ -11,6 +26,7 @@
             />
         </div>
       </div>
+    </div>
     </div>
 </template>
 <script setup>

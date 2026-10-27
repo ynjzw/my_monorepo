@@ -95,7 +95,7 @@ const buildTreeOption = (data) => {
     series: [
       {
         type: 'tree',
-        data: [treeData],
+        data: [treeData], // 支持多棵树
         // 布局配置
         top: '8%',
         left: '7%',

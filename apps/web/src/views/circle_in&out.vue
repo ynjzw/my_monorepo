@@ -81,6 +81,176 @@ onMounted(async () => {
               gravity: 0.1,
               repulsion: 1000
             }
+        },
+        {
+            type: 'tree',
+            data: [
+                    {
+                        name: '我',  
+                        value:100,
+                        symbolSize: 10,
+                        children: [
+                            { name: '爸爸', value: 10 , children: [
+                            { name: '爷爷', value: 10 },
+                            { name: '奶奶', value: 10 }
+                            ]},
+                            { name: '妈妈', value: 10, children: [
+                            { name: '外公', value: 10 },
+                            { name: '外婆', value: 10 }
+                            ]}
+                        ]
+                    }
+            ], // 支持多棵树
+            // 布局配置
+            top: '8%',
+            left: '7%',
+            bottom: '5%',
+            right: '20%',
+            orient: 'BT',
+            edgeShape: 'polyline',
+            // 节点样式
+            // symbol: 'circle',
+            // symbolSize: 100,
+            itemStyle: {
+            // color: 'pink',
+            borderColor: '#fff',
+            borderWidth: 2
+            },
+            
+            // 标签配置
+            label: {
+            position: 'bottom',
+            verticalAlign: 'middle',
+            align: 'right',
+            // fontSize: 12,
+            // color: 'yellow' ,
+            // fontWeight: 500
+            },
+            
+            // 叶子节点标签
+            leaves: {
+            label: {
+                position: 'bottom',
+                verticalAlign: 'middle',
+                align: 'left',
+                // fontSize: 12,
+                // color: 'blue' 
+            }
+            },
+            
+            // 连线样式
+            lineStyle: {
+            // color: 'red',
+            width: 2,
+            curveness: 0.5
+            },
+            
+            // 交互
+            emphasis: {
+            focus: 'descendant',
+            lineStyle: {
+                width: 3,
+                color: '#5470c6'
+            }
+            },
+            
+            // 展开/折叠
+            expandAndCollapse: true,
+            initialTreeDepth: 2,
+            
+            // 动画
+            // animationDuration: 550,
+            // animationDurationUpdate: 750,
+            // animationEasing: 'cubicOut',
+            // animationEasingUpdate: 'cubicOut',
+            
+            // 标签布局（防止重叠）
+            // labelLayout: {
+            //   hideOverlap: true
+            // }
+        },
+        {
+            type: 'tree',
+            data: [
+                    {
+                        name: 'kkk',  
+                        value:100,
+                        symbolSize: 10,
+                        children: [
+                            { name: 'ooo', value: 10 , children: [
+                            { name: 'lll', value: 10 },
+                            { name: 'qqq', value: 10 }
+                            ]}                            
+                        ]
+                    }
+            ], // 支持多棵树
+            // 布局配置
+            top: '8%',
+            left: '7%',
+            bottom: '5%',
+            right: '20%',
+            orient: 'BT',
+            edgeShape: 'polyline',
+            // 节点样式
+            // symbol: 'circle',
+            // symbolSize: 100,
+            itemStyle: {
+            // color: 'pink',
+            borderColor: '#fff',
+            borderWidth: 2
+            },
+            
+            // 标签配置
+            label: {
+            position: 'bottom',
+            verticalAlign: 'middle',
+            align: 'right',
+            // fontSize: 12,
+            // color: 'yellow' ,
+            // fontWeight: 500
+            },
+            
+            // 叶子节点标签
+            leaves: {
+            label: {
+                position: 'bottom',
+                verticalAlign: 'middle',
+                align: 'left',
+                // fontSize: 12,
+                // color: 'blue' 
+            }
+            },
+            
+            // 连线样式
+            lineStyle: {
+            // color: 'red',
+            width: 2,
+            curveness: 0.5
+            },
+            
+            // 交互
+            emphasis: {
+            focus: 'descendant',
+            lineStyle: {
+                width: 3,
+                color: '#5470c6'
+            }
+            },
+            
+            // 展开/折叠
+            expandAndCollapse: true,
+            initialTreeDepth: 2,
+            
+            // 动画
+            // animationDuration: 550,
+            // animationDurationUpdate: 750,
+            // animationEasing: 'cubicOut',
+            // animationEasingUpdate: 'cubicOut',
+            
+            // 标签布局（防止重叠）
+            // labelLayout: {
+            //   hideOverlap: true
+            // }
         }
         ]
     }
@@ -108,8 +278,6 @@ onMounted(async () => {
 .map-container1{
     width: 600px;
     height: 600px;
-    background-color: yellow;
-    border-radius: 50%;
     display: flex;
     justify-content: center;  /* 水平居中 */
     align-items: center; 
