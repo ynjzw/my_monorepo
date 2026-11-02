@@ -27,7 +27,7 @@ const images = ['cell', 'tissue'] // 对应的图片文件名数组
 
 // 每个时间点对应的 option
 const option = title1.map((title0, i) => ({
-  title: { text: title0 },
+  title: { text: title1[i] },
   series: optionList[i],
 }))
 

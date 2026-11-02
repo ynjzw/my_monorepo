@@ -50,11 +50,11 @@ onMounted(() => {
     
     nodes.push({
         id: `1000`,
-        name: 'self',
+        name: 'common human',
         x:500,
         y:-500,
-        value: 10000,
-        symbolSize: 10000,
+        value: 0.001,
+        symbolSize: 10,
         symbol:'circle',
         itemStyle: {
             color: colorPalette[0]
@@ -65,9 +65,9 @@ onMounted(() => {
         id: '1001',
         name: 'mask_now',
         x:500,
-        y:3000,
-        value: 0.001,
-        symbolSize: 0.001,
+        y:300,
+        value: 10000,
+        symbolSize: 200,
         symbol:'circle',
         itemStyle: {
             color: 'purple',
@@ -79,7 +79,7 @@ onMounted(() => {
         x:500,
         y:1000,
         value: 0.22,
-        symbolSize: 0.22,
+        symbolSize: 22,
         symbol:'circle',
         itemStyle: {
             color: colorPalette[1],

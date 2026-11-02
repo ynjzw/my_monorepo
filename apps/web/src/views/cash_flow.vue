@@ -23,7 +23,8 @@ const diff = ['xxx', 'yyy', 'zzz', 'xzy'];
 // 预生成节点和连线（只生成一次）
 const generateStaticData = () => {
   const nodes = [];
-
+  const imageList=['image:///src/images/商.png?t=*','image:///src/images/农工.png?t=*']
+  const nameList=['商', '农工']
   // 生成节点
   for (let j = 1; j <= 2; j++) {
     for (let i = 1; i <= Math.pow(10, j); i++) {
@@ -31,12 +32,12 @@ const generateStaticData = () => {
       const baseSize = size[j - 1] || 10;
       nodes.push({
         id: `${j * 100 + i}`,
-        name: diff[j - 1],
+        name: nameList[j - 1],
         x: (i % 10) * 100 + Math.random() * 100,
         y: j * 100 + Math.random() * (i % 10) * 10,
         value: diff[j - 1] + ':' + (Math.random() + j * 10).toFixed(2),
         symbolSize: baseSize + change, // ✅ 关键改动
-        symbol: 'circle',
+        symbol: imageList[j - 1] ,
         itemStyle: { color: colorPalette[i % 10] }
       });
     }
@@ -45,12 +46,12 @@ const generateStaticData = () => {
   // 中心节点
   nodes.push({
     id: '1001',
-    name: '国家',
+    name: '士',
     x: 500,
     y: -200,
-    value: '国家',
+    value: '士',
     symbolSize: 101 + change, // ✅ 也同步变大
-    symbol: 'circle',
+    symbol: 'image:///src/images/士.png?t=*',
     itemStyle: { color: 'purple' }
   });
 
@@ -141,7 +142,7 @@ onMounted(async () => {
       links:links,
       roam: true,
       draggable: true,
-      label: { show: false, position: 'bottom', fontSize: 12 },
+      label: { show: true, position: 'bottom', fontSize: 12 },
       force: {
         repulsion: 100,
         edgeLength: 150,
