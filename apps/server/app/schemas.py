@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
+from pydantic import BaseModel, Field, field_validator
+from typing import Optional,Union, List, Dict, Any
 from datetime import datetime
 
 class FileUploadResponse(BaseModel):
@@ -66,3 +66,26 @@ class TripleResponse(BaseModel):
 class FilterRule(BaseModel):
     rule: str  # 规则描述，如“包含关键词xxx”或“长度大于10”
     comment: str  # 评论内容
+
+class Nodes(BaseModel):
+    id: Optional[str] = Field(default=None, max_length=255)
+    name: Optional[str] = Field(default=None, max_length=255)
+    value: Optional[str] = Field(default=None, max_length=255)
+    x: int
+    y: int
+    symbol: str = Field(..., max_length=32)
+    symbol_size: Union[str, int, float, List[float]]   # 兼容数值和数组
+    children: Optional[list] = None
+    type: Optional[str] = Field(default=None, max_length=255)
+    
+class NodeBatchIn(BaseModel):
+    nodes: List[Nodes]
+
+    @field_validator("nodes")
+    @classmethod
+    def check_not_empty(cls, v):
+        if not v:
+            raise ValueError("nodes 不能为空")
+        if len(v) > 100_000:
+            raise ValueError("单次最多 10 万条")
+        return v

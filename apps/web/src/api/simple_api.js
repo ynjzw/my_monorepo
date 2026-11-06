@@ -108,3 +108,12 @@ export function get_supply_chain(){
         method:'get'
     })    
 }
+
+const url_insert_nodes='/routes/simple_api/insert_nodes'
+export function insert_nodes(payload){
+    return request({
+        url:url_insert_nodes,
+        method:'post',
+        data: payload
+    })    
+}

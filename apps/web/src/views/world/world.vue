@@ -89,25 +89,22 @@ onMounted(() => {
   var myChart = echarts.init(chartDom);
   var option;  
   let mark = 0
-  setInterval(function () { 
-    option = {
+  option = {
       backgroundColor: '#1d1626',
       series: [
           starSeries('0%',  roundDatas(1,  40, '太阳', '#ef4136'), linkDatas(1), false),
-          starSeries('15%', roundDatas(30, 15, '水星', '#72baa7',mark++), linkDatas(30), false),
-          starSeries('25%', roundDatas(40, 15, '金星', '#c88400',mark++), linkDatas(40), false),
-          starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF',mark++), linkDatas(50), false),
-          starSeries('45%', roundDatas(60, 15, '火星', '#FF5809',mark++), linkDatas(60), false),
-          starSeries('55%', roundDatas(70, 20, '木星', '#e0861a',mark++), linkDatas(70), false),
-          starSeries('65%', roundDatas(80, 23, '土星', '#33a3dc',mark++), linkDatas(80), false),
-          starSeries('75%', roundDatas(90, 28, '天王星', '#8f4b4a',mark++), linkDatas(90), false),
-          starSeries('85%', roundDatas(100, 30, '海王星', '#afb4db',mark++), linkDatas(100), false),
-          starSeries('95%', roundDatas(110, 30, '冥王星\n(矮行星)', '#6f60aa',mark++), linkDatas(110), false)
+          starSeries('15%', roundDatas(30, 15, '水星', '#72baa7',5), linkDatas(30), false),
+          starSeries('25%', roundDatas(40, 15, '金星', '#c88400',100), linkDatas(40), false),
+          starSeries('35%', roundDatas(50, 15, '地球', '#00BFFF',5), linkDatas(50), false),
+          starSeries('45%', roundDatas(60, 15, '火星', '#FF5809',50), linkDatas(60), false),
+          starSeries('55%', roundDatas(70, 20, '木星', '#e0861a',5), linkDatas(70), false),
+          starSeries('65%', roundDatas(80, 23, '土星', '#33a3dc',250), linkDatas(80), false),
+          starSeries('75%', roundDatas(90, 28, '天王星', '#8f4b4a',150), linkDatas(90), false),
+          starSeries('85%', roundDatas(100, 30, '海王星', '#afb4db',500), linkDatas(100), false)
         
       ]
   }
     option && myChart.setOption(option);
-  },1000)
 //   option && myChart.setOption(option);
 //   if (!myChart) return
   

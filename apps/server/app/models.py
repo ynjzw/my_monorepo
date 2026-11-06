@@ -5,9 +5,6 @@ import uuid
 from sqlalchemy.orm import declarative_base,Session,Mapped,relationship
 from typing import List
 
-# 创建对象的基类:
-Base = declarative_base()
-
 class UploadFileRecord(Base):
     """上传文件记录表"""
     __tablename__ = "upload_file_records"

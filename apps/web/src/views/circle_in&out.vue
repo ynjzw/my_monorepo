@@ -103,9 +103,7 @@ onMounted(async () => {
             ], // 支持多棵树
             // 布局配置
             top: '8%',
-            left: '7%',
-            bottom: '5%',
-            right: '20%',
+            right: '5%',
             orient: 'BT',
             edgeShape: 'polyline',
             // 节点样式
@@ -186,9 +184,7 @@ onMounted(async () => {
             ], // 支持多棵树
             // 布局配置
             top: '8%',
-            left: '7%',
-            bottom: '5%',
-            right: '20%',
+            right: '75%',
             orient: 'BT',
             edgeShape: 'polyline',
             // 节点样式

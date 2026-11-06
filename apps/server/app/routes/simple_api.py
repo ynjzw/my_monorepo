@@ -1,6 +1,7 @@
 from fastapi import FastAPI,Depends,APIRouter
 from sqlalchemy.orm import Session
 from database import get_db
+from schemas import NodeBatchIn
 from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population,solar
 
 
@@ -69,3 +70,19 @@ def get_world(db:Session=Depends(get_db)):
 def get_supply_chain(db:Session=Depends(get_db)):
     data = db.query(Nodes).filter(Nodes.type=='供应链').all()
     return data
+
+@app.post('/insert_nodes')
+def insert_nodes(payload: NodeBatchIn, db:Session=Depends(get_db)):
+    rows = [
+        (n.node_id, n.name, n.x, n.y, n.symbol_size, n.symbol)
+        for n in payload.nodes
+    ]
+    sql = """
+        INSERT INTO nodes (node_id, name, x, y, symbol_size, symbol)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """
+    db.execute(sql, rows)
+    db.commit()
+
+    return {"inserted": len(rows)}
+

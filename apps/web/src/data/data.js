@@ -1,13 +1,14 @@
 import {incomeGrading,savingsGrading} from './levels.js'
+import {stageOne1} from './lifeStage.js'
 export const titleList = [
   {
-    text: "Title 1",
+    text: "before 18",
   },
   {
-    text: "Title 2",
+    text: "18 to 60",
   },
   {
-    text: "Title 3",
+    text: "after 60",
   }
 ]
 export const optionList = [

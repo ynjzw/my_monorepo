@@ -1,11 +1,16 @@
 <template>
-  <div class="map" >      
-     <div ref="mapRef" class="map-container" ></div>
-  </div>
+    <div>
+        <button  @click="insert()"></button>
+        <br>
+        <div class="map" >      
+            <div ref="mapRef" class="map-container" ></div>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import {insert_nodes} from '@/api/simple_api'
 import * as echarts from 'echarts';
 
 // 预定义颜色池
@@ -19,76 +24,63 @@ let chart = null;        // 存储图表实例
 let intervalId = null;   // 存储定时器ID
 let nodes = [];          // 存储节点数据，供定时器使用
 let links = [];          // 存储连线数据
+const diff=['xxx','yyy','zzz','xyz','zyx']
+let min_x=0,max_x=0,min_y=0,max_y=0;
 
-const eraseLink = () => {
-    if (!chart) return;
-    chart.setOption({
-        series: [{
-            links: [] // 清空连线数据
-        }]
-    });
-};
-
-// 数据更新函数 - 更新节点颜色
-const updateChartData = () => {
-    if (!chart) return;
-    
-    // 随机分配颜色池中的颜色
-    const updatedNodes = nodes.map((node) => ({
-        ...node,
+for (let i = 1; i <= 5; i++) {
+    for (let j = 0; j <= Math.pow((6-i)*(11-i), 2); j++) {
+        min_x = 500-Math.random()*(6-i)*100;
+        max_x = 500+Math.random()*(6-i)*100;
+        min_y = (6-i)*200-100;
+        max_y = (6-i)*200+100;
+        nodes.push({
+            id: `${i*10000+j}`,
+            name: diff[i-1],
+            x:Math.floor(Math.random() * (Math.floor(max_x) - Math.ceil(min_x) + 1) + Math.ceil(min_x)),
+            y:Math.floor(Math.random() * (Math.floor(max_y) - Math.ceil(min_y) + 1) + Math.ceil(min_y)),
+            symbolSize: Math.pow(i,2)+Math.random()*Math.pow(2,i-1),
+            symbol:'circle',
+            itemStyle: {
+                color: colorPalette[j%7]
+            }
+        });
+    }
+}
+for (let i = 1; i <= 4; i++) {
+    nodes.push({
+        x:500,
+        y:i*200+100,
+        symbolSize: [1000,2],
+        symbol:'rect',
         itemStyle: {
-            color: colorPalette[Math.floor(Math.random() * colorPalette.length)]
+            color: colorPalette[9-i]
         }
-    }));
-    
-    chart.setOption({
-        series: [{
-            data: updatedNodes,
-            animation: true,
-            animationDuration: 500
-        }]
     });
+}
+
+const insert = async () => {
+    const payload = {
+        nodes: nodes.map(node => ({
+            node_id: node.id,
+            name: node.name,
+            x: node.x,
+            y: node.y,
+            symbol_size: node.symbolSize,
+            symbol: node.symbol
+        }))
+    };
+    await insert_nodes(payload)
+        .then(response => {
+            console.log('Nodes inserted successfully:', response.data);
+        })
+        .catch(error => {
+            console.error('Error inserting nodes:', error);
+        });
 };
 
 onMounted(() => {
     // 初始化图表
     chart = echarts.init(mapRef.value);
-    const diff=['xxx','yyy','zzz','xyz','zyx']
-    let min_x,max_x,min_y,max_y = 0;
-    // 生成100个节点
-    nodes = [];
-    for (let i = 1; i <= 5; i++) {
-        for (let j = 0; j <= Math.pow((6-i)*(11-i), 2); j++) {
-            min_x = 500-Math.random()*(6-i)*100;
-            max_x = 500+Math.random()*(6-i)*100;
-            min_y = (6-i)*200-100;
-            max_y = (6-i)*200+100;
-            nodes.push({
-                id: `${i*10000+j}`,
-                name: diff[i-1],
-                x:Math.floor(Math.random() * (Math.floor(max_x) - Math.ceil(min_x) + 1) + Math.ceil(min_x)),
-                y:Math.floor(Math.random() * (Math.floor(max_y) - Math.ceil(min_y) + 1) + Math.ceil(min_y)),
-                symbolSize: Math.pow(i,2)+Math.random()*Math.pow(2,i-1),
-                symbol:'circle',
-                itemStyle: {
-                    color: colorPalette[j%7]
-                }
-            });
-        }
-    }
-    for (let i = 1; i <= 4; i++) {
-        nodes.push({
-            x:500,
-            y:i*200+100,
-            symbolSize: [1000,2],
-            symbol:'rect',
-            itemStyle: {
-                color: colorPalette[9-i]
-            }
-        });
-    }
-    
-    links = [];   
     
     // 设置图表配置
     chart.setOption({
