@@ -23,8 +23,8 @@ const diff = ['xxx', 'yyy', 'zzz', 'xzy'];
 // 预生成节点和连线（只生成一次）
 const generateStaticData = () => {
   const nodes = [];
-  const imageList=['image:///src/images/商.png?t=*','image:///src/images/农工.png?t=*']
-  const nameList=['商', '农']
+  const imageList=['image:///src/images/商.png?t=*','image:///src/images/工.png?t=*']
+  const nameList=['商', '工']
   // 生成节点
   for (let j = 1; j <= 2; j++) {
     for (let i = 1; i <= Math.pow(10, j); i++) {

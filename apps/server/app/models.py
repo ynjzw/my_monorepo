@@ -75,9 +75,10 @@ class Link(Base):
     id = Column(String(255),primary_key=True)
     source = Column(String(255))
     target = Column(String(255))
-    value = Column(String(255))
-    symbol=Column(JSON,default=[])
-    lineStyle=Column(JSON,default={})
+    # value = Column(String(255))
+    # symbol=Column(JSON,default=[])
+    # lineStyle=Column(JSON,default={})
+    type = Column(String(255))
 
 class world(Base):
     # 表的名字:

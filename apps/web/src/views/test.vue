@@ -1,6 +1,8 @@
 <template>
-    <div class="test1" ref="chartContainer1" >
-        <div class="test2" ref="chartContainer2" ></div>
+    <div  class="color-wheel">
+        <div class="circle test1"  ></div>
+        <div class="circle test2"  ></div>
+        <div class="circle test3"  ></div>
     </div>
     
 </template>
@@ -11,8 +13,6 @@ import { onMounted,ref,nextTick } from 'vue';
 import { getWorld,getNodes } from '@/api/simple_api'
 import graph from '../components/graph.vue';
 import * as echarts from 'echarts';
-const chartContainer1 = ref(null)
-const chartContainer2 = ref(null)
 const layout = ref('force')
 let myChart1 = null
 let myChart2 = null
@@ -82,22 +82,41 @@ onMounted(async()=>{
 </script>
 
 <style>
-.test1{
+.color-wheel {
+    position: relative;
     width: 400px;
-    height: 400px;
-    background-color: yellow;
-    border-radius: 50%;
+    height: 350px;
+    /* 关键点：混合模式需要一个纯黑的底色作为“发光”的基础 */
+    background-color: #000; 
+    border-radius: 10px;
     display: flex;
-    justify-content: center;  /* 水平居中 */
-    align-items: center; 
+    justify-content: center;
+    align-items: center;
+}
+
+/* 基础圆形样式 */
+.circle {
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    /* 核心属性：滤色模式（加光混合） */
+    mix-blend-mode: screen; 
+}
+.test1{
+    background-color: red;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 .test2{
-    width: 100px;
-    height: 100px;
-    background-color: pink;
-    border-radius: 50%;
-    /* mix-blend-mode:screen; */
-    /* padding:10px; */
-    /* top:10px */
+    bottom: 20px;
+    left: 20px;
+    background-color: green;
+}
+.test3{
+    bottom: 20px;
+    right: 20px;
+    background-color: blue;
 }
 </style>

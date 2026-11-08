@@ -117,3 +117,13 @@ export function insert_nodes(payload){
         data: payload
     })    
 }
+
+const url_insert_links='/routes/simple_api/insert_links'
+export function insert_links(payload){
+    return request({
+        url:url_insert_links,
+        method:'post',
+        data: payload
+    })    
+}
+

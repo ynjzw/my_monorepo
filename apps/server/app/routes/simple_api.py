@@ -1,7 +1,8 @@
 from fastapi import FastAPI,Depends,APIRouter
 from sqlalchemy.orm import Session
+from sqlalchemy import text,insert
 from database import get_db
-from schemas import NodeBatchIn
+from schemas import NodeBatchIn,LinkBatchIn
 from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population,solar
 
 
@@ -74,15 +75,32 @@ def get_supply_chain(db:Session=Depends(get_db)):
 @app.post('/insert_nodes')
 def insert_nodes(payload: NodeBatchIn, db:Session=Depends(get_db)):
     rows = [
-        (n.node_id, n.name, n.x, n.y, n.symbol_size, n.symbol)
+        {
+            "id": n.id,
+            "name": n.name,
+            "x": n.x,
+            "y": n.y,
+            "symbolSize": n.symbolSize,
+            "symbol": n.symbol
+        }
         for n in payload.nodes
     ]
-    sql = """
-        INSERT INTO nodes (node_id, name, x, y, symbol_size, symbol)
-        VALUES (?, ?, ?, ?, ?, ?)
-    """
+    
+    sql = text("""
+        INSERT INTO nodes (id, name, x, y, symbol, symbolSize)
+        VALUES (:id, :name, :x, :y, :symbol, :symbolSize)
+    """)
     db.execute(sql, rows)
     db.commit()
 
     return {"inserted": len(rows)}
 
+@app.post('/insert_links')
+def insert_links(payload: LinkBatchIn, db:Session=Depends(get_db)):
+    rows = [n.model_dump() for n in payload.links]
+    
+    stmt = insert(Link).values(rows)
+    db.execute(stmt)
+    db.commit()
+
+    return {"inserted": len(rows)}

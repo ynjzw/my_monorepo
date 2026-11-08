@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button  @click="insert()"></button>
+        <button  @click="insert()">xxx</button>
         <br>
         <div class="map" >      
             <div ref="mapRef" class="map-container" ></div>
@@ -10,13 +10,13 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import {insert_nodes} from '@/api/simple_api'
+import {insert_nodes, insert_links} from '@/api/simple_api'
 import * as echarts from 'echarts';
 
 // 预定义颜色池
 const colorPalette = [
-    '#5470c6', '#fac858', '#ee6666',  '#73cede', 
-    '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc','#73c0de','#7ec0de'
+    '#5470c6', '#fac858', '#ee6666','#73cede', '#3ba272', 
+    '#fc8452', '#9a60b4', '#ea7ccc','#73c0de','#7ec0de'
 ];      
 
 const mapRef = ref(null);
@@ -24,57 +24,107 @@ let chart = null;        // 存储图表实例
 let intervalId = null;   // 存储定时器ID
 let nodes = [];          // 存储节点数据，供定时器使用
 let links = [];          // 存储连线数据
-const diff=['xxx','yyy','zzz','xyz','zyx']
-let min_x=0,max_x=0,min_y=0,max_y=0;
-
-for (let i = 1; i <= 5; i++) {
-    for (let j = 0; j <= Math.pow((6-i)*(11-i), 2); j++) {
-        min_x = 500-Math.random()*(6-i)*100;
-        max_x = 500+Math.random()*(6-i)*100;
-        min_y = (6-i)*200-100;
-        max_y = (6-i)*200+100;
+const size = [50, 10];
+const imageList=['image:///src/images/商.png?t=*','image:///src/images/工.png?t=*']
+const nameList=['商', '工']
+// 生成节点
+for (let j = 1; j <= 2; j++) {
+    for (let i = 1; i <= Math.pow(10, j); i++) {
+        // ★ 核心改动：节点大小 = 基础大小 + change（随时间递增）
+        const baseSize = size[j - 1] || 10;
         nodes.push({
-            id: `${i*10000+j}`,
-            name: diff[i-1],
-            x:Math.floor(Math.random() * (Math.floor(max_x) - Math.ceil(min_x) + 1) + Math.ceil(min_x)),
-            y:Math.floor(Math.random() * (Math.floor(max_y) - Math.ceil(min_y) + 1) + Math.ceil(min_y)),
-            symbolSize: Math.pow(i,2)+Math.random()*Math.pow(2,i-1),
-            symbol:'circle',
-            itemStyle: {
-                color: colorPalette[j%7]
-            }
+            id: `${j * 100 + i}`,
+            name: nameList[j - 1],
+            x: (i % 10) * 100 + Math.random() * 100,
+            y: j * 100 + Math.random() * (i % 10) * 10,
+            symbolSize: baseSize , // ✅ 关键改动
+            symbol: imageList[j - 1] ,
         });
     }
 }
-for (let i = 1; i <= 4; i++) {
-    nodes.push({
-        x:500,
-        y:i*200+100,
-        symbolSize: [1000,2],
-        symbol:'rect',
-        itemStyle: {
-            color: colorPalette[9-i]
-        }
+
+// 中心节点
+nodes.push({
+    id: '1001',
+    name: '士',
+    x: 500,
+    y: -200,
+    value: '士',
+    symbolSize: 101 , // ✅ 也同步变大
+    symbol: 'image:///src/images/士.png?t=*',
+});
+
+for (let i = 0; i < Math.pow(10, 2); i++) {
+    links.push({
+        source: `${200 + i}`,
+        target: `${100 + (i % 10)}`,
+        symbol: ['none', 'arrow'],
+        symbolSize: 10
+    });
+    links.push({
+        source: '1001',
+        target: `${200 + i}`,
+        symbol: ['none', 'arrow'],
+        symbolSize: 10
+    });
+}
+for (let i = 1; i <= 10; i++) {
+    links.push({
+        source: `${200 + i * 10}`,
+        target: '110',
+        symbol: ['none', 'arrow'],
+        symbolSize: 10
+    });
+}
+for (let i = 0; i < 10; i++) {
+    links.push({
+        source: nodes[i].id,
+        target: '1001',
+        symbol: ['none', 'arrow'],
+        symbolSize: 10
+    });
+    links.push({
+        source: '1001',
+        target: nodes[i].id,
+        symbol: ['none', 'arrow'],
+        symbolSize: 10,
     });
 }
 
 const insert = async () => {
     const payload = {
         nodes: nodes.map(node => ({
-            node_id: node.id,
+            id: node.id,
             name: node.name,
             x: node.x,
             y: node.y,
-            symbol_size: node.symbolSize,
-            symbol: node.symbol
+            symbol: node.symbol,
+            symbolSize: node.symbolSize
         }))
     };
-    await insert_nodes(payload)
-        .then(response => {
-            console.log('Nodes inserted successfully:', response.data);
+    
+    // await insert_nodes(payload)
+    //     .then(response => {
+    //         console.log('Nodes inserted successfully:', response.data);
+    //     })
+    //     .catch(error => {
+    //         console.error('Error inserting nodes:', error);
+    //     });
+
+    const linkPayload = {
+        links: links.map(link => ({
+            id: `${link.source}-${link.target}`, // 生成唯一ID
+            source: link.source,
+            target: link.target,
+            type: 'floor'
+        }))
+    };
+    await insert_links(linkPayload)
+        .then(response => { 
+            console.log('Links inserted successfully:', response.data);
         })
         .catch(error => {
-            console.error('Error inserting nodes:', error);
+            console.error('Error inserting links:', error);
         });
 };
 

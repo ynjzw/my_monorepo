@@ -70,13 +70,10 @@ class FilterRule(BaseModel):
 class Nodes(BaseModel):
     id: Optional[str] = Field(default=None, max_length=255)
     name: Optional[str] = Field(default=None, max_length=255)
-    value: Optional[str] = Field(default=None, max_length=255)
-    x: int
-    y: int
-    symbol: str = Field(..., max_length=32)
-    symbol_size: Union[str, int, float, List[float]]   # 兼容数值和数组
-    children: Optional[list] = None
-    type: Optional[str] = Field(default=None, max_length=255)
+    x: float
+    y: float
+    symbol: str
+    symbolSize: int
     
 class NodeBatchIn(BaseModel):
     nodes: List[Nodes]
@@ -86,6 +83,24 @@ class NodeBatchIn(BaseModel):
     def check_not_empty(cls, v):
         if not v:
             raise ValueError("nodes 不能为空")
-        if len(v) > 100_000:
+        if len(v) > 100000:
+            raise ValueError("单次最多 10 万条")
+        return v
+
+class Link(BaseModel):
+    id:str
+    source: Optional[str] = Field(default=None, max_length=255)
+    target: Optional[str] = Field(default=None, max_length=255)
+    type: str
+    
+class LinkBatchIn(BaseModel):
+    links: List[Link]
+
+    @field_validator("links")
+    @classmethod
+    def check_not_empty(cls, v):
+        if not v:
+            raise ValueError("links 不能为空")
+        if len(v) > 100000:
             raise ValueError("单次最多 10 万条")
         return v
