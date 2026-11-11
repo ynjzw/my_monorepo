@@ -67,6 +67,23 @@ export function get_maslow_needs(){
     })    
 }
 
+const url_personal_data='/routes/simple_api/personal_data'
+export function get_personal_data(){
+    return request({
+        url:url_personal_data,
+        method:'get'
+    })    
+}
+
+const url_update_personal_data='/routes/simple_api/update_personal_data'
+export function update_personal_data(data){
+    return request({
+        url:url_update_personal_data,
+        method:'post',
+        data:data
+    })    
+}
+
 const old_structure_url='/routes/simple_api/old_structure'
 export function get_old_structure(){
     return request({
@@ -91,7 +108,6 @@ export function get_solar(){
         method:'get'
     })    
 }
-
 
 const url_population_structure='/routes/simple_api/population_structure'
 export function population_structure(year){

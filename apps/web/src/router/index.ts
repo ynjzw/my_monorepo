@@ -36,9 +36,11 @@ import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
 import use_timeline from '../views/use_timeline.vue'
 import circle_in from '../views/circle_in&out.vue'
+import auth from '../views/auth.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
+  {name: 'login', path: '/login', component: auth},
   {name: 'show_diff_structure',path: '/show_diff_structure',component: show_diff_structure},
   {
     name: 'person',
@@ -87,7 +89,8 @@ const routes = [
   {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs},
   {name: 'timeline', path: '/timeline', component: timeline},
   {name: 'circle_in', path: '/circle_in', component: circle_in},
-  {name: 'use_timeline', path: '/use_timeline', component: use_timeline}
+  {name: 'use_timeline', path: '/use_timeline', component: use_timeline},
+  {name: 'supply_chain', path: '/supply_chain', component: () => import('../views/supply_chain.vue')}
 ]
 
 // 创建路由实例

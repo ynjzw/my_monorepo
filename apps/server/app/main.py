@@ -2,11 +2,20 @@ from fastapi import FastAPI,Depends,UploadFile,File,HTTPException,Query
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import logging,uvicorn
-from routes import ai_api,upload_api,simple_api,spider_api,parse_api
+from routes import ai_api,upload_api,simple_api,spider_api,parse_api,scheduled
+from routes.scheduled import register_jobs,scheduler
+from contextlib import asynccontextmanager
 
 logger=logging.getLogger(__name__)
 
-app=FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    register_jobs()   # 注册任务
+    scheduler.start() # 启动调度器
+    yield
+    scheduler.shutdown() # 关闭调度器
+
+app = FastAPI(lifespan=lifespan)
 
 origins = [
     "http://localhost:5173",    # Vite 开发服务器
@@ -27,7 +36,7 @@ app.include_router(simple_api.app, prefix="/routes/simple_api")
 app.include_router(upload_api.app, prefix="/routes/upload_api")
 app.include_router(spider_api.app, prefix="/routes/spider_api")
 app.include_router(parse_api.app, prefix="/routes/parse_api")
-# app.include_router(langgraph_agent.app, prefix="/routes/langgraph_agent")
+app.include_router(scheduled.app, prefix="/routes/dailyTask_api")
 
 @app.get('/')
 def hello():

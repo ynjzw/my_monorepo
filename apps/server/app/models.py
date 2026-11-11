@@ -126,9 +126,9 @@ class Nodes(Base):
     x=Column(Integer)
     y=Column(Integer)
     symbol=Column(String(255))
-    symbol_size=Column(Integer)
+    symbolSize=Column(Integer)
     children=Column(JSON,default=[])
-    type = Column(String(255))
+    node_type = Column(String(255))
 
 class liveCycle(Base):
     # 表的名字:
@@ -167,3 +167,12 @@ class Population(Base):
     population_radio_between_15_and_64=Column(String(255))
     population_radio_above_65=Column(String(255))
     year = Column(String(255))
+
+class PersonalData(Base):
+    # 表的名字:
+    __tablename__ = 'personalData'
+    # 表的结构:    
+    user_id = Column(Integer,primary_key=True)
+    skill = Column(String(255))
+    resource = Column(String(255))
+    wish = Column(String(255))

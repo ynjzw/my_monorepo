@@ -3,14 +3,16 @@
     <h1>技能与资源</h1>
     <form @submit.prevent="submitForm">
       <div class="form-group">
+        <span>技能(请填写您掌握的技能)：</span>
         <textarea
           id="skills"
-          v-model="skills"
+          v-model="skill"
           placeholder="请输入您的技能，例如：编程、设计、写作等"
           rows="4"
         ></textarea>
       </div>
       <div class="form-group">
+        <span>资源(请填写您愿意提供的资源)：</span>
         <textarea
           id="resource"
           v-model="resource"
@@ -19,10 +21,11 @@
         ></textarea>
       </div>
       <div class="form-group">
+        <span>愿望(请许下你的愿望)：</span>
         <textarea
           id="wish"
           v-model="wish"
-          placeholder="请许下你的愿望"
+          placeholder=""
           rows="4"
         ></textarea>
       </div>      
@@ -32,21 +35,41 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref ,onMounted} from 'vue'
+import { get_personal_data,update_personal_data } from '@/api/simple_api'
 
 // 响应式数据
-const skills = ref('')
+const skill = ref('')
 const resource = ref('')
 const wish = ref('')
+const response = ref(null)
 
 // 提交表单
-const submitForm = () => {
-  console.log('技能:', skills.value)
-  console.log('资源', resource.value)
-  console.log('愿望', wish.value)
+const submitForm = async () => {
   // 这里可以添加提交逻辑，比如发送到服务器
-  alert('信息已提交！')
+  
+  try {
+    response.value = await update_personal_data({
+      skill: skill.value,
+      resource: resource.value,
+      wish: wish.value,
+      user_id: '1'
+    })
+    console.log('提交成功:', response.value)
+  } catch (error) {
+    console.error('提交失败:', error)
+  }
 }
+onMounted(async () => {
+  try {
+    response.value = await get_personal_data()
+    skill.value = response.value.skill
+    resource.value = response.value.resource
+    wish.value = response.value.wish
+  } catch (error) {
+    console.error('获取个人数据失败:', error)
+  }
+})
 </script>
 
 <style scoped>

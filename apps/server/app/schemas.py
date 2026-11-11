@@ -91,7 +91,7 @@ class Link(BaseModel):
     id:str
     source: Optional[str] = Field(default=None, max_length=255)
     target: Optional[str] = Field(default=None, max_length=255)
-    type: str
+    link_type: str
     
 class LinkBatchIn(BaseModel):
     links: List[Link]
@@ -104,3 +104,9 @@ class LinkBatchIn(BaseModel):
         if len(v) > 100000:
             raise ValueError("单次最多 10 万条")
         return v
+    
+class PersonalDataUpdate(BaseModel):
+    skill: str
+    resource: str
+    wish: str
+    user_id: str

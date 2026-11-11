@@ -1,10 +1,9 @@
-from fastapi import FastAPI,Depends,APIRouter
+from fastapi import Depends,APIRouter
 from sqlalchemy.orm import Session
 from sqlalchemy import text,insert
 from database import get_db
-from schemas import NodeBatchIn,LinkBatchIn
-from models import Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population,solar
-
+from schemas import NodeBatchIn,LinkBatchIn,PersonalDataUpdate
+from models import PersonalData,Nodes,liveCycle,ImportedData,Link,family,world,Structure,Population,solar
 
 app=APIRouter()
 @app.get('/data')
@@ -29,12 +28,17 @@ def get_population_structure(db:Session=Depends(get_db)):
 
 @app.get('/base_nodes')
 def get_base_nodes(node_type: str ,db:Session=Depends(get_db)):
-    data = db.query(Nodes).filter(Nodes.type==node_type).all()
+    data = db.query(Nodes).filter(Nodes.node_type==node_type).all()
     return data
 
 @app.get('/maslow_needs')
 def get_maslow_needs(db:Session=Depends(get_db)):
-    data = db.query(Nodes).filter(Nodes.type=='马斯洛需求').all()
+    data = db.query(Nodes).filter(Nodes.node_type=='马斯洛需求').all()
+    return data
+
+@app.get('/personal_data')
+def get_personal_data(db:Session=Depends(get_db)):
+    data = db.query(PersonalData).first()
     return data
 
 @app.get('/old_structure')
@@ -69,7 +73,7 @@ def get_world(db:Session=Depends(get_db)):
 
 @app.get('/supply_chain')
 def get_supply_chain(db:Session=Depends(get_db)):
-    data = db.query(Nodes).filter(Nodes.type=='供应链').all()
+    data = db.query(Nodes).filter(Nodes.node_type=='供应链').all()
     return data
 
 @app.post('/insert_nodes')
@@ -97,10 +101,19 @@ def insert_nodes(payload: NodeBatchIn, db:Session=Depends(get_db)):
 
 @app.post('/insert_links')
 def insert_links(payload: LinkBatchIn, db:Session=Depends(get_db)):
-    rows = [n.model_dump() for n in payload.links]
-    
+    rows = [n.model_dump() for n in payload.links]    
     stmt = insert(Link).values(rows)
     db.execute(stmt)
     db.commit()
 
     return {"inserted": len(rows)}
+
+
+@app.post('/update_personal_data')
+def update_personal_data(payload:PersonalDataUpdate,db:Session=Depends(get_db)):
+    db.query(PersonalData).filter(PersonalData.user_id == payload.user_id).update({
+        "skill": payload.skill,
+        "resource": payload.resource,
+        "wish": payload.wish,
+    })
+    db.commit()
