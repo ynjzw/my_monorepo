@@ -4,6 +4,7 @@ import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
 import axios from 'axios';
+import ContextSidebar from '../../components/ContextSidebar.vue';
 const tabs=['人际网络','健康','收入/支出/储蓄']
 const data = {
                 "$count": 100,
@@ -133,20 +134,38 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="chart-wrapper">
-    <div 
-      ref="chartContainer" 
-      class="chart-container"
-      id="main"
-    ></div>
-    <div v-if="loading" class="loading">加载中...</div>
-    <div v-if="error" class="error">{{ error }}</div>
+  <div class="page-layout">
+    <ContextSidebar context="person" />
+    <main class="page-content">
+      <div class="chart-wrapper">
+        <div
+          ref="chartContainer"
+          class="chart-container"
+          id="main"
+        ></div>
+        <div v-if="loading" class="loading">加载中...</div>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>
+    </main>
   </div>
 </template>
 <style scoped>
+.page-layout {
+  display: flex;
+  min-height: calc(100vh - 34px);
+  min-height: calc(100dvh - 34px);
+  background: #fff;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 400px;
+}
+
 .chart-wrapper {
   width: 100%;
-  height: 100%;
+  min-height: 400px;
   position: relative;
 }
 

@@ -1,7 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
-const isRegister = ref(false)
+const route = useRoute()
+const isRegister = ref(route.query.mode === 'register')
 const showPassword = ref(false)
 const email = ref('')
 const name = ref('')

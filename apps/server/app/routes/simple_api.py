@@ -76,6 +76,19 @@ def get_supply_chain(db:Session=Depends(get_db)):
     data = db.query(Nodes).filter(Nodes.node_type=='供应链').all()
     return data
 
+@app.get('/sidebar_options')
+def get_sidebar_options(db:Session=Depends(get_db)):
+    industries = db.execute(text(
+        "SELECT DISTINCT name FROM industry WHERE name IS NOT NULL AND name <> '' ORDER BY name"
+    )).scalars().all()
+    subjects = db.execute(text(
+        "SELECT DISTINCT name FROM subjects WHERE name IS NOT NULL AND name <> '' ORDER BY name"
+    )).scalars().all()
+    return {
+        "industries": industries,
+        "subjects": subjects,
+    }
+
 @app.post('/insert_nodes')
 def insert_nodes(payload: NodeBatchIn, db:Session=Depends(get_db)):
     rows = [

@@ -2,29 +2,17 @@
 import { RouterLink } from 'vue-router'
 
 defineProps({
-  sidebarCollapsed: {
-    type: Boolean,
-    default: false
+  theme: {
+    type: String,
+    required: true
   }
 })
 
-const emit = defineEmits(['toggle-sidebar'])
+const emit = defineEmits(['toggle-theme'])
 </script>
 
 <template>
   <header class="navbar">
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-label="展开或收起侧边栏"
-      :aria-expanded="!sidebarCollapsed"
-      @click="emit('toggle-sidebar')"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
     <RouterLink class="brand" :to="{ name: 'home' }">
       <span class="brand-mark" aria-hidden="true">天</span>
       <span class="brand-name">天人图</span>
@@ -36,56 +24,45 @@ const emit = defineEmits(['toggle-sidebar'])
       <RouterLink :to="{ name: 'dynamic_graph' }">知识图谱</RouterLink>
     </nav>
 
-    <div class="navbar-status">
-      <span class="status-dot"></span>
-      <span>数据工作台</span>
+    <div class="navbar-actions">
+      <button
+        class="theme-toggle"
+        type="button"
+        :aria-pressed="theme === 'dark'"
+        :aria-label="theme === 'dark' ? '切换到明亮主题' : '切换到暗色主题'"
+        :title="theme === 'dark' ? '切换到明亮主题' : '切换到暗色主题'"
+        @click="emit('toggle-theme')"
+      >
+        <span aria-hidden="true">{{ theme === 'dark' ? '☀' : '☾' }}</span>
+      </button>
+      <RouterLink class="login-link" :to="{ name: 'login' }">登录</RouterLink>
+      <RouterLink class="register-link" :to="{ name: 'login', query: { mode: 'register' } }">
+        注册
+      </RouterLink>
     </div>
   </header>
 </template>
 
 <style scoped>
 .navbar {
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  z-index: 30;
+  inset: 0 0 auto;
   display: flex;
   align-items: center;
-  height: 68px;
-  padding: 0 28px;
+  height: 34px;
+  padding: 0 20px;
   border-bottom: 1px solid #e8edf3;
   background: #fff;
   color: #172033;
 }
 
-.menu-toggle {
-  display: grid;
-  gap: 4px;
-  width: 36px;
-  height: 36px;
-  margin-right: 16px;
-  padding: 10px 9px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.menu-toggle:hover {
-  background: #f1f5f9;
-}
-
-.menu-toggle span {
-  display: block;
-  height: 2px;
-  border-radius: 2px;
-  background: #526174;
-}
-
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 7px;
   color: inherit;
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -93,21 +70,21 @@ const emit = defineEmits(['toggle-sidebar'])
 
 .brand-mark {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 24px;
   place-items: center;
-  border-radius: 10px;
+  border-radius: 7px;
   background: #2563eb;
   color: #fff;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .top-links {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 24px;
   height: 100%;
-  margin-left: 52px;
+  margin-left: 36px;
 }
 
 .top-links a {
@@ -116,7 +93,7 @@ const emit = defineEmits(['toggle-sidebar'])
   height: 100%;
   border-bottom: 2px solid transparent;
   color: #64748b;
-  font-size: 14px;
+  font-size: 11px;
   text-decoration: none;
   transition: color 0.18s ease, border-color 0.18s ease;
 }
@@ -127,36 +104,125 @@ const emit = defineEmits(['toggle-sidebar'])
   color: #1d4ed8;
 }
 
-.navbar-status {
-  display: inline-flex;
+.navbar-actions {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   margin-left: auto;
-  color: #64748b;
-  font-size: 13px;
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 0 3px #dcfce7;
+.theme-toggle {
+  display: inline-grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+  background: transparent;
+  color: #526174;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.theme-toggle:hover {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.login-link,
+.register-link {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  justify-content: center;
+  color: #526174;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  color: #1d4ed8;
+}
+
+.register-link {
+  min-width: 46px;
+  padding: 0 10px;
+  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  transition: background 0.18s ease;
+}
+
+.register-link:hover {
+  background: #1d4ed8;
 }
 
 @media (max-width: 700px) {
   .navbar {
-    height: 60px;
-    padding: 0 14px;
+    padding: 0 12px;
   }
 
-  .menu-toggle {
-    margin-right: 10px;
+  .top-links {
+    gap: 12px;
+    margin-left: 16px;
   }
 
-  .top-links,
-  .navbar-status {
+  .top-links a {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .top-links {
     display: none;
   }
 }
+
+:global(:root[data-theme='dark']) .navbar {
+  border-bottom-color: #303747;
+  background: #171b26;
+  color: #e6eaf2;
+}
+
+:global(:root[data-theme='dark']) .top-links a {
+  color: #a4aec0;
+}
+
+:global(:root[data-theme='dark']) .top-links a:hover,
+:global(:root[data-theme='dark']) .top-links a.router-link-active {
+  border-bottom-color: #8b9cff;
+  color: #b6c1ff;
+}
+
+:global(:root[data-theme='dark']) .theme-toggle {
+  border-color: #3a4355;
+  color: #c1c8d6;
+}
+
+:global(:root[data-theme='dark']) .theme-toggle:hover {
+  border-color: #6479ea;
+  background: #252d40;
+  color: #b6c1ff;
+}
+
+:global(:root[data-theme='dark']) .login-link {
+  color: #c1c8d6;
+}
+
+:global(:root[data-theme='dark']) .login-link:hover {
+  color: #b6c1ff;
+}
+
+:global(:root[data-theme='dark']) .register-link {
+  background: #5267d8;
+}
+
+:global(:root[data-theme='dark']) .register-link:hover {
+  background: #6479ea;
+}
+
 </style>

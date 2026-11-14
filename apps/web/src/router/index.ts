@@ -36,10 +36,12 @@ import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
 import use_timeline from '../views/use_timeline.vue'
 import circle_in from '../views/circle_in&out.vue'
+import industry_structure from '../views/industry_structure.vue' 
 import auth from '../views/auth.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
+  {name: 'industry_structure', path: '/industry_structure', component: industry_structure},
   {name: 'login', path: '/login', component: auth},
   {name: 'show_diff_structure',path: '/show_diff_structure',component: show_diff_structure},
   {

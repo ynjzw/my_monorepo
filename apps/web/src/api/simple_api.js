@@ -125,6 +125,13 @@ export function get_supply_chain(){
     })    
 }
 
+export function getGraphSidebarOptions(){
+    return request({
+        url:'/routes/simple_api/sidebar_options',
+        method:'get'
+    })
+}
+
 const url_insert_nodes='/routes/simple_api/insert_nodes'
 export function insert_nodes(payload){
     return request({
@@ -142,4 +149,3 @@ export function insert_links(payload){
         data: payload
     })    
 }
-

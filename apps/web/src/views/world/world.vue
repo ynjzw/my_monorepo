@@ -1,9 +1,13 @@
 <template>
-  <div class="chart-wrapper">
-    <div id="main"
-    ></div>
-    <div v-if="loading" class="loading">加载中...</div>
-    <div v-if="error" class="error">{{ error }}</div>
+  <div class="page-layout">
+    <ContextSidebar context="world" />
+    <main class="page-content">
+      <div class="chart-wrapper">
+        <div id="main"></div>
+        <div v-if="loading" class="loading">加载中...</div>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>
+    </main>
   </div>
 </template>
 
@@ -11,6 +15,7 @@
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import {useRouter} from 'vue-router'
+import ContextSidebar from '../../components/ContextSidebar.vue';
 const router = useRouter();
 const loading = ref(false)
 const error = ref(null)
@@ -118,6 +123,19 @@ onMounted(() => {
 </script>
 
 <style>
+.page-layout {
+  display: flex;
+  min-height: calc(100vh - 34px);
+  min-height: calc(100dvh - 34px);
+  background: #fff;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 400px;
+}
+
 .loading {
   text-align: center;
   padding: 20px;
@@ -127,7 +145,7 @@ onMounted(() => {
 }
 .chart-wrapper {
   width: 100%;
-  height: 100%;
+  min-height: 400px;
   position: relative;
 }
 
@@ -135,6 +153,5 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   min-height: 400px; /* 设置最小高度 */
-  min-width: 400px; 
 }
 </style>
