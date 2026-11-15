@@ -120,6 +120,22 @@ onMounted(async()=>{
   
   myChart = echarts.init(chartContainer.value);
   await initChart();
+  var option;  
+  option = {
+      backgroundColor: '#1d1626',
+      series: [
+          starSeries('0%',  roundDatas(1,  40, '我', '#ef4136'), linkDatas(1), false),
+          starSeries('15%', roundDatas(30, 15, '父母', '#72baa7',5), linkDatas(30), false),
+          starSeries('15%', roundDatas(30, 15, '兄弟姐妹', '#72baa7',15), linkDatas(30), false),
+          starSeries('15%', roundDatas(30, 15, '配偶', '#72baa7',25), linkDatas(30), false),
+          starSeries('25%', roundDatas(40, 15, '朋友', '#c88400',10), linkDatas(40), false),
+          starSeries('25%', roundDatas(40, 15, '同事', '#c88400',50), linkDatas(40), false),
+          starSeries('25%', roundDatas(40, 15, '亲戚', '#c88400',100), linkDatas(40), false),
+          starSeries('35%', roundDatas(50, 15, '陌生人', '#00BFFF',55), linkDatas(50), false),
+          
+      ]
+  }
+  option && myChart.setOption(option);
   window.addEventListener('resize', handleResize);
 });
 

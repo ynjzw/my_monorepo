@@ -1,9 +1,5 @@
 <template>
     <div class="workspace">
-        <Navbar
-            :sidebar-collapsed="sidebarCollapsed"
-            @toggle-sidebar="sidebarCollapsed = !sidebarCollapsed"
-        />
         <div class="workspace-body">
             <Sidebar :collapsed="sidebarCollapsed" />
             <main class="main-content">
@@ -33,9 +29,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
-import Navbar from '../components/Navbar.vue'
+import { get_supply_chain} from '../api/simple_api';
 import Sidebar from '../components/Sidebar.vue'
 
+const data=ref([])
 const colorPalette = [
     '#5470c6', '#fac858', '#ee6666', '#73cede', '#3ba272',
     '#fc8452', '#9a60b4', '#ea7ccc', '#73c0de', '#7ec0de'
@@ -66,6 +63,8 @@ let chart = null
 const resizeChart = () => chart?.resize()
 
 onMounted(() => {
+    data.value=await get_supply_chain()
+    console.log("hhh:"+data.value)
     chart = echarts.init(mapRef.value)
     chart.setOption({
         tooltip: { trigger: 'item' },

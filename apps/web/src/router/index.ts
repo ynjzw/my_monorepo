@@ -11,25 +11,24 @@ import internet from '../views/world/internet.vue'
 import main from '../views/main.vue'
 import circle from '../views/circle.vue'
 import timeline from '../components/timeline1.vue'
-import timeaxis from '../components/timeaxis.vue'
 import brain from '../views/person/brain.vue'
 import skill_resource_wish from '../views/skill_resource_wish.vue'
 import stock_sector from '../views/stock_sector.vue'
 import use_tree from '../views/use_tree.vue'
 import use_echarts from '../views/use_echarts.vue'
-import 地球 from '@/views/world/地球.vue'
+import 地球 from '../views/world/地球.vue'
 import China from '../views/world/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
+import thousand_dots from '../views/thousand_dots.vue'
+import billion_dots from '../views/billion_dots.vue'
 import use_graph from '../views/use_graph.vue'
 import use_circle from '../views/use_circle.vue'
 import test from '../views/test.vue'
-import roadOfBrilliant from '../views/roadOfBrilliant.vue'
 import testPage from '../views/testPage.vue'
 import economy from '../views/world/economy.vue'
 import entertainment from '../views/world/entertainment.vue'
 import finance from '../views/world/finance.vue'
-import politics from '../views/world/politics.vue'
 import atom2social from '../views/atom2social.vue'
 import cash_flow from '../views/cash_flow.vue'
 import maslow_needs from '../views/maslow_needs.vue'
@@ -73,6 +72,8 @@ const routes = [
   {name: 'circle',path:'/circle',component:circle},
   {name: 'use_tree',path:'/use_tree',component:use_tree},
   {name: 'hundreds_dots',path: '/hundreds_dots',component: hundreds_dots},
+  {name: 'thousand_dots',path: '/thousand_dots',component: thousand_dots},
+  {name: 'billion_dots',path: '/billion_dots',component: billion_dots},
   {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
@@ -80,7 +81,6 @@ const routes = [
   {name: 'test', path: '/test', component: test},
   {name: 'use_echarts', path: '/use_echarts', component: use_echarts},
   {name: 'use_graph', path: '/use_graph', component: use_graph},
-  {name: 'roadOfBrilliant', path: '/roadOfBrilliant', component: roadOfBrilliant},
   {name: 'testPage', path: '/testPage', component: testPage},
   {name: 'economy', path: '/economy', component: economy},
   {name: 'entertainment', path: '/entertainment', component: entertainment},
