@@ -1,127 +1,63 @@
 <script setup>
 
-import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as echarts from 'echarts';
-import * as d3 from 'd3-hierarchy';
-import axios from 'axios';
 import ContextSidebar from '../../components/ContextSidebar.vue';
-const tabs=['人际网络','健康','收入/支出/储蓄']
-const data = {
-                "$count": 100,
-                "人际网络": { 
-                  "$count": 10
-                },
-                "健康": { 
-                  "$count": 10
-                },
-                "收入/支出/储蓄": { 
-                  "$count": 10
-                }
-              };
 
 const chartContainer = ref(null);
 let myChart = null;
-const seriesData = ref([]);
-const maxDepth = ref(0);
-const displayRoot = ref(null);
-const currentDepth = ref(0);
-const error = ref(null);
-const loading = ref(false);
-const ROOT_PATH = 'http://localhost:5173/src/images/Veins_Medical_Diagram_clip_art.svg?t=1782032371436';
+
+const roundDatas = (num, size, starname, color, mark = 0) => {
+  const datas = Array.from({ length: num }, (_, index) => ({
+    name: `circle${index}`
+  }));
+  const validMark = ((mark % num) + num) % num;
+
+  datas[validMark] = {
+    name: `circle${validMark}`,
+    value: starname,
+    symbolSize: size,
+    itemStyle: { color },
+    label: {
+      show: true,
+      formatter: starname,
+      position: 'top'
+    }
+  };
+  return datas;
+};
+
+const linkDatas = (num) => {
+  const links = Array.from({ length: num }, (_, index) => ({
+    source: `circle${index}`,
+    target: `circle${index + 1}`
+  }));
+  links.push({ source: `circle${num - 1}`, target: 'circle0' });
+  return links;
+};
+
+const starSeries = (circlesize, data, links, rotateLabel) => ({
+  type: 'graph',
+  layout: 'circular',
+  circular: { rotateLabel },
+  symbol: 'circle',
+  symbolSize: 1,
+  width: circlesize,
+  height: circlesize,
+  data,
+  links
+});
 
 const handleResize = () => {
-  if (myChart.value) {
-    myChart.value.resize();
+  if (myChart) {
+    myChart.resize();
   }
 };
 
-const initChart = async () => {
-  if (!chartContainer.value) return;
-  const response = await axios.get(ROOT_PATH);
-  const svgText = response.data 
-  echarts.registerMap('organ_diagram', { svg: svgText });
-  const option = {
-      tooltip: {},
-      geo: {
-        left: 10,
-        right: '50%',
-        map: 'organ_diagram',
-        selectedMode: 'multiple',
-        emphasis: {
-          focus: 'self',
-          itemStyle: {
-            color: null
-          },
-          label: {
-            position: 'bottom',
-            distance: 0,
-            textBorderColor: '#fff',
-            textBorderWidth: 2
-          }
-        },
-        blur: {},
-        select: {
-          itemStyle: {
-            color: '#b50205'
-          },
-          label: {
-            show: false,
-            textBorderColor: '#fff',
-            textBorderWidth: 2
-          }
-        }
-      },
-      grid: {
-        left: '60%',
-        top: '20%',
-        bottom: '20%'
-      },
-      xAxis: {},
-      yAxis: {
-        data: [
-          'heart',
-          'large-intestine',
-          'small-intestine',
-          'spleen',
-          'kidney',
-          'lung',
-          'liver'
-        ]
-      },
-      series: [
-        {
-          type: 'bar',
-          emphasis: {
-            focus: 'self'
-          },
-          data: [121, 321, 141, 52, 198, 289, 139]
-        }
-      ]
-    };
-    myChart.setOption(option);
-    myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
-      myChart.dispatchAction({
-        type: 'highlight',
-        geoIndex: 0,
-        name: event.name
-      });
-    });
-    myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
-      myChart.dispatchAction({
-        type: 'downplay',
-        geoIndex: 0,
-        name: event.name
-      });
-    });
-    option && myChart.setOption(option);
-}
-
 onMounted(async()=>{
-  
+  if (!chartContainer.value) return;
   myChart = echarts.init(chartContainer.value);
-  await initChart();
-  var option;  
-  option = {
+  const option = {
       backgroundColor: '#1d1626',
       series: [
           starSeries('0%',  roundDatas(1,  40, '我', '#ef4136'), linkDatas(1), false),
@@ -135,7 +71,7 @@ onMounted(async()=>{
           
       ]
   }
-  option && myChart.setOption(option);
+  myChart.setOption(option);
   window.addEventListener('resize', handleResize);
 });
 
@@ -159,8 +95,6 @@ onBeforeUnmount(() => {
           class="chart-container"
           id="main"
         ></div>
-        <div v-if="loading" class="loading">加载中...</div>
-        <div v-if="error" class="error">{{ error }}</div>
       </div>
     </main>
   </div>
@@ -168,39 +102,30 @@ onBeforeUnmount(() => {
 <style scoped>
 .page-layout {
   display: flex;
-  min-height: calc(100vh - 34px);
-  min-height: calc(100dvh - 34px);
+  height: calc(100vh - 34px);
+  height: calc(100dvh - 34px);
   background: #fff;
 }
 
 .page-content {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-width: 0;
-  min-height: 400px;
+  min-height: 0;
 }
 
 .chart-wrapper {
+  flex: 1;
   width: 100%;
-  min-height: 400px;
+  min-height: 0;
   position: relative;
 }
 
 .chart-container {
   width: 100%;
   height: 100%;
-  min-height: 400px; /* 设置最小高度 */
-}
-
-.loading, .error {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 4px;
-  z-index: 10;
+  min-height: 0;
 }
 
 </style>

@@ -1,0 +1,177 @@
+<script setup>
+
+import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+import * as echarts from 'echarts';
+import * as d3 from 'd3-hierarchy';
+import axios from 'axios';
+import ContextSidebar from '../../components/ContextSidebar.vue';
+
+const chartContainer = ref(null);
+let myChart = null;
+const seriesData = ref([]);
+const maxDepth = ref(0);
+const displayRoot = ref(null);
+const currentDepth = ref(0);
+const error = ref(null);
+const loading = ref(false);
+const ROOT_PATH = 'http://localhost:5173/src/images/Veins_Medical_Diagram_clip_art.svg?t=1782032371436';
+
+const handleResize = () => {
+  if (myChart.value) {
+    myChart.value.resize();
+  }
+};
+
+const initChart = async () => {
+  if (!chartContainer.value) return;
+  const response = await axios.get(ROOT_PATH);
+  const svgText = response.data 
+  echarts.registerMap('organ_diagram', { svg: svgText });
+  const option = {
+      tooltip: {},
+      geo: {
+        left: 10,
+        right: '50%',
+        map: 'organ_diagram',
+        selectedMode: 'multiple',
+        emphasis: {
+          focus: 'self',
+          itemStyle: {
+            color: null
+          },
+          label: {
+            position: 'bottom',
+            distance: 0,
+            textBorderColor: '#fff',
+            textBorderWidth: 2
+          }
+        },
+        blur: {},
+        select: {
+          itemStyle: {
+            color: '#b50205'
+          },
+          label: {
+            show: false,
+            textBorderColor: '#fff',
+            textBorderWidth: 2
+          }
+        }
+      },
+      grid: {
+        left: '60%',
+        top: '20%',
+        bottom: '20%'
+      },
+      xAxis: {},
+      yAxis: {
+        data: [
+          'heart',
+          'large-intestine',
+          'small-intestine',
+          'spleen',
+          'kidney',
+          'lung',
+          'liver'
+        ]
+      },
+      series: [
+        {
+          type: 'bar',
+          emphasis: {
+            focus: 'self'
+          },
+          data: [121, 321, 141, 52, 198, 289, 139]
+        }
+      ]
+    };
+    myChart.setOption(option);
+    myChart.on('mouseover', { seriesIndex: 0 }, function (event) {
+      myChart.dispatchAction({
+        type: 'highlight',
+        geoIndex: 0,
+        name: event.name
+      });
+    });
+    myChart.on('mouseout', { seriesIndex: 0 }, function (event) {
+      myChart.dispatchAction({
+        type: 'downplay',
+        geoIndex: 0,
+        name: event.name
+      });
+    });
+    option && myChart.setOption(option);
+}
+
+onMounted(async()=>{
+  
+  myChart = echarts.init(chartContainer.value);
+  await initChart();
+  window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+  if (myChart) {
+    myChart.dispose();
+    myChart = null;
+  }
+  window.removeEventListener('resize', handleResize);
+});
+
+</script>
+
+<template>
+  <div class="page-layout">
+    <ContextSidebar context="person" />
+    <main class="page-content">
+      <div class="chart-wrapper">
+        <div
+          ref="chartContainer"
+          class="chart-container"
+          id="main"
+        ></div>
+        <div v-if="loading" class="loading">加载中...</div>
+        <div v-if="error" class="error">{{ error }}</div>
+      </div>
+    </main>
+  </div>
+</template>
+<style scoped>
+.page-layout {
+  display: flex;
+  min-height: calc(100vh - 34px);
+  min-height: calc(100dvh - 34px);
+  background: #fff;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 400px;
+}
+
+.chart-wrapper {
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+}
+
+.chart-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px; /* 设置最小高度 */
+}
+
+.loading, .error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 4px;
+  z-index: 10;
+}
+
+</style>

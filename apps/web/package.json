@@ -7,7 +7,7 @@
     "dev": "vite --clearScreen true",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "eslint src"
   },
   "dependencies": {
     "@mysten/dapp-kit-core": "^1.6.23",
@@ -15,10 +15,10 @@
     "@nanostores/vue": "^1.1.0",
     "@repo/ui": "workspace:*",
     "@vitejs/plugin-vue": "^6.0.3",
+    "@zachleat/browser-window": "^3.2.0",
     "axios": "^1.13.2",
     "echarts": "^6.0.0",
     "echarts-gl": "^2.0.9",
-    "echarts-wordcloud": "^2.1.0",
     "jquery": "^4.0.0",
     "moment": "^2.30.1",
     "path": "^0.12.7",
@@ -26,12 +26,14 @@
     "vis-data": "^8.0.3",
     "vis-timeline": "^8.5.0",
     "vue": "^3.5.27",
-    "vue-router": "^4.6.4"
+    "vue-router": "^4.6.4",
+    "vue-vanta-revamp": "^0.1.2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "eslint": "^8.57.0",
+    "eslint": "^9.39.5",
     "typescript": "5.5.4",
     "vite": "^5.1.4"
   }

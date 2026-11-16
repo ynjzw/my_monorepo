@@ -11,7 +11,12 @@ const props = defineProps({
 })
 
 const sections = props.context === 'person'
-  ? [{ label: '生理' }, { label: '心理' }]
+  ? [
+      { label: '人际网络/各元素占比' }, 
+      { label: '生理' },
+      { label: '心理' },
+      { label: '收入/支出/储蓄' }
+    ]
   : [
       { label: '人类足迹' },
       { label: '产业', key: 'industries' },
