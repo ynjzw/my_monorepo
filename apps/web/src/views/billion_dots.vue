@@ -20,11 +20,11 @@ let intervalId = null;   // 存储定时器ID
 let nodes = [];          // 存储节点数据，供定时器使用
 let links = [];          // 存储连线数据
 
-for (let i = 0; i < 8447867537; i++) {
+for (let i = 0; i < 845; i++) {
     nodes.push({
         id: `${i}`,
         name: `Node ${i}`,
-        symbolSize: 20,
+        symbolSize: 10 * Math.random(), // 随机大小
         symbol:'circle',
         itemStyle: {
             color: colorPalette[Math.floor(Math.random() * colorPalette.length)]
@@ -43,11 +43,17 @@ onMounted(() => {
         series: [
             {
             type: 'graph',
-            layout: 'circular',
+            layout: 'force',
             data: nodes,
             links: links,
             roam: true,
             draggable:true,
+            force: {
+                // initLayout: 'circular'
+                // gravity: 0
+                repulsion: 100,
+                // edgeLength: 5
+            },
         }
         ]
     });

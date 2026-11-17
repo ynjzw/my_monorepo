@@ -30,23 +30,23 @@ const loadData = async () => {
     for(let i=1;i<4;i++){
       for(let j=Math.pow(10,i-1);j<Math.pow(10,i);j++){
         old_structure.value.push({
-          id: `${i}`,
-          name: `${i}`,
-          x:(i % 10) * 100 + Math.random() * 100,
-          y:j*100+Math.random()*10,
-          symbolSize: i*10,
+          id: `${j}`,
+          name: `${j}`,
+          x:(j % 10) * 100 + Math.random() * 100,
+          y:i*100+Math.random()*10,
+          symbolSize: 100,
           symbol:'circle',
           itemStyle: {
-              color: colorPalette[i]
+              color: colorPalette[j%10]
           }
         })
         new_structure.value.push({
-          id: `${i}`,
-          name: `${i}`,
-          symbolSize: i*10,
+          id: `${j}`,
+          name: `${j}`,
+          symbolSize: 50,
           symbol:'circle',
           itemStyle: {
-              color: colorPalette[i]
+              color: colorPalette[j%10]
           }
         })
         }

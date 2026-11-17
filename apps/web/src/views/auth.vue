@@ -56,16 +56,7 @@ function submitForm() {
         <p>从灵感出发，构建你的知识图景。<br>在这里，发现思考之间的全新可能。</p>
       </div>
 
-      <div class="orbit-art" aria-hidden="true">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
-        <div class="orbit orbit-three"></div>
-        <span class="orbit-center">天</span>
-        <span class="orbit-node node-one">念</span>
-        <span class="orbit-node node-two">知</span>
-        <span class="orbit-node node-three">行</span>
-        <span class="orbit-node node-four">∞</span>
-      </div>
+      
 
       <div class="welcome-footer">
         <span>让思考，看见彼此。</span>

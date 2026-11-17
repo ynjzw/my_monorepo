@@ -2,33 +2,53 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import personGif from '../images/person.gif'
 import worldGif from '../images/world.gif'
+import birds from 'vanta/dist/vanta.birds.min.js'
+import clouds from 'vanta/dist/vanta.clouds.min.js'
+import fog from 'vanta/dist/vanta.fog.min.js'
+import net from 'vanta/dist/vanta.net.min.js'
+import rings from 'vanta/dist/vanta.rings.min.js'
 
 const vantaRef = ref(null)
 let vantaEffect = null
+let backgroundIndex = 0
+let backgroundInterval = null
 
-onMounted(() => {
-  if (!vantaRef.value || !window.VANTA || !window.VANTA.NET) {                                 
-    return
+const backgrounds = [net, birds, clouds, fog, rings]
+
+function changeBackground() {
+  if (!vantaRef.value) return
+
+  if (vantaEffect && typeof vantaEffect.destroy === 'function') {
+    vantaEffect.destroy()
   }
 
-  vantaEffect = window.VANTA.NET({
+  vantaEffect = backgrounds[backgroundIndex]({
     el: vantaRef.value,
     mouseControls: true,
     touchControls: true,
     gyroControls: false,
-    minHeight: 800.0,
-    minWidth: 800.0,
+    minHeight: 200.0,
+    minWidth: 200.0,
     blurFactor: 0.5,
     speed: 1.2,
     zoom: 1.0,
   })
+
+  backgroundIndex = (backgroundIndex + 1) % backgrounds.length
+}
+
+onMounted(() => {
+  changeBackground()
+  backgroundInterval = setInterval(changeBackground, 30_000)
 })
 
 onBeforeUnmount(() => {
+  clearInterval(backgroundInterval)
   if (vantaEffect && typeof vantaEffect.destroy === 'function') {
     vantaEffect.destroy()
   }
   vantaEffect = null
+  backgroundInterval = null
 })
 </script>
 
@@ -116,4 +136,3 @@ onBeforeUnmount(() => {
   }
 }
 </style>
-

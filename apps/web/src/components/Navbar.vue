@@ -13,15 +13,11 @@ const emit = defineEmits(['toggle-theme'])
 
 <template>
   <header class="navbar">
-    <RouterLink class="brand" :to="{ name: 'home' }">
-      <span class="brand-mark" aria-hidden="true">天</span>
-      <span class="brand-name">天人图</span>
-    </RouterLink>
 
     <nav class="top-links" aria-label="顶部导航">
       <RouterLink :to="{ name: 'home' }">首页</RouterLink>
-      <RouterLink :to="{ name: 'supply_chain' }">供应链分析</RouterLink>
-      <RouterLink :to="{ name: 'dynamic_graph' }">知识图谱</RouterLink>
+      <RouterLink :to="{ name: 'person' }">个体</RouterLink>
+      <RouterLink :to="{ name: 'world' }">社会</RouterLink>
     </nav>
 
     <div class="navbar-actions">
@@ -53,7 +49,7 @@ const emit = defineEmits(['toggle-theme'])
   height: 34px;
   padding: 0 20px;
   border-bottom: 1px solid #e8edf3;
-  background: #fff;
+  background: #73c0de;
   color: #172033;
 }
 

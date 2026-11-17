@@ -38,7 +38,7 @@ const navigationGroups = [
           :key="item.route"
           class="nav-item"
           :to="{ name: item.route }"
-          :title="collapsed ? item.label : undefined"
+          :title="item.label"
         >
           <span class="nav-icon" aria-hidden="true">{{ item.icon }}</span>
           <span v-if="!collapsed" class="nav-label">{{ item.label }}</span>
@@ -58,14 +58,19 @@ const navigationGroups = [
 
 <style scoped>
 .sidebar {
+  position: sticky;
+  z-index: 20;
+  top: 34px;
   display: flex;
   flex: 0 0 236px;
   flex-direction: column;
   justify-content: space-between;
   width: 236px;
+  height: calc(100vh - 34px);
   padding: 24px 14px 16px;
   border-right: 1px solid #e8edf3;
   background: #fff;
+  align-self: flex-start;
   transition: width 0.2s ease, flex-basis 0.2s ease, padding 0.2s ease;
 }
 
@@ -172,23 +177,21 @@ const navigationGroups = [
 
 @media (max-width: 700px) {
   .sidebar {
-    position: fixed;
-    z-index: 4;
-    top: 60px;
-    bottom: 0;
-    left: 0;
-    width: 236px;
-    box-shadow: 12px 0 24px rgb(15 23 42 / 10%);
+    flex-basis: 64px;
+    width: 64px;
+    padding-right: 8px;
+    padding-left: 8px;
   }
 
-  .sidebar.is-collapsed {
-    flex-basis: 0;
-    width: 0;
-    min-width: 0;
-    padding-right: 0;
-    padding-left: 0;
-    border: 0;
-    overflow: hidden;
+  .group-title,
+  .nav-label,
+  .sidebar-footer {
+    display: none;
+  }
+
+  .nav-item {
+    justify-content: center;
+    padding: 0;
   }
 }
 </style>

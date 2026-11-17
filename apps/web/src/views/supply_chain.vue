@@ -1,7 +1,6 @@
 <template>
     <div class="workspace">
         <div class="workspace-body">
-            <Sidebar :collapsed="sidebarCollapsed" />
             <main class="main-content">
                 <div class="page-heading">
                     <div>
@@ -30,7 +29,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import { get_supply_chain} from '../api/simple_api';
-import Sidebar from '../components/Sidebar.vue'
 
 const data=ref([])
 const colorPalette = [
@@ -39,7 +37,6 @@ const colorPalette = [
 ]
 
 const mapRef = ref(null)
-const sidebarCollapsed = ref(false)
 const nodeNames = ['原料供应', '零部件', '制造中心', '质检中心', '区域仓库', '干线物流', '城市配送', '零售终端']
 const nodes = nodeNames.map((name, index) => ({
     id: String(index),
@@ -62,7 +59,7 @@ let chart = null
 
 const resizeChart = () => chart?.resize()
 
-onMounted(() => {
+onMounted(async() => {
     data.value=await get_supply_chain()
     console.log("hhh:"+data.value)
     chart = echarts.init(mapRef.value)
@@ -99,11 +96,10 @@ onUnmounted(() => {
 
 <style scoped>
 .workspace {
-    position: fixed;
-    inset: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: calc(100vh - 34px);
     background: #f6f8fb;
     color: #172033;
     font-family: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -112,7 +108,7 @@ onUnmounted(() => {
 .workspace-body {
     display: flex;
     flex: 1;
-    min-height: 0;
+    min-height: calc(100vh - 34px);
 }
 
 .main-content {

@@ -40,34 +40,42 @@ import auth from '../views/auth.vue'
 // 定义路由表
 const routes = [
   {name: 'home', path: '/', component: home},
-  {name: 'industry_structure', path: '/industry_structure', component: industry_structure},
   {name: 'login', path: '/login', component: auth},
-  {name: 'show_diff_structure',path: '/show_diff_structure',component: show_diff_structure},
   {
     name: 'person',
     path: '/person',
-    component: person
+    component: person,
+    children: [
+      {name: 'brain',path: 'brain',component:()=>import('../views/person/brain.vue')},
+      {name: 'body',path: 'body',component: ()=>import('../views/person/body.vue')}
+    ]
   },
-  {name: 'brain',path: '/brain',component: brain},
   {
     name: 'world',
     path: '/world',
     component: world,
     children: [
-      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
+      {name: 'industry_structure', path: 'industry_structure', component: ()=>import('../views/industry_structure.vue')},  
+      {name: 'show_diff_structure',path: 'show_diff_structure',component: ()=>import('../views/show_diff_structure.vue')},
+      {
+        name: '地球',
+        path: '地球',
+        component: ()=>import('../views/world/地球.vue'),
+        children: [
+          {
+            name: 'China',path: 'China',component: ()=>import('../views/world/China.vue'),
+            children: [
+              {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
+            ]
+          },
+        ]
+      },
     ]
   },
-  {
-    name: 'China',path: '/China',component: China,
-    children: [
-      {name: 'hundreds_dots',path: 'hundreds_dots',component: ()=>import('../views/hundreds_dots.vue')}
-    ]},
-  {name: 'internation',path: '/internation',component: internation},
-  {name: '地球',path: '/地球',component: 地球},
   {name: 'nation',path: '/nation',component: nation},
   {name: 'uploadpage',path:'/uploadpage',component:UploadPage},
   {name: 'father',path:'/father',component:father},
-  {name: 'internet',path:'/internet',component:internet},
+  {name: 'internation',path:'/internation',component:internation},
   {name: 'main',path:'/main',component:main},
   {name: 'circle',path:'/circle',component:circle},
   {name: 'use_tree',path:'/use_tree',component:use_tree},
@@ -89,7 +97,6 @@ const routes = [
   {name: 'cash_flow', path: '/cash_flow', component: cash_flow},
   {name: 'floors', path: '/floors', component: floors},
   {name: 'maslow_needs', path: '/maslow_needs', component: maslow_needs},
-  {name: 'timeline', path: '/timeline', component: timeline},
   {name: 'circle_in', path: '/circle_in', component: circle_in},
   {name: 'use_timeline', path: '/use_timeline', component: use_timeline},
   {name: 'supply_chain', path: '/supply_chain', component: () => import('../views/supply_chain.vue')}

@@ -1,8 +1,10 @@
 <template>
-    <button @click="eraseLink">eraseLink</button>
-  <div class="map" >      
-     <div ref="mapRef" class="map-container" ></div>
-  </div>
+    <div>
+        <button @click="eraseLink">eraseLink</button>
+        <div class="map" >      
+            <div ref="mapRef" class="map-container" ></div>
+        </div>
+    </div>
 </template>
 
 <script setup>

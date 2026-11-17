@@ -1,6 +1,8 @@
 <template>
   
-  <div id="main" ></div>
+  <div id="main" >
+    <iframe src="https://www.d-d-d.cn/#services" width="100%" height="100%" frameborder="0"></iframe>
+  </div>
 </template>
 
 <script setup >
@@ -8,49 +10,7 @@ import { onMounted } from 'vue'; // 1. 引入钩子
 import * as echarts from 'echarts';
 // 将初始化逻辑包装在 onMounted 中
 onMounted(() => {
-  var chartDom = document.getElementById('main');
-  var myChart = echarts.init(chartDom);
-  var option;
-  option = {
-    title: {
-      text: 'Funnel',
-      left: 'left',
-      top: 'bottom'
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: '{a} <br/>{b} : {c}%'
-    },
-    toolbox: {
-      orient: 'vertical',
-      top: 'center',
-      feature: {
-        dataView: { readOnly: false },
-        restore: {},
-        saveAsImage: {}
-      }
-    },
-    legend: {
-      orient: 'vertical',
-      left: 'left',
-      data: ['Show', 'Click', 'Visit', 'Inquiry', 'Order']
-    },
-    series: [
-      {
-        name: 'Funnel',
-        type: 'funnel',
-        data: [
-          { value: 60, name: 'Visit' },
-          { value: 30, name: 'Inquiry' },
-          { value: 10, name: 'Order' },
-          { value: 80, name: 'Click' },
-          { value: 100, name: 'Show' },
-          { value: 100, name: 'Click' }
-        ]
-      }
-    ]
-  };
-  option && myChart.setOption(option);
+  s
 });
 </script>
 
