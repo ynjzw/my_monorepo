@@ -1,5 +1,11 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { PiperNativeTTS } from "pipertts";
+
+const tts = await PiperNativeTTS.load({
+  model: "hub:huayan-chinese-mandarin-voice",
+  modelsDir: "../models",
+});
 
 const encouragements = [
   '慢慢来，灵感会在路上遇见你。',
@@ -19,6 +25,11 @@ const dragOrigin = ref(null)
 let movedDuringDrag = false
 let suppressClick = false
 let encouragementIndex = 0
+let encouragementTimer = null
+let currentAudio = null
+let currentAudioUrl = null
+let isSynthesizing = false
+let isUnmounted = false
 
 const petStyle = computed(() => position.value
   ? { left: `${position.value.x}px`, top: `${position.value.y}px` }
@@ -83,9 +94,57 @@ function handlePetClick() {
   isOpen.value = !isOpen.value
 }
 
-function cheerUp() {
-  message.value = encouragements[encouragementIndex % encouragements.length]
+function stopAudio() {
+  if (currentAudio) {
+    currentAudio.pause()
+    currentAudio.removeAttribute('src')
+    currentAudio.load()
+    currentAudio = null
+  }
+  if (currentAudioUrl) {
+    URL.revokeObjectURL(currentAudioUrl)
+    currentAudioUrl = null
+  }
+}
+
+async function cheerUp() {
+  if (isSynthesizing || isUnmounted) return
+
+  const encouragement = encouragements[encouragementIndex % encouragements.length]
+  message.value = encouragement
   encouragementIndex += 1
+  isSynthesizing = true
+  let player = null
+
+  try {
+    const { audio } = await tts.synthesize(encouragement, {
+      voice: "hub:huayan-chinese-mandarin-voice",
+      sampleRate: 44100,
+      volume: 1.0,
+      speed: 1.0,
+      pitch: 1.0,
+    })
+    if (isUnmounted) return
+
+    stopAudio()
+    currentAudioUrl = URL.createObjectURL(new Blob([audio], { type: 'audio/wav' }))
+    player = new Audio(currentAudioUrl)
+    currentAudio = player
+    player.addEventListener('ended', () => {
+      if (currentAudio === player) stopAudio()
+    }, { once: true })
+    player.addEventListener('error', () => {
+      if (currentAudio !== player) return
+      console.error('桌宠鼓励语音频播放失败。')
+      stopAudio()
+    }, { once: true })
+    await player.play()
+  } catch (error) {
+    console.error('桌宠鼓励语音生成或播放失败。', error)
+    if (player && currentAudio === player) stopAudio()
+  } finally {
+    isSynthesizing = false
+  }
 }
 
 function handleResize() {
@@ -98,10 +157,14 @@ onMounted(() => {
   position.value = clampPosition(window.innerWidth - 96, window.innerHeight - 98)
   updatePanelPlacement()
   window.addEventListener('resize', handleResize)
+  encouragementTimer = window.setInterval(cheerUp, 60_000)
 })
 
 onUnmounted(() => {
+  isUnmounted = true
   window.removeEventListener('resize', handleResize)
+  window.clearInterval(encouragementTimer)
+  stopAudio()
 })
 </script>
 

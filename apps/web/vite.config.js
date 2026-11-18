@@ -24,5 +24,11 @@ export default defineConfig({
         rewrite:(path)=> path.replace(/^\/api/,'')
       }
     }
-  }
+  },
+  ssr: {
+    external: ['onnxruntime-node'], // 若同时用了 transformers
+  },
+  optimizeDeps: {
+    exclude: ['onnxruntime-node'],
+  },
 })
