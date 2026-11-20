@@ -1,11 +1,6 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { PiperNativeTTS } from "pipertts";
-
-const tts = await PiperNativeTTS.load({
-  model: "hub:huayan-chinese-mandarin-voice",
-  modelsDir: "../models",
-});
+import * as bbs from '@mintplex-labs/piper-tts-web'
 
 const encouragements = [
   '慢慢来，灵感会在路上遇见你。',
@@ -13,7 +8,6 @@ const encouragements = [
   '先完成一小步，就已经很棒啦。',
   '记得喝口水，给大脑一点休息时间。'
 ]
-
 const position = ref(null)
 const isOpen = ref(false)
 const isHidden = ref(false)
@@ -25,11 +19,21 @@ const dragOrigin = ref(null)
 let movedDuringDrag = false
 let suppressClick = false
 let encouragementIndex = 0
-let encouragementTimer = null
-let currentAudio = null
-let currentAudioUrl = null
-let isSynthesizing = false
-let isUnmounted = false
+
+// async function speak(message) {
+//   isSpeaking.value = true
+//   try {
+//     const wav = await bbs.predict({ 
+//       text: message, 
+//       voiceId: 'zh_CN-huayan-medium' 
+//     })
+//     const audio = new Audio()
+//     audio.src = URL.createObjectURL(wav)
+//     await audio.play()
+//   } finally {
+//     isSpeaking.value = false
+//   }
+// }
 
 const petStyle = computed(() => position.value
   ? { left: `${position.value.x}px`, top: `${position.value.y}px` }
@@ -94,57 +98,10 @@ function handlePetClick() {
   isOpen.value = !isOpen.value
 }
 
-function stopAudio() {
-  if (currentAudio) {
-    currentAudio.pause()
-    currentAudio.removeAttribute('src')
-    currentAudio.load()
-    currentAudio = null
-  }
-  if (currentAudioUrl) {
-    URL.revokeObjectURL(currentAudioUrl)
-    currentAudioUrl = null
-  }
-}
-
-async function cheerUp() {
-  if (isSynthesizing || isUnmounted) return
-
+function cheerUp() {
   const encouragement = encouragements[encouragementIndex % encouragements.length]
   message.value = encouragement
   encouragementIndex += 1
-  isSynthesizing = true
-  let player = null
-
-  try {
-    const { audio } = await tts.synthesize(encouragement, {
-      voice: "hub:huayan-chinese-mandarin-voice",
-      sampleRate: 44100,
-      volume: 1.0,
-      speed: 1.0,
-      pitch: 1.0,
-    })
-    if (isUnmounted) return
-
-    stopAudio()
-    currentAudioUrl = URL.createObjectURL(new Blob([audio], { type: 'audio/wav' }))
-    player = new Audio(currentAudioUrl)
-    currentAudio = player
-    player.addEventListener('ended', () => {
-      if (currentAudio === player) stopAudio()
-    }, { once: true })
-    player.addEventListener('error', () => {
-      if (currentAudio !== player) return
-      console.error('桌宠鼓励语音频播放失败。')
-      stopAudio()
-    }, { once: true })
-    await player.play()
-  } catch (error) {
-    console.error('桌宠鼓励语音生成或播放失败。', error)
-    if (player && currentAudio === player) stopAudio()
-  } finally {
-    isSynthesizing = false
-  }
 }
 
 function handleResize() {
@@ -153,18 +110,35 @@ function handleResize() {
   updatePanelPlacement()
 }
 
-onMounted(() => {
+onMounted(async() => {
+  // 推荐：提前下载模型（避免首次合成时等待）
+  // await bbs.download('zh_CN-huayan-medium', (progress) => {
+  //   console.log(`下载进度：${Math.round(progress.loaded * 100 / progress.total)}%`);
+  // });
+  //  // 合成语音
+  // const wav = await bbs.predict({
+  //   text: message.value,
+  //   voiceId: 'zh_CN-huayan-medium',
+  // });
+
+  // 播放
+  // const audio = new Audio();
+  // audio.src = URL.createObjectURL(wav);
+  // audio.play();
+
+  // 管理已缓存的模型
+  // console.log(await bbs.stored()); // 查看已存储的模型
+
+  // console.log(await bbs.voices()); // 获取所有可用音色列表
   position.value = clampPosition(window.innerWidth - 96, window.innerHeight - 98)
   updatePanelPlacement()
   window.addEventListener('resize', handleResize)
-  encouragementTimer = window.setInterval(cheerUp, 60_000)
 })
 
-onUnmounted(() => {
-  isUnmounted = true
+onUnmounted(async() => {
+  // await bbs.remove('zh_CN-huayan-medium'); // 删除指定模型
+  // await bbs.flush(); // 清空所有
   window.removeEventListener('resize', handleResize)
-  window.clearInterval(encouragementTimer)
-  stopAudio()
 })
 </script>
 

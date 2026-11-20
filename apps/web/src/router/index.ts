@@ -11,12 +11,9 @@ import internet from '../views/world/internet.vue'
 import main from '../views/main.vue'
 import circle from '../views/circle.vue'
 import timeline from '../components/timeline1.vue'
-import brain from '../views/person/brain.vue'
-import skill_resource_wish from '../views/skill_resource_wish.vue'
 import stock_sector from '../views/stock_sector.vue'
 import use_tree from '../views/use_tree.vue'
 import use_echarts from '../views/use_echarts.vue'
-import 地球 from '../views/world/地球.vue'
 import China from '../views/world/China.vue'
 import dynamic_graph from '../views/dynamic_graph.vue'
 import hundreds_dots from '../views/hundreds_dots.vue'
@@ -35,7 +32,6 @@ import maslow_needs from '../views/maslow_needs.vue'
 import floors from '../views/floors.vue'
 import use_timeline from '../views/use_timeline.vue'
 import circle_in from '../views/circle_in&out.vue'
-import industry_structure from '../views/industry_structure.vue' 
 import auth from '../views/auth.vue'
 // 定义路由表
 const routes = [
@@ -55,6 +51,8 @@ const routes = [
     path: '/world',
     component: world,
     children: [
+      {name: 'scenario_simulation',path: 'scenario_simulation',component:()=>import('../views/scenario_simulation.vue')},
+      {name: 'skill_resource_wish', path: 'skill_resource_wish', component: ()=>import('../views/skill_resource_wish.vue')},
       {name: 'industry_structure', path: 'industry_structure', component: ()=>import('../views/industry_structure.vue')},  
       {name: 'show_diff_structure',path: 'show_diff_structure',component: ()=>import('../views/show_diff_structure.vue')},
       {
@@ -82,7 +80,6 @@ const routes = [
   {name: 'hundreds_dots',path: '/hundreds_dots',component: hundreds_dots},
   {name: 'thousand_dots',path: '/thousand_dots',component: thousand_dots},
   {name: 'billion_dots',path: '/billion_dots',component: billion_dots},
-  {name: 'skill_resource_wish', path: '/world/skill_resource_wish', component: skill_resource_wish},
   {name: 'stock_sector', path: '/stock_sector', component: stock_sector},
   {name: 'dynamic_graph', path: '/dynamic_graph', component: dynamic_graph},
   {name: 'use_circle', path: '/use_circle', component: use_circle},

@@ -2,18 +2,14 @@
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import personGif from '../images/person.gif'
 import worldGif from '../images/world.gif'
-import birds from 'vanta/dist/vanta.birds.min.js'
-import clouds from 'vanta/dist/vanta.clouds.min.js'
-import fog from 'vanta/dist/vanta.fog.min.js'
-import net from 'vanta/dist/vanta.net.min.js'
-import rings from 'vanta/dist/vanta.rings.min.js'
+import globe from 'vanta/dist/vanta.globe.min.js'
 
 const vantaRef = ref(null)
 let vantaEffect = null
 let backgroundIndex = 0
 let backgroundInterval = null
 
-const backgrounds = [net, birds, clouds, fog, rings]
+const backgrounds = [globe]
 
 function changeBackground() {
   if (!vantaRef.value) return
@@ -97,7 +93,7 @@ onBeforeUnmount(() => {
   background: linear-gradient(to right, black 50%, white 50%);
   position: relative;
   animation: rota 10s linear infinite;
-  opacity: 50%;
+  opacity: 70%;
   overflow: hidden;
   box-shadow: 0 0 30px rgba(255, 255, 255, 0.18);
 }

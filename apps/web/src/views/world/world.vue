@@ -1,6 +1,5 @@
 <template>
   <div class="page-layout">
-    <ContextSidebar context="world" />
     <main class="page-content">
       <div class="chart-wrapper">
         <div id="main"></div>
@@ -15,12 +14,11 @@
 import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import {useRouter} from 'vue-router'
-import ContextSidebar from '../../components/ContextSidebar.vue';
 const router = useRouter();
 const loading = ref(false)
 const error = ref(null)
 let count = 0
-const roundDatas=(num, size, starname, color,mark)=>{ 
+const roundDatas=(num, size, starname, color,mark = 0)=>{
     const datas = [];
     let i;
     for (i = 0; i < num; i++) {
@@ -29,7 +27,7 @@ const roundDatas=(num, size, starname, color,mark)=>{
         });
     }
     // const mark = Math.floor(Math.random() * num);
-    const validmark=mark%num
+    const validmark=((mark % num) + num) % num
 
     datas[validmark] = {
         name: 'circle' + validmark,
@@ -48,19 +46,11 @@ const roundDatas=(num, size, starname, color,mark)=>{
 }
 
 const linkDatas = (num) => {
-    const ldatas = [];
-    let i;
-    for (i = 0; i < num; i++) {
-        ldatas.push({
-            source: 'circle' + i,
-            target: 'circle' + (i + 1)
-        });
-    }
-    ldatas.push({
-        source: 'circle' + (i - 1),
-        target: 'circle0'
-    });
-    return ldatas;
+    if (num < 2) return [];
+    return Array.from({ length: num }, (_, index) => ({
+        source: 'circle' + index,
+        target: 'circle' + ((index + 1) % num)
+    }));
 }
 
 const starSeries=(circlesize, data, link, flag)=> {

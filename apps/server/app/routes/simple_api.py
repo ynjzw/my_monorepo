@@ -79,7 +79,7 @@ def get_supply_chain(db:Session=Depends(get_db)):
 @app.get('/sidebar_options')
 def get_sidebar_options(db:Session=Depends(get_db)):
     industries = db.execute(text(
-        "SELECT DISTINCT name FROM industry WHERE name IS NOT NULL AND name <> '' ORDER BY name"
+        "SELECT DISTINCT name FROM industry WHERE type='门类'"
     )).scalars().all()
     subjects = db.execute(text(
         "SELECT DISTINCT name FROM subjects WHERE name IS NOT NULL AND name <> '' ORDER BY name"

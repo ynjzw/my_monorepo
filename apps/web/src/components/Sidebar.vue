@@ -1,7 +1,6 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
-import { getGraphSidebarOptions } from '../api/simple_api'
 
 const props = defineProps({
   context: {
@@ -10,61 +9,59 @@ const props = defineProps({
     validator: (value) => ['person', 'world'].includes(value)
   }
 })
+const mysql = require('mysql2/promise');
 
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'jack',
+  password: '',
+  database: 'graph',
+  waitForConnections: true,
+  connectionLimit: 10,
+});
+
+// 查询
+async function getSubjects() {
+  const [rows] = await pool.query('SELECT * FROM subjects');
+  return rows;
+}
+async function getIndustry() {
+  const [rows] = await pool.query('SELECT * FROM industry where type="门类"');
+  return rows;
+}
 const route = useRoute()
 
-const sections = props.context === 'person'
+const sections = computed(() => props.context === 'person'
   ? [
+      { label: '总览', route: 'person' },
       { label: '人际网络/各元素占比', route: 'person' },
       { label: '生理' },
       { label: '心理' },
       { label: '收入/支出/储蓄' }
     ]
   : [
+      { label: '总览', route: 'world', icon: '⌂' },
       { label: '人类足迹', route: 'world' },
-      { label: '产业', key: 'industries' },
-      { label: '专业', key: 'subjects' },
-      { label: '总览', route: 'home', icon: '⌂' },
+      { label: '产业' },
+      { label: '专业' },
+      { label: '社会通识', route: '' },
       { label: '供应链分析', route: 'supply_chain', icon: '⇄' },
       { label: '知识图谱', route: 'dynamic_graph', icon: '◉' },
       { label: '资金流向', route: 'cash_flow', icon: '↗' },
       { label: '行业板块', route: 'stock_sector', icon: '▦' },
       { label: '资源与愿望', route: 'skill_resource_wish', icon: '◇' },
       { label: '推演工作台', route: 'scenario_simulation', icon: '🎭' }
-    ]
+    ])
 
-const expanded = ref(new Set(['人类足迹','产业', '专业', '推演工作台']))
 const selected = ref('')
-const options = ref({ industries: [], subjects: [] })
-const loading = ref(false)
-const loadError = ref('')
-
-const toggleSection = (label) => {
-  const next = new Set(expanded.value)
-  if (next.has(label)) next.delete(label)
-  else next.add(label)
-  expanded.value = next
-}
 
 const selectSection = (section) => {
   selected.value = section.label
-  if (section.key) toggleSection(section.label)
 }
 
-const loadOptions = async () => {
-  if (props.context !== 'world') return
-  loading.value = true
-  loadError.value = ''
-  try {
-    options.value = await getGraphSidebarOptions()
-  } catch {
-    loadError.value = '选项加载失败，请重试。'
-  } finally {
-    loading.value = false
-  }
-}
-
-onMounted(loadOptions)
+watch(() => props.context, () => {
+  selected.value = ''
+}, { immediate: true })
 </script>
 
 <template>
@@ -84,36 +81,10 @@ onMounted(loadOptions)
           class="section-button"
           :class="{ 'is-selected': selected === section.label }"
           type="button"
-          :aria-expanded="section.key ? expanded.has(section.label) : undefined"
           @click="selectSection(section)"
         >
           <span>{{ section.label }}</span>
-          <span v-if="section.key" class="section-chevron" aria-hidden="true">
-            {{ expanded.has(section.label) ? '⌄' : '›' }}
-          </span>
         </button>
-
-        <div v-if="section.key && expanded.has(section.label)" class="section-options">
-          <p v-if="loading" class="sidebar-message">加载中…</p>
-          <template v-else-if="loadError">
-            <p class="sidebar-message error-message">{{ loadError }}</p>
-            <button class="retry-button" type="button" @click="loadOptions">重试</button>
-          </template>
-          <button
-            v-else
-            v-for="name in options[section.key]"
-            :key="name"
-            class="option-button"
-            :class="{ 'is-selected': selected === name }"
-            type="button"
-            @click="selected = name"
-          >
-            {{ name }}
-          </button>
-          <p v-if="!loading && !loadError && options[section.key].length === 0" class="sidebar-message">
-            暂无选项
-          </p>
-        </div>
       </section>
     </nav>
   </aside>
@@ -136,8 +107,7 @@ onMounted(loadOptions)
   margin-top: 8px;
 }
 
-.section-button,
-.option-button {
+.section-button {
   display: flex;
   width: 100%;
   align-items: center;
@@ -149,9 +119,6 @@ onMounted(loadOptions)
   font: inherit;
   text-align: left;
   text-decoration: none;
-}
-
-.section-button {
   min-height: 40px;
   gap: 10px;
   padding: 0 10px;
@@ -159,8 +126,7 @@ onMounted(loadOptions)
   font-weight: 600;
 }
 
-.section-button:hover,
-.option-button:hover {
+.section-button:hover {
   background: #f1f5f9;
   color: #1d4ed8;
 }
@@ -176,54 +142,6 @@ onMounted(loadOptions)
   place-items: center;
   color: #64748b;
   font-size: 16px;
-}
-
-.section-chevron {
-  margin-left: auto;
-  color: #94a3b8;
-}
-
-.section-options {
-  margin: 3px 0 8px 20px;
-  padding-left: 10px;
-  border-left: 1px solid #e2e8f0;
-}
-
-.option-button {
-  min-height: 32px;
-  padding: 5px 9px;
-  color: #64748b;
-  font-size: 12px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-
-.option-button.is-selected {
-  background: #eff6ff;
-  color: #1d4ed8;
-  font-weight: 600;
-}
-
-.sidebar-message {
-  margin: 8px 5px;
-  color: #94a3b8;
-  font-size: 12px;
-}
-
-.error-message {
-  color: #b91c1c;
-}
-
-.retry-button {
-  margin: 0 5px 8px;
-  padding: 4px 8px;
-  border: 0;
-  border-radius: 5px;
-  background: #eff6ff;
-  color: #1d4ed8;
-  cursor: pointer;
-  font: inherit;
-  font-size: 12px;
 }
 
 @media (max-width: 600px) {

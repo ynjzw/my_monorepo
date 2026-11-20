@@ -32,7 +32,8 @@ import { population_structure } from '@/api/simple_api';
 
 const tabs = [
   { name: 'tabA', label: '人口结构', component: Funnel },
-  { name: 'tabB', label: '收入结构', component: Funnel }
+  { name: 'tabB', label: '收入结构', component: Funnel },
+  { name: 'tabC', label: '储蓄结构', component: Funnel }
 ]
 const currentTab = ref(tabs[0].component)
 
@@ -40,10 +41,25 @@ const mapRef = ref(null);
 const funnelRef = ref(null);
 const currentMapName = ref('');
 const funnelData = ref([]);
-const funnelTitle = ref('人口结构分布图');
+const funnelTitle = ref('');
 const funnelLoading = ref(false);
 const data = ref([]);
+const mysql = require('mysql2/promise');
 
+const pool = mysql.createPool({
+  host: 'localhost',
+  user: 'jack',
+  password: '',
+  database: 'graph',
+  waitForConnections: true,
+  connectionLimit: 10,
+});
+
+// 查询
+async function getSubjects() {
+  const [rows] = await pool.query('SELECT * FROM subjects');
+  return rows;
+}
 // 根据区域名称获取人口结构数据
 const fetchPopulationStructure = async (regionName) => {
   funnelLoading.value = true;

@@ -10,6 +10,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
+    "@mintplex-labs/piper-tts-web": "^1.0.5",
     "@mysten/dapp-kit-core": "^1.6.23",
     "@mysten/sui": "^2.29.0",
     "@nanostores/vue": "^1.1.0",
@@ -21,11 +22,15 @@
     "echarts-gl": "^2.0.9",
     "jquery": "^4.0.0",
     "moment": "^2.30.1",
+    "mysql2": "^3.24.6",
+    "onnxruntime-web": "^1.31.1",
     "path": "^0.12.7",
     "pinia": "^3.0.4",
-    "pipertts": "^1.3.0",
+    "piper-tts-web": "^1.1.2",
+    "speech-to-speech": "^1.0.7",
     "vis-data": "^8.0.3",
     "vis-timeline": "^8.5.0",
+    "vite-plugin-static-copy": "^4.1.1",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4",
     "vue-vanta-revamp": "^0.1.2"
@@ -37,10 +42,5 @@
     "eslint": "^9.39.5",
     "typescript": "5.5.4",
     "vite": "^5.1.4"
-  },
-  "pnpm": {
-    "neverBuiltDependencies": [
-      "onnxruntime-node"
-    ]
   }
 }

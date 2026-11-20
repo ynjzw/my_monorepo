@@ -2,7 +2,6 @@
 
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import * as echarts from 'echarts';
-import ContextSidebar from '../../components/ContextSidebar.vue';
 
 const chartContainer = ref(null);
 let myChart = null;
@@ -28,12 +27,11 @@ const roundDatas = (num, size, starname, color, mark = 0) => {
 };
 
 const linkDatas = (num) => {
-  const links = Array.from({ length: num }, (_, index) => ({
+  if (num < 2) return [];
+  return Array.from({ length: num }, (_, index) => ({
     source: `circle${index}`,
-    target: `circle${index + 1}`
+    target: `circle${(index + 1) % num}`
   }));
-  links.push({ source: `circle${num - 1}`, target: 'circle0' });
-  return links;
 };
 
 const starSeries = (circlesize, data, links, rotateLabel) => ({
@@ -87,7 +85,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="page-layout">
-    <ContextSidebar context="person" />
     <main class="page-content">
       <div class="chart-wrapper">
         <div

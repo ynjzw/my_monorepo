@@ -4,7 +4,6 @@ import { ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 import * as d3 from 'd3-hierarchy';
 import axios from 'axios';
-import ContextSidebar from '../../components/ContextSidebar.vue';
 
 const chartContainer = ref(null);
 let myChart = null;
@@ -122,7 +121,6 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="page-layout">
-    <ContextSidebar context="person" />
     <main class="page-content">
       <div class="chart-wrapper">
         <div

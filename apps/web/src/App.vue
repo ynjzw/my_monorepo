@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import DesktopPet from './components/DesktopPet.vue'
 import Navbar from './components/Navbar.vue'
@@ -8,6 +8,10 @@ import Sidebar from './components/Sidebar.vue'
 const route = useRoute()
 const showNavbar = computed(() => route.name !== 'login')
 const showSidebar = computed(() => route.name !== 'home' && route.name !== 'login')
+const showPet = ref(false)
+const sidebarContext = computed(() => (
+  route.matched.some((record) => record.name === 'person') ? 'person' : 'world'
+))
 const savedTheme = localStorage.getItem('theme')
 const theme = ref(
   savedTheme === 'light' || savedTheme === 'dark'
@@ -25,18 +29,35 @@ watch(theme, (value) => {
 const toggleTheme = () => {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
+
+const handleCallDesktopPet = () => {
+  showPet.value = !showPet.value
+}
+
+onMounted(() => {
+  window.addEventListener('call-desktop-pet', handleCallDesktopPet)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('call-desktop-pet', handleCallDesktopPet)
+})
 </script>
 
 <template>
   <div class="app-shell">
-    <Navbar v-if="showNavbar" :theme="theme" @toggle-theme="toggleTheme" />
+    <Navbar
+      v-if="showNavbar"
+      :theme="theme"
+      :show-pet="showPet"
+      @toggle-theme="toggleTheme"
+    />
     <div class="app-layout" :class="{ 'has-navbar': showNavbar }">
-      <Sidebar v-if="showSidebar" />
+      <Sidebar v-if="showSidebar" :context="sidebarContext" />
       <main class="app-content">
         <router-view />
       </main>
     </div>
-    <DesktopPet />
+    <DesktopPet v-if="showPet"/>
   </div>
 </template>
 

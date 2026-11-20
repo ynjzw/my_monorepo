@@ -5,9 +5,19 @@ defineProps({
   theme: {
     type: String,
     required: true
+  },
+  showPet: {
+    type: Boolean,
+    required: true
   }
 })
-
+const callDesktopPet = () => {
+  const event = new CustomEvent('call-desktop-pet', {
+    bubbles: true,
+    cancelable: true
+  })
+  window.dispatchEvent(event)
+}
 const emit = defineEmits(['toggle-theme'])
 </script>
 
@@ -21,6 +31,9 @@ const emit = defineEmits(['toggle-theme'])
     </nav>
 
     <div class="navbar-actions">
+      <button type="button" @click="callDesktopPet">
+        <span>{{ showPet ? '隐藏小精灵' : '召唤小精灵' }}</span>
+      </button>
       <button
         class="theme-toggle"
         type="button"
@@ -88,7 +101,7 @@ const emit = defineEmits(['toggle-theme'])
   align-items: center;
   height: 100%;
   border-bottom: 2px solid transparent;
-  color: #64748b;
+  color: black;
   font-size: 11px;
   text-decoration: none;
   transition: color 0.18s ease, border-color 0.18s ease;

@@ -1,7 +1,7 @@
 <template>
   <div class="chart-wrapper">
-    <div id="main"
-    ></div>
+    <div id="main">
+    </div>
     <div v-if="loading" class="loading">加载中...</div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
@@ -87,13 +87,13 @@ onMounted( () => {
 .chart-wrapper {
   width: 100%;
   height: 100%;
+  min-height: 800px; /* 设置最小高度 */
+  min-width: 800px; 
   position: relative;
 }
 
 #main {
   width: 100%;
   height: 100%;
-  min-height: 400px; /* 设置最小高度 */
-  min-width: 400px; 
 }
 </style>
